@@ -235,10 +235,9 @@ table.t td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:t
 .sync.cloud i{background:#7CE3A1}.sync.saving i{background:var(--sky);animation:pulse 1s infinite}.sync.err i{background:#FF8A80}
 @keyframes pulse{50%{opacity:.3}}
 /* ===== AI ===== */
-.ai-off{display:block}.has-ai .ai-off{display:none}
-.ai-on{display:none}.has-ai .ai-on{display:block}
+.ai-on{display:block}
 .mic{display:none}.has-dict .mic{display:inline-flex}
-.ai-inline{display:none}.has-ai .ai-inline{display:contents}
+.ai-inline{display:contents}
 .aigrid{display:grid;grid-template-columns:340px 1fr;gap:14px;align-items:start}
 .qa{display:flex;flex-direction:column;gap:8px}
 .qbtn{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;transition:all .15s;width:100%}
@@ -282,6 +281,13 @@ table.t td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:t
 .saved{font-size:12px;color:var(--mut);margin-left:auto}
 .partial{font-size:12.5px;color:var(--bri);font-style:italic;min-height:18px}
 .btn.listen{background:#C0392B;animation:pulse 1.2s infinite}
+.keybox{margin-bottom:14px;border-left:4px solid var(--sky)}
+.keyrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.keyrow input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff}
+#gkey{flex:2;min-width:240px;font-family:ui-monospace,Menlo,Consolas,monospace}
+#gmodel{flex:1;min-width:170px}
+.keystat{font-size:13px;margin-top:8px;font-weight:600}
+.keystat.ok{color:var(--ok)}.keystat.no{color:#C0392B}.keystat.wait{color:var(--bri)}
 .hk{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .hk label{font-size:12.5px;color:var(--mut);font-weight:600}
 .hk input{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:3px}
@@ -323,7 +329,7 @@ table.t td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:t
     <div class="herogrid">
       <div>
         <h1>OJT Quest Log:<br><em>RO → Cabang → Unit</em></h1>
-        <p class="sub">To-do list, pertanyaan, bahan belajar, catatan, dan asisten AI untuk OJT. Progres tersimpan otomatis di akun Claude kamu (atau di browser saat offline), dan bisa diunduh sebagai laporan.</p>
+        <p class="sub">To-do list, pertanyaan, bahan belajar, catatan, dan asisten AI (Gemini) untuk OJT. Progres tersimpan otomatis di browser ini, dan bisa diunduh sebagai cadangan atau laporan.</p>
         <div class="who">
           <input id="f-name" placeholder="Nama peserta" data-k="meta.name">
           <input id="f-ro" placeholder="Regional Office penempatan" data-k="meta.ro">
@@ -1064,10 +1070,22 @@ function render(){
 
 
   <section class="panel" id="p-ai">
-    <div class="kicker">Didukung Claude</div>
+    <div class="kicker">Didukung Google Gemini</div>
     <h2 class="sec">Asisten AI OJT</h2>
-    <p class="lead">AI membaca progres, catatan, jurnal, dan bekal MSS kamu, lalu membantu menyusun rencana harian, pertanyaan tajam, outline presentasi, dan latihan. Semua hasil bisa disimpan ke Catatan.</p>
-    <div class="note ai-off">Fitur AI hanya aktif saat halaman ini dibuka sebagai artifact di Claude. Di file HTML offline, fitur lain tetap berjalan normal.</div>
+    <p class="lead">AI (Google Gemini) membaca progres, catatan, jurnal, dan bekal MSS kamu, lalu membantu menyusun rencana harian, pertanyaan tajam, outline presentasi, dan latihan. Semua hasil bisa disimpan ke Catatan.</p>
+    <div class="card keybox">
+      <div class="kicker">🔑 Gemini API Key</div>
+      <div class="keyrow">
+        <input type="password" id="gkey" placeholder="Tempel Gemini API Key kamu (AQ.… atau AIza…)" autocomplete="off" spellcheck="false">
+        <button class="btn ghost sm" id="gkeyshow" title="Tampilkan / sembunyikan">👁️</button>
+        <input type="text" id="gmodel" placeholder="Model" spellcheck="false" title="ID model Gemini">
+        <button class="btn" id="gkeysave">Simpan Key</button>
+        <button class="btn ghost sm" id="gkeytest">Tes</button>
+        <button class="btn ghost sm" id="gkeydel" style="color:#C0392B">Hapus</button>
+      </div>
+      <div class="keystat" id="gkeystat"></div>
+      <div class="src">Key disimpan hanya di <b>localStorage</b> browser ini dan dikirim langsung ke Google (generativelanguage.googleapis.com). Tidak ada di file HTML/GitHub. Disarankan batasi key di Google Cloud Console (HTTP referrer = domain GitHub Pages kamu, API = Generative Language API). Jangan pakai di komputer bersama.</div>
+    </div>
     <div class="ai-on">
     <div class="aigrid">
       <div class="qa" id="qa"></div>
@@ -1087,14 +1105,14 @@ function render(){
         </div>
       </div>
     </div>
-    <p class="src">AI bisa keliru. Ketentuan, angka, dan kebijakan tetap dicek ke SE/Juklak dan mentor. Jangan masukkan data nasabah.</p>
+    <p class="src">AI bisa keliru. Ketentuan, angka, dan kebijakan tetap dicek ke SE/Juklak dan mentor. Konteks (progres, catatan, jurnal, bekal MSS) dikirim ke Google Gemini setiap kali kamu menekan Generate/Kirim, jadi jangan masukkan data nasabah.</p>
     </div>
   </section>
 
   <section class="panel" id="p-notes">
     <div class="kicker">Buku catatan</div>
     <h2 class="sec">Catatan OJT</h2>
-    <p class="lead">Tulis, dikte suara, rapikan dengan AI. Tersimpan otomatis di perangkat ini, dan juga di akun Claude kamu saat dibuka sebagai artifact.</p>
+    <p class="lead">Tulis, dikte suara (jika browser mendukung), rapikan dengan AI. Tersimpan otomatis di browser ini; pakai 💾 Simpan Cadangan untuk pindah perangkat.</p>
     <div class="nbgrid">
       <div>
         <div style="display:flex;gap:6px;margin-bottom:8px"><input class="gsearch" id="nsearch" placeholder="Cari catatan…" style="margin:0;flex:1"><button class="btn sm" id="nnew">+ Baru</button></div>
@@ -1255,7 +1273,7 @@ function render(){
     </div>
   </section>`;
 
-  renderRemedial(); renderHyp(); renderJournal(); renderGloss(""); if(typeof fillCalc==='function') fillCalc(); fillMeta(); if(typeof renderAI==='function'){renderAI(); renderNotes();}
+  renderRemedial(); renderHyp(); renderJournal(); renderGloss(""); if(typeof fillCalc==='function') fillCalc(); fillMeta(); if(typeof renderAI==='function'){renderAI(); renderNotes(); fillKeyBox();}
   showTab(current,false);
   stats();
 }
@@ -1538,9 +1556,8 @@ async function cloudLoad(){
 async function initCaps(){
   if(!HAS_CLAUDE){ setSync("local"); return; }
   const get=n=>window.claude.use(n).catch(()=>null);
-  const [sm,db,us,dl,dc]=await Promise.all(["sample","db","user","downloads","dictation"].map(get));
-  CAP.sample=sm; CAP.dl=dl; CAP.dict=dc;
-  if(sm) document.body.classList.add("has-ai");
+  const [db,us,dl,dc]=await Promise.all(["db","user","downloads","dictation"].map(get));
+  CAP.dl=dl; CAP.dict=dc;
   if(dc){ document.body.classList.add("has-dict"); setupDictation(); }
   if(db&&us){ let id=null; try{ id=await us.id(); }catch(e){}
     if(id){ CAP.db=db; CAP.uid=id; await cloudLoad(); } }
@@ -1684,22 +1701,112 @@ function ctx(opts={}){
   return out.join("\n\n");
 }
 let aiAbort=null;
-function aiErr(e){
-  if(e&&e.code==="not_granted"){ document.body.classList.remove("has-ai"); return "Akses AI tidak diizinkan untuk halaman ini."; }
-  if(e&&e.code==="rate_limited") return "Terlalu banyak permintaan, coba lagi sebentar lagi.";
-  if(e&&e.name==="AbortError") return "Dihentikan.";
-  return "AI sedang tidak bisa dihubungi. Coba lagi nanti.";
+/* ---------- GOOGLE GEMINI ---------- */
+const GKEY="bflp18_gemini_key", GMODEL="bflp18_gemini_model", GDEF_MODEL="gemini-2.5-flash";
+const GEMINI_BASE="https://generativelanguage.googleapis.com/v1beta/models/";
+function lsGet(k){try{return localStorage.getItem(k)||"";}catch(e){return "";}}
+function lsSet(k,v){try{ if(v) localStorage.setItem(k,v); else localStorage.removeItem(k); return true;}catch(e){return false;}}
+const getKey=()=>lsGet(GKEY).trim();
+const getModel=()=>(lsGet(GMODEL).trim()||GDEF_MODEL).replace(/^models\//,"");
+function keyStat(msg,cls){const el=$("#gkeystat"); if(el){el.textContent=msg; el.className="keystat "+(cls||"");}}
+function fillKeyBox(){
+  const k=$("#gkey"), m=$("#gmodel"); if(!k) return;
+  const key=getKey(); k.value=key; m.value=getModel();
+  keyStat(key?`✅ Key tersimpan (…${key.slice(-4)}) · model ${getModel()}`:"⚠️ Belum ada API Key. Buat di aistudio.google.com → Get API key, lalu tempel di atas.", key?"ok":"no");
 }
-async function ask(prompt,{el,onDone,tier}={}){
-  if(!CAP.sample){ toast("AI hanya aktif di artifact Claude"); return null; }
+function needKey(){ if(getKey()) return false; showTab("ai"); keyStat("⚠️ Masukkan & simpan Gemini API Key dulu.","no"); const k=$("#gkey"); if(k) k.focus(); toast("Isi Gemini API Key dulu 🔑"); return true; }
+
+class GeminiError extends Error{constructor(code,message,text){super(message);this.code=code;this.text=text||"";}}
+function splitPrompt(p){ const i=p.indexOf("\n\nTUGAS:"); return i>0?{system:p.slice(0,i),user:p.slice(i+2)}:{system:COACH,user:p}; }
+function toContents(msgs){ return msgs.map(m=>({role:m.role==="assistant"?"model":"user",parts:[{text:m.content}]})); }
+function errFromResp(status,body,raw){
+  const e=(body&&body.error)||{};
+  const parts=[`HTTP ${status}${e.status?" "+e.status:""}`];
+  if(e.message) parts.push(e.message);
+  (Array.isArray(e.details)?e.details:[]).forEach(d=>{
+    if(d.reason) parts.push("reason: "+d.reason);
+    if(d.metadata) parts.push("metadata: "+JSON.stringify(d.metadata));
+    if(Array.isArray(d.fieldViolations)) d.fieldViolations.forEach(v=>parts.push(`field ${v.field||"?"}: ${v.description||""}`));
+    if(Array.isArray(d.violations)) d.violations.forEach(v=>parts.push(`quota: ${v.quotaId||v.quotaMetric||""}`));
+    if(d.retryDelay) parts.push("coba lagi setelah "+d.retryDelay);
+  });
+  if(!e.message&&raw) parts.push(String(raw).slice(0,300));
+  let hint="";
+  if(status===400&&/api key/i.test(e.message||"")) hint="Cek apakah key disalin utuh.";
+  else if(status===401||status===403) hint="Pastikan Generative Language API aktif & pembatasan key (referrer) mengizinkan domain ini.";
+  else if(status===404) hint=`Model "${getModel()}" tidak tersedia untuk key ini. Coba ganti ID model.`;
+  else if(status===429) hint="Kuota/rate limit tercapai, tunggu sebentar.";
+  const code=status===429?"rate_limited":(status===401||status===403||(status===400&&/api key/i.test(e.message||"")))?"bad_key":status===404?"bad_model":"http";
+  const err=new GeminiError(code,parts.join(" · ")+(hint?" → "+hint:""));
+  console.error("[Gemini API error]",status,body||raw);
+  return err;
+}
+/* Panggil Gemini (POST). system = instruksi + konteks; contents = percakapan. Streaming via SSE bila onText ada. */
+async function gemini({system,contents,json=false,onText,signal}){
+  const key=getKey(); if(!key) throw new GeminiError("no_key","Belum ada API Key.");
+  const body={contents,generationConfig:{}};
+  if(system) body.systemInstruction={parts:[{text:system}]};
+  if(json) body.generationConfig.responseMimeType="application/json";
+  const stream=false; // selalu generateContent (non-streaming)
+  const url=GEMINI_BASE+encodeURIComponent(getModel())+":generateContent";
+  let res;
+  try{ res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body),signal}); }
+  catch(e){ if(e&&e.name==="AbortError") throw e; throw new GeminiError("network","Tidak bisa menghubungi Gemini. Cek koneksi internet."); }
+  if(!res.ok){ let raw="",b=null; try{ raw=await res.text(); b=JSON.parse(raw); }catch(e){} throw errFromResp(res.status,b,raw); }
+  const pick=d=>{ if(d&&d.promptFeedback&&d.promptFeedback.blockReason) throw new GeminiError("blocked","Permintaan diblokir filter keamanan Gemini ("+d.promptFeedback.blockReason+").");
+    const c=d&&d.candidates&&d.candidates[0]; return c&&c.content&&c.content.parts?c.content.parts.filter(p=>!p.thought).map(p=>p.text||"").join(""):""; };
+  if(!stream){ const d=await res.json();
+    const t=pick(d);
+    if(!t){ const c=d&&d.candidates&&d.candidates[0]; throw new GeminiError("empty","Jawaban kosong dari Gemini"+(c&&c.finishReason?" (finishReason: "+c.finishReason+")":"")+". Coba lagi."); }
+    if(onText) onText({text:t,delta:t}); return t; }
+  const reader=res.body.getReader(), dec=new TextDecoder(); let buf="", full="";
+  try{
+    while(true){ const {value,done}=await reader.read(); if(done) break;
+      buf+=dec.decode(value,{stream:true}); let i;
+      while((i=buf.indexOf("\n"))>=0){ const line=buf.slice(0,i).trim(); buf=buf.slice(i+1);
+        if(!line.startsWith("data:")) continue; const payload=line.slice(5).trim(); if(!payload||payload==="[DONE]") continue;
+        let d; try{d=JSON.parse(payload);}catch(e){continue;}
+        const piece=pick(d); if(piece){ full+=piece; onText({text:full,delta:piece}); } } }
+  }catch(e){ if(e&&e.name==="AbortError"){ const ab=new GeminiError("aborted","Dihentikan.",full); throw ab; } if(e instanceof GeminiError){e.text=full; throw e;} throw new GeminiError("network","Koneksi terputus.",full); }
+  if(!full) throw new GeminiError("empty","Jawaban kosong dari Gemini. Coba lagi.");
+  return full;
+}
+async function geminiJSON(prompt,signal){
+  const {system,user}=splitPrompt(prompt);
+  const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],json:true,signal});
+  try{ return JSON.parse(t); }catch(e){ const m=t.match(/\{[\s\S]*\}/); if(m) return JSON.parse(m[0]); throw new GeminiError("empty","Format jawaban tidak terbaca. Coba lagi."); }
+}
+function aiErr(e){
+  if(e&&(e.name==="AbortError"||e.code==="aborted")) return "Dihentikan.";
+  if(e&&e.code==="no_key"){ needKey(); return "Masukkan Gemini API Key dulu di kotak atas."; }
+  if(e&&(e.code==="bad_key"||e.code==="bad_model")){ keyStat("❌ "+e.message,"no"); }
+  return (e&&e.message)||"AI sedang tidak bisa dihubungi. Coba lagi nanti.";
+}
+async function ask(prompt,{el,onDone}={}){
+  if(needKey()) { if(el){el.classList.remove("empty"); el.innerHTML=`<p class="muted">🔑 Isi Gemini API Key di bagian atas tab Asisten AI.</p>`;} return null; }
   if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
   if(el){ el.classList.remove("empty"); el.innerHTML=`<p class="muted"><span class="spark">✨</span> Sedang berpikir…</p>`; }
+  const {system,user}=splitPrompt(prompt);
   try{
-    const r=await CAP.sample(prompt,{signal:aiAbort.signal,modelTier:tier||"default",onText:({text})=>{ if(el&&text&&text!=="Thinking...") el.innerHTML=md(text); }});
-    if(el) el.innerHTML=md(r.text);
-    aiAbort=null; if(onDone) onDone(r.text); return r.text;
+    const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],signal:aiAbort.signal,onText:({text})=>{ if(el&&text) el.innerHTML=md(text); }});
+    if(el) el.innerHTML=md(t);
+    aiAbort=null; if(onDone) onDone(t); return t;
   }catch(e){ aiAbort=null; const m=aiErr(e); if(el){ const part=e&&e.text?md(e.text):""; el.innerHTML=part+`<p class="muted">⚠️ ${esc(m)}</p>`; } else toast(m); return null; }
 }
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.id==="gkeysave"){ const k=$("#gkey").value.trim(), m=$("#gmodel").value.trim();
+    if(!k){ keyStat("⚠️ Key masih kosong.","no"); return; }
+    if(/\s/.test(k)){ keyStat("⚠️ Key mengandung spasi/baris baru. Salin ulang tanpa spasi.","no"); return; }
+    const ok=lsSet(GKEY,k)&&lsSet(GMODEL,m&&m!==GDEF_MODEL?m:"");
+    if(!ok){ keyStat("❌ Browser menolak localStorage (mode private?). Key tidak tersimpan.","no"); return; }
+    fillKeyBox(); toast("API Key disimpan di browser ini 🔑"); return; }
+  if(b.id==="gkeydel"){ if(!armed(b)) return; lsSet(GKEY,""); fillKeyBox(); toast("API Key dihapus dari browser"); return; }
+  if(b.id==="gkeyshow"){ const k=$("#gkey"); k.type=k.type==="password"?"text":"password"; return; }
+  if(b.id==="gkeytest"){ if(needKey()) return; keyStat("⏳ Menguji koneksi ke Gemini…","wait");
+    try{ const t=await gemini({system:"Jawab singkat.",contents:[{role:"user",parts:[{text:"Balas persis: OK"}]}]}); keyStat(`✅ Terhubung ke ${getModel()} · balasan: ${t.trim().slice(0,30)}`,"ok"); }
+    catch(e){ keyStat("❌ "+((e&&e.message)||"Gagal"),"no"); } return; }
+});
 
 /* ---------- AI quick actions ---------- */
 const roleOpts=()=>ROLES.map(r=>`<option value="${r.id}">${({ro:"RO",bo:"Cabang",un:"Unit",eco:"Ekosistem"})[r.stage]} · ${esc(r.name)}</option>`).join("");
@@ -1753,9 +1860,10 @@ async function runAI(){
     const rid=$("#ai-role").value; const r=ROLES.find(x=>x.id===rid);
     const existing=r.qs.map(x=>x[0]).concat((S.extraQ[rid]||[]).map(x=>x.t));
     out.classList.remove("empty"); out.innerHTML=`<p class="muted"><span class="spark">✨</span> Menyusun pertanyaan…</p>`;
+    if(needKey()){ out.innerHTML=`<p class="muted">🔑 Isi Gemini API Key di bagian atas.</p>`; return; }
     if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
     try{
-      const v=await CAP.sample.json(`${COACH}\n\nKONTEKS:\n${ctx({stage:r.stage})}\n\nROLE: ${r.name} (${r.sub}). Fokus: ${r.focus.replace(/<[^>]+>/g,"")}\nPertanyaan yang SUDAH ada (jangan diulang): ${existing.join(" | ")}\n\nTUGAS: Buat 6 pertanyaan baru yang tajam, spesifik, dan sopan untuk ditanyakan peserta OJT kepada ${r.name}. Campur: proses, angka/indikator, akar masalah, dan pembelajaran kepemimpinan. Hubungkan dengan pelajaran HO/MSS bila relevan.\nBalas HANYA JSON: {"questions":[{"q":"pertanyaan","why":"alasan singkat / tautan pelajaran"}]}`,{signal:aiAbort.signal,modelTier:"default"});
+      const v=await geminiJSON(`${COACH}\n\nKONTEKS:\n${ctx({stage:r.stage})}\n\nROLE: ${r.name} (${r.sub}). Fokus: ${r.focus.replace(/<[^>]+>/g,"")}\nPertanyaan yang SUDAH ada (jangan diulang): ${existing.join(" | ")}\n\nTUGAS: Buat 6 pertanyaan baru yang tajam, spesifik, dan sopan untuk ditanyakan peserta OJT kepada ${r.name}. Campur: proses, angka/indikator, akar masalah, dan pembelajaran kepemimpinan. Hubungkan dengan pelajaran HO/MSS bila relevan.\nBalas HANYA JSON: {"questions":[{"q":"pertanyaan","why":"alasan singkat / tautan pelajaran"}]}`,aiAbort.signal);
       aiAbort=null;
       const qs=(v&&Array.isArray(v.questions)?v.questions:[]).filter(x=>x&&x.q).slice(0,8);
       if(!qs.length) throw {code:"empty"};
@@ -1794,17 +1902,17 @@ async function noteAI(kind,n,btn){
 }
 let chatHist=[];
 async function sendChat(){
-  const ta=$("#chatq"); const q=ta.value.trim(); if(!q) return; if(!CAP.sample){toast("AI hanya aktif di artifact Claude");return;}
+  const ta=$("#chatq"); const q=ta.value.trim(); if(!q) return; if(needKey()) return;
   ta.value=""; const chat=$("#chat");
   chat.insertAdjacentHTML("beforeend",`<div class="msg u"></div>`); chat.lastElementChild.textContent=q;
   chat.insertAdjacentHTML("beforeend",`<div class="msg a"><span class="spark">✨</span></div>`); const el=chat.lastElementChild; chat.scrollTop=chat.scrollHeight;
   chatHist.push({role:"user",content:q}); chatHist=chatHist.slice(-12);
-  const msgs=chatHist.map((m,i)=>i===0?{role:"user",content:`${COACH}\n\nKONTEKS PESERTA:\n${ctx()}\n\nPESAN:\n${m.content}`}:m);
-  if(msgs[0].role!=="user") msgs.shift();
+  while(chatHist.length&&chatHist[0].role!=="user") chatHist.shift();
   if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
   try{
-    const r=await CAP.sample(msgs,{signal:aiAbort.signal,cache:false,onText:({text})=>{ if(text&&text!=="Thinking..."){ el.innerHTML=md(text); chat.scrollTop=chat.scrollHeight; } }});
-    el.innerHTML=md(r.text); chatHist.push({role:"assistant",content:r.text}); aiAbort=null;
+    const t=await gemini({system:`${COACH}\n\nKONTEKS PESERTA:\n${ctx()}`,contents:toContents(chatHist),signal:aiAbort.signal,
+      onText:({text})=>{ if(text){ el.innerHTML=md(text); chat.scrollTop=chat.scrollHeight; } }});
+    el.innerHTML=md(t); chatHist.push({role:"assistant",content:t}); aiAbort=null;
   }catch(e){ aiAbort=null; el.innerHTML=`<p class="muted">⚠️ ${esc(aiErr(e))}</p>`; chatHist.pop(); }
   chat.scrollTop=chat.scrollHeight;
 }
