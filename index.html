@@ -288,6 +288,24 @@ table.t td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:t
 #gmodel{flex:1;min-width:170px}
 .keystat{font-size:13px;margin-top:8px;font-weight:600}
 .keystat.ok{color:var(--ok)}.keystat.no{color:#C0392B}.keystat.wait{color:var(--bri)}
+.org{display:flex;flex-direction:column;align-items:center;gap:10px;margin:8px 0 6px}
+.org .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.org .box{background:#fff;border:2px solid var(--bri);border-radius:12px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--bri-dd);cursor:pointer;text-align:center;min-width:170px}
+.org .box small{display:block;font-weight:500;color:var(--mut);font-size:11px}
+.org .box.l0{background:var(--bri-d);color:#fff;border-color:var(--bri-d)}.org .box.l0 small{color:#dfe9fb}
+.org .box.on{box-shadow:0 0 0 4px rgba(113,197,232,.5)}
+.org .ln{width:2px;height:12px;background:var(--line)}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;border-top:4px solid var(--bri)}
+.kcard h4{margin:4px 0 2px;font-size:15px;color:var(--bri-dd)}
+.kcard .sr{font-size:11.5px;color:var(--mut)}
+.kcard ul{margin:8px 0;padding-left:18px;font-size:13.5px}.kcard li{margin:3px 0}
+.kcard.done{border-top-color:var(--ok)}
+.kfoot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px;font-size:13px}
+.sorot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.sorot div{background:linear-gradient(135deg,var(--bri-d),var(--bri));color:#fff;border-radius:12px;padding:12px}
+.sorot b{display:block;font-size:20px}.sorot span{font-size:12px;opacity:.9}
+@media (max-width:860px){.kgrid,.sorot{grid-template-columns:1fr}}
 .hk{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .hk label{font-size:12.5px;color:var(--mut);font-weight:600}
 .hk input{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:3px}
@@ -413,8 +431,8 @@ const ROLES = [
  mats:["Profil RO: jumlah Cabang, Unit, Teras, Mantri, RM, agen BRILink","Posisi & tren 12 bulan: OS pinjaman, jumlah debitur, simpanan/CASA mikro","RKA vs realisasi per Cabang (YTD & MTD)","Kualitas kredit per Cabang: SML, NPL, LAR (jika dipakai), tren bulanan","Data vintage / MOB bila tersedia di RO","Bahan rakor / review kinerja terbaru (yang boleh dibagikan)","Data potensi wilayah (BPS / Dinas) yang dipakai RO"],
  links:["MSM 1 & 2 → cara breakdown target ke program & aktivitas Mantri","MSD → MOB / risk-based monitoring: apakah RO sudah melihat vintage?","SEI → KPI pemberdayaan harus terhubung ke DPK, FBI, debitur naik kelas"]
 },
-{id:"ro-umi", stage:"ro", ico:"🤝", name:"Ultra Micro Business Department", sub:"RMBH · Dept Head UMi · Team Member",
- focus:"<b>Tujuan:</b> paham peran jajaran Ultra Mikro di RO, memetakan potensi & persaingan ekosistem UMi, mengikuti strategi/RKA UMi regional, dan memonitor kinerja untuk pertumbuhan, kualitas, dan keberlanjutan ekosistem UMi.",
+{id:"ro-umi", stage:"ro", ico:"🤝", name:"Micro Ecosystems 1 & 2 Department", sub:"Di handbook: Ultra Micro Business Dept · mencakup UMi, BRILink, Micro Payment, Hyperlocal, SEI",
+ focus:"<b>Catatan struktur:</b> menurut SK Direksi 2437/2025 (berlaku 2 Juni 2025), di bawah RMBH ada Micro Business Department serta Micro Ecosystems 1 & 2 Department. Urusan Ultra Mikro, BRILink, Micro Payment, Hyperlocal, dan SEI/inkubasi ada di Micro Ecosystems. <b>Tujuan:</b> paham peran jajaran Ultra Mikro di RO, memetakan potensi & persaingan ekosistem UMi, mengikuti strategi/RKA UMi regional, dan memonitor kinerja untuk pertumbuhan, kualitas, dan keberlanjutan ekosistem UMi.",
  todos:[
   ["Petakan tugas RMBH, Dept Head UMi, dan team member","Bedakan peran dengan Micro Business Dept"],
   ["Pahami workflow bisnis ultra mikro di region (termasuk sinergi Holding)",""],
@@ -814,6 +832,33 @@ const MSS_ADD = {
 Object.entries(MSS_ADD).forEach(([id,a])=>{const r=ROLES.find(x=>x.id===id); if(!r) return;
   ["todos","qs","mats","links"].forEach(k=>{if(a[k]) r[k]=r[k].concat(a[k]);});});
 
+/* ---- tambahan dari DUJ / SK 2437 (struktur RO Mikro) ---- */
+const DUJ_ADD={
+ "ro-mbd":{
+  todos:[["Pelajari RKF (Rencana Kerja Fungsional) department dan bedanya dengan RKA","DUJ Dept Head Micro Business"],
+         ["Lihat cara RO mengukur index tingkat pemahaman kebijakan & mengirim feedback ke Kantor Pusat",""],
+         ["Pelajari pengendalian kualitas kredit: PH, recovery Daftar Hitam (DH), dan kualitas data CKPN",""],
+         ["Minta contoh market research & benchmarking produk dengan Regional Peers",""]],
+  qs:[["Bagaimana pembagian kerja Micro Business Dept dengan Micro Ecosystems 1 & 2 Dept dalam praktik sehari-hari?","Struktur RO menurut SK 2437"],
+      ["Bagaimana target penguasaan ekosistem di-breakdown ke Micro Ecosystems Department?",""],
+      ["Inisiatif strategis bisnis mikro apa yang sedang dikawal RO, dan bagaimana progresnya dilaporkan ke Kantor Pusat?",""]],
+  mats:["Dokumen RKF & laporan realisasi RKF (jika boleh)","Contoh laporan insight bisnis mikro berkala"]
+ },
+ "ro-umi":{
+  todos:[["Petakan pembagian ekosistem antara Micro Ecosystems 1 dan 2 di region",""],
+         ["Pelajari mapping pola rantai pasok & aliran dana ekosistem, termasuk daftar nasabah/calon nasabah ekosistem",""],
+         ["Pelajari partnership dengan Pemda & pihak ketiga serta target bisnisnya",""],
+         ["Pelajari pengukuran tingkat keterikatan (engagement) ekosistem",""],
+         ["Pelajari pembinaan PPBK & Agen BRILink dari sisi RO",""],
+         ["Pelajari pengelolaan infrastruktur ekosistem (implementasi, first level maintenance, SLA complain)",""]],
+  qs:[["Ekosistem Hyperlocal (PARI, New Pasar ID, Localoka) apa yang aktif di region ini dan bagaimana hasilnya?",""],
+      ["Bagaimana kualitas kredit Ultra Mikro & pinjaman berbasis platform dipantau di RO?",""],
+      ["Bagaimana GMV dihitung dan dipakai sebagai target?",""]]
+ }
+};
+Object.entries(DUJ_ADD).forEach(([id,a])=>{const r=ROLES.find(x=>x.id===id); if(!r) return;
+  ["todos","qs","mats","links"].forEach(k=>{if(a[k]) r[k]=r[k].concat(a[k]);});});
+
 const DELIVS = {
  ro:{title:"Deliverable & Final Assessment · Regional Office",
    items:["Presentasi: Bisnis Proses Department Bisnis Mikro & Ultra Mikro di RO","Presentasi: Analisis Profil Bisnis Mikro & Ultra Mikro di RO","Presentasi: Analisis Kinerja Bisnis Mikro & Ultra Mikro di RO","Review & tanda tangan mentor (Learning Quest MBD RO)","Review & tanda tangan mentor (Learning Quest UMi RO)","Final Assessment oleh Micro Business Dept Head & Ultra Micro Business Dept Head"],
@@ -868,7 +913,7 @@ const HYPS = [
 ];
 
 const GLOSS = [
- ["RMBH","Regional Micro Banking Head"],["MBM","Manajer Bisnis Mikro (Cabang)"],["BOH","Branch Office Head"],["BSA","Business Support Assistant"],["PPBK","Petugas Penunjang Bisnis Keagenan"],["SOL","Supervisor Operasional & Layanan"],["OTS","On The Spot: kunjungan langsung ke nasabah/usaha"],["LKN","Kunjungan lapangan ke stakeholder ekosistem (tanyakan kepanjangan resminya ke mentor)"],["RKA","Rencana Kerja & Anggaran"],["PDWK","Istilah materi tata kelola unit kerja; tanyakan kepanjangan resminya ke mentor"],["MTD / YTD","Month to Date / Year to Date"],["YoY","Year on Year: dibanding periode sama tahun lalu"],["OS","Outstanding: saldo pinjaman berjalan"],["SML","Special Mention Loan; umumnya Kol 2"],["NPL","Non Performing Loan; Kol 3–5"],["LAR","Loan at Risk; cek definisi internal"],["DPK (1)","Dana Pihak Ketiga = simpanan nasabah"],["DPK (2)","Dalam Perhatian Khusus = Kol 2. Hati-hati, singkatannya sama!"],["CASA","Current Account + Saving Account"],["FBI","Fee Based Income"],["FTP","Funds Transfer Pricing"],["ALM","Asset Liability Management"],["MOB","Month on Book"],["AYDA","Agunan Yang Diambil Alih"],["KUR","Kredit Usaha Rakyat"],["Kupedes","Kredit Umum Pedesaan"],["UMi","Ultra Mikro"],["KMK","Kredit Modal Kerja"],["SCF","Supply Chain Financing"],["BUMDes","Badan Usaha Milik Desa"],["RPK","Rumah Pangan Kita (BULOG)"],["BRISPOT","Aplikasi kerja tenaga pemasar mikro"],["BRIMEN","Ruang arsip kredit/operasional di Unit (tanyakan kepanjangan resminya ke SOL)"],["SLA","Service Level Agreement"]
+ ["MBM","Manajer Bisnis Mikro (Cabang)"],["BOH","Branch Office Head"],["BSA","Business Support Assistant"],["PPBK","Petugas Penunjang Bisnis Keagenan"],["SOL","Supervisor Operasional & Layanan"],["OTS","On The Spot: kunjungan langsung ke nasabah/usaha"],["LKN","Kunjungan lapangan ke stakeholder ekosistem (tanyakan kepanjangan resminya ke mentor)"],["RKA","Rencana Kerja & Anggaran"],["PDWK","Istilah materi tata kelola unit kerja; tanyakan kepanjangan resminya ke mentor"],["MTD / YTD","Month to Date / Year to Date"],["YoY","Year on Year: dibanding periode sama tahun lalu"],["OS","Outstanding: saldo pinjaman berjalan"],["SML","Special Mention Loan; umumnya Kol 2"],["NPL","Non Performing Loan; Kol 3–5"],["LAR","Loan at Risk; cek definisi internal"],["DPK (1)","Dana Pihak Ketiga = simpanan nasabah"],["DPK (2)","Dalam Perhatian Khusus = Kol 2. Hati-hati, singkatannya sama!"],["CASA","Current Account + Saving Account"],["FBI","Fee Based Income"],["FTP","Funds Transfer Pricing"],["ALM","Asset Liability Management"],["MOB","Month on Book"],["AYDA","Agunan Yang Diambil Alih"],["KUR","Kredit Usaha Rakyat"],["Kupedes","Kredit Umum Pedesaan"],["UMi","Ultra Mikro"],["KMK","Kredit Modal Kerja"],["SCF","Supply Chain Financing"],["BUMDes","Badan Usaha Milik Desa"],["RPK","Rumah Pangan Kita (BULOG)"],["BRISPOT","Aplikasi kerja tenaga pemasar mikro"],["BRIMEN","Ruang arsip kredit/operasional di Unit (tanyakan kepanjangan resminya ke SOL)"],["SLA","Service Level Agreement"],["GBHN","Panduan aktivitas harian tenaga pemasar mikro (pemasaran, penagihan, referral)"],["P2P","Penagihan point-to-point, termasuk debitur lancar"],["PH","Penghapusbukuan"],["Turun pokok","Penurunan OS di luar PH: OS awal + realisasi − PH − OS akhir"],["Runoff","Penurunan portofolio karena angsuran, pelunasan & PH"],["Suplesi","Tambahan plafon untuk debitur existing"],["Nett downgrade / NDG","Perpindahan bersih kredit ke kolektibilitas lebih buruk (konfirmasi definisi)"],["New SML","Debitur lancar yang baru turun ke SML"],["CRS","Credit Risk Scoring"],["MAK Tools","Alat bantu analisis kredit di BRISPOT/BSP, termasuk Business Checking"],["RPC","Repayment Capacity / kemampuan bayar"],["NPM","Net Profit Margin"],["BSP","Brilian Sales Platform"],["PN","Personal Number pekerja; PN null = kolom pemrakarsa kosong"],["L1133","Laporan OS, SML, NPL per produk / highlight per unit"],["LW321","Data pinjaman: realisasi, kolektibilitas, pipeline"],["LN Mas","Realisasi hari sebelumnya"],["MIR03","Simpanan, pinjaman & FBI per unit"],["EDM","Unit pengelola data (sumber produktivitas Mantri)"],["SLIK","Sistem Layanan Informasi Keuangan OJK (riwayat kredit)"],["KSBK","Kupedes Suku Bunga Khusus (SBK)"],["KPP","Produk pinjaman mikro (ada skema Demand Side untuk rumah pendukung usaha); konfirmasi kepanjangannya"],["Kupra","Kupedes Rakyat"],["SIKP","Sistem Informasi Kredit Program (KUR)"],["RCEO","Regional Chief Executive Officer"],["RMBH","Regional Micro Banking Head"],["Area Head","Pejabat di bawah RCEO yang membina Kantor Cabang di wilayahnya"],["RKF","Rencana Kerja Fungsional"],["CKPN","Cadangan Kerugian Penurunan Nilai"],["DH","Daftar Hitam (recovery DH = pemasukan dari kredit yang sudah dihapus buku)"],["FLM","First Level Maintenance (perawatan awal infrastruktur, mis. EDC)"],["GMV","Gross Merchandise Value"],["NTB / NTL / ETL","New to Bank / New to Loan / Existing to Loan"],["ETB","Existing to Bank"],["Mantri silang","Mantri lain yang tidak terlibat di prakarsa awal"],["Hyperlocal","Ekosistem lokal: PARI, New Pasar ID, Localoka"],["JG / PL","Job Grade / Performance Level"]
 ];
 
 const ETIQ = [
@@ -931,6 +976,7 @@ const TABS=[
  {id:"un", t:"🏠 BRI Unit"},
  {id:"eco", t:"🌱 Ekosistem"},
  {id:"mss", t:"📘 Bekal MSS"},
+ {id:"pack", t:"📜 Ketentuan & DUJ"},
  {id:"rem", t:"🔁 Belajar Ulang HO"},
  {id:"hyp", t:"🧪 Hipotesis HO"},
  {id:"jour", t:"📓 Jurnal Harian"},
@@ -1056,7 +1102,7 @@ function render(){
   </section>
 
   ${stagePanel("ro","Regional Office: lihat bisnis mikro dari ketinggian region","Di RO kamu belajar menghubungkan strategi HO dengan realita cabang. Output akhirnya 3 analisis: bisnis proses, profil, dan kinerja, untuk Mikro dan Ultra Mikro.",
-    `<div class="tip"><b>Kerangka presentasi RO yang aman:</b> (1) Struktur & bisnis proses → (2) Profil wilayah: potensi vs penetrasi → (3) Kinerja: RKA vs realisasi, tren, kualitas → (4) 3 insight + 3 rekomendasi berbasis data → (5) Pertanyaan terbuka yang akan diuji di Cabang/Unit.</div>`)}
+    `<div class="note"><b>Struktur terbaru (SK Direksi 2437/2025):</b> RCEO → <b>Regional Micro Banking Head</b> → <b>Micro Business Department</b> + <b>Micro Ecosystems 1 & 2 Department</b>. Area Head (di bawah RCEO) membina Kantor Cabang. Handbook masih menyebut "Ultra Micro Business Department", jadi konfirmasi ke mentor nama unit yang dipakai di RO kamu. Detail DUJ ada di tab 📜 Ketentuan & DUJ.</div><div class="tip"><b>Kerangka presentasi RO yang aman:</b> (1) Struktur & bisnis proses → (2) Profil wilayah: potensi vs penetrasi → (3) Kinerja: RKA vs realisasi, tren, kualitas → (4) 3 insight + 3 rekomendasi berbasis data → (5) Pertanyaan terbuka yang akan diuji di Cabang/Unit.</div>`)}
 
   ${stagePanel("bo","Kantor Cabang: pusat kendali bisnis mikro","Cabang adalah tempat target bertemu eksekusi. MBM adalah mentor utama. Perhatikan cara MBM membaca data, membina Mantri, dan memutus kredit.",
     `<div class="tip"><b>Mulai dari hari pertama:</b> minta izin MBM untuk memilih 1 paket kredit Kupedes putusan MBM sebagai bahan analisis tim. Data nasabah dianonimkan.</div>`)}
@@ -1078,13 +1124,13 @@ function render(){
       <div class="keyrow">
         <input type="password" id="gkey" placeholder="Tempel Gemini API Key kamu (AQ.… atau AIza…)" autocomplete="off" spellcheck="false">
         <button class="btn ghost sm" id="gkeyshow" title="Tampilkan / sembunyikan">👁️</button>
-        <input type="text" id="gmodel" placeholder="Model" spellcheck="false" title="ID model Gemini">
+        <input type="text" id="gmodel" placeholder="Model (boleh lebih dari satu, pisahkan koma)" spellcheck="false" title="ID model Gemini; pisahkan dengan koma untuk urutan cadangan">
         <button class="btn" id="gkeysave">Simpan Key</button>
         <button class="btn ghost sm" id="gkeytest">Tes</button>
         <button class="btn ghost sm" id="gkeydel" style="color:#C0392B">Hapus</button>
       </div>
       <div class="keystat" id="gkeystat"></div>
-      <div class="src">Key disimpan hanya di <b>localStorage</b> browser ini dan dikirim langsung ke Google (generativelanguage.googleapis.com). Tidak ada di file HTML/GitHub. Disarankan batasi key di Google Cloud Console (HTTP referrer = domain GitHub Pages kamu, API = Generative Language API). Jangan pakai di komputer bersama.</div>
+      <div class="src">Key disimpan hanya di <b>localStorage</b> browser ini dan dikirim langsung ke Google (generativelanguage.googleapis.com). Tidak ada di file HTML/GitHub. Disarankan batasi key di Google Cloud Console (HTTP referrer = domain GitHub Pages kamu, API = Generative Language API). Jangan pakai di komputer bersama.<br>Jika model sibuk (HTTP 503/500) halaman otomatis mencoba ulang lalu pindah ke model cadangan: gemini-flash-latest → gemini-2.5-flash → gemini-3.5-flash-lite.</div>
     </div>
     <div class="ai-on">
     <div class="aigrid">
@@ -1225,6 +1271,13 @@ function render(){
     <div class="tip" style="margin-top:14px"><b>Pesan pimpinan yang layak diingat:</b> aktivitas tidak cukup hanya tercatat di rencana, tetapi harus benar-benar dilaksanakan dan menjadi realisasi. Ukur hasil penagihan, bukan hanya volume kunjungan. Jangan melambat setelah RKA tercapai.</div>
   </section>
 
+  <section class="panel" id="p-pack">
+    <div class="kicker">Materi internal · hanya di browser ini</div>
+    <h2 class="sec">Ketentuan terbaru & DUJ RO Mikro</h2>
+    <p class="lead">Isi tab ini tidak ada di file HTML publik. Muat file <b>materi-internal-BFLP18.json</b> dari perangkatmu; isinya disimpan di localStorage browser ini saja.</p>
+    <div id="packbox"></div>
+  </section>
+
   <section class="panel" id="p-rem">
     <div class="remhead"><div><div class="kicker">Belajar ulang</div><h2 class="sec">Topik HO yang perlu dikuatkan</h2></div>
     <div class="chipset" id="remfilter"></div></div>
@@ -1273,7 +1326,7 @@ function render(){
     </div>
   </section>`;
 
-  renderRemedial(); renderHyp(); renderJournal(); renderGloss(""); if(typeof fillCalc==='function') fillCalc(); fillMeta(); if(typeof renderAI==='function'){renderAI(); renderNotes(); fillKeyBox();}
+  renderRemedial(); renderHyp(); renderJournal(); renderGloss(""); if(typeof fillCalc==='function') fillCalc(); fillMeta(); if(typeof renderAI==='function'){renderAI(); renderNotes(); fillKeyBox(); renderPack();}
   showTab(current,false);
   stats();
 }
@@ -1698,6 +1751,7 @@ function ctx(opts={}){
   const nt=(S.notes||[]).slice().sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,opts.notes||3).map(n=>`${n.title||"Tanpa judul"} [${n.tag}]: ${(n.body||"").slice(0,500)}`);
   if(nt.length) out.push("Catatan terbaru:\n- "+nt.join("\n- "));
   if(opts.mss!==false) out.push(MSS_BRIEF);
+  if(PACK&&PACK.aibrief&&packAIon()) out.push(PACK.aibrief);
   return out.join("\n\n");
 }
 let aiAbort=null;
@@ -1712,7 +1766,7 @@ function keyStat(msg,cls){const el=$("#gkeystat"); if(el){el.textContent=msg; el
 function fillKeyBox(){
   const k=$("#gkey"), m=$("#gmodel"); if(!k) return;
   const key=getKey(); k.value=key; m.value=getModel();
-  keyStat(key?`✅ Key tersimpan (…${key.slice(-4)}) · model ${getModel()}`:"⚠️ Belum ada API Key. Buat di aistudio.google.com → Get API key, lalu tempel di atas.", key?"ok":"no");
+  keyStat(key?`✅ Key tersimpan (…${key.slice(-4)}) · urutan model: ${modelChain().join(" → ")}`:"⚠️ Belum ada API Key. Buat di aistudio.google.com → Get API key, lalu tempel di atas.", key?"ok":"no");
 }
 function needKey(){ if(getKey()) return false; showTab("ai"); keyStat("⚠️ Masukkan & simpan Gemini API Key dulu.","no"); const k=$("#gkey"); if(k) k.focus(); toast("Isi Gemini API Key dulu 🔑"); return true; }
 
@@ -1741,39 +1795,70 @@ function errFromResp(status,body,raw){
   console.error("[Gemini API error]",status,body||raw);
   return err;
 }
-/* Panggil Gemini (POST). system = instruksi + konteks; contents = percakapan. Streaming via SSE bila onText ada. */
-async function gemini({system,contents,json=false,onText,signal}){
+/* ---------- Panggil Gemini (POST :generateContent, key di header x-goog-api-key) ---------- */
+const GFALLBACK=["gemini-flash-latest","gemini-2.5-flash","gemini-3.5-flash-lite"]; // cadangan otomatis bila model utama sibuk
+const RETRY_STATUS=[500,502,503,504];
+let lastModelUsed="";
+function modelChain(){
+  const own=(lsGet(GMODEL).trim()||GDEF_MODEL).split(",").map(x=>x.trim().replace(/^models\//,"")).filter(Boolean);
+  return [...new Set(own.concat(GFALLBACK))];
+}
+function sleepAbort(ms,signal){ return new Promise((res,rej)=>{ if(signal&&signal.aborted) return rej(new GeminiError("aborted","Dihentikan."));
+  const t=setTimeout(res,ms); if(signal) signal.addEventListener("abort",()=>{clearTimeout(t); rej(new GeminiError("aborted","Dihentikan."));},{once:true}); }); }
+function retryDelayMs(body){ const d=(body&&body.error&&Array.isArray(body.error.details)?body.error.details:[]).find(x=>x.retryDelay);
+  if(!d) return 0; const m=String(d.retryDelay).match(/([\d.]+)/); return m?Math.ceil(parseFloat(m[1])*1000):0; }
+async function geminiOnce(model,key,body,signal){
+  const url=GEMINI_BASE+encodeURIComponent(model)+":generateContent";
+  let res;
+  try{ res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body),signal}); }
+  catch(e){ if(e&&e.name==="AbortError") throw new GeminiError("aborted","Dihentikan."); const ne=new GeminiError("network","Tidak bisa menghubungi Gemini. Cek koneksi internet."); ne.status=0; throw ne; }
+  if(!res.ok){ let raw="",j=null; try{ raw=await res.text(); j=JSON.parse(raw); }catch(e){}
+    const er=errFromResp(res.status,j,raw); er.status=res.status; er.wait=retryDelayMs(j); er.model=model; throw er; }
+  const d=await res.json();
+  if(d&&d.promptFeedback&&d.promptFeedback.blockReason) throw new GeminiError("blocked","Permintaan diblokir filter keamanan Gemini ("+d.promptFeedback.blockReason+").");
+  const c=d&&d.candidates&&d.candidates[0];
+  const t=c&&c.content&&c.content.parts?c.content.parts.filter(p=>!p.thought).map(p=>p.text||"").join(""):"";
+  if(!t){ const er=new GeminiError("empty","Jawaban kosong dari Gemini"+(c&&c.finishReason?" (finishReason: "+c.finishReason+")":"")+"."); er.status=-1; throw er; }
+  return t;
+}
+async function gemini({system,contents,json=false,onText,onStatus,signal}){
   const key=getKey(); if(!key) throw new GeminiError("no_key","Belum ada API Key.");
   const body={contents,generationConfig:{}};
   if(system) body.systemInstruction={parts:[{text:system}]};
   if(json) body.generationConfig.responseMimeType="application/json";
-  const stream=false; // selalu generateContent (non-streaming)
-  const url=GEMINI_BASE+encodeURIComponent(getModel())+":generateContent";
-  let res;
-  try{ res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":key},body:JSON.stringify(body),signal}); }
-  catch(e){ if(e&&e.name==="AbortError") throw e; throw new GeminiError("network","Tidak bisa menghubungi Gemini. Cek koneksi internet."); }
-  if(!res.ok){ let raw="",b=null; try{ raw=await res.text(); b=JSON.parse(raw); }catch(e){} throw errFromResp(res.status,b,raw); }
-  const pick=d=>{ if(d&&d.promptFeedback&&d.promptFeedback.blockReason) throw new GeminiError("blocked","Permintaan diblokir filter keamanan Gemini ("+d.promptFeedback.blockReason+").");
-    const c=d&&d.candidates&&d.candidates[0]; return c&&c.content&&c.content.parts?c.content.parts.filter(p=>!p.thought).map(p=>p.text||"").join(""):""; };
-  if(!stream){ const d=await res.json();
-    const t=pick(d);
-    if(!t){ const c=d&&d.candidates&&d.candidates[0]; throw new GeminiError("empty","Jawaban kosong dari Gemini"+(c&&c.finishReason?" (finishReason: "+c.finishReason+")":"")+". Coba lagi."); }
-    if(onText) onText({text:t,delta:t}); return t; }
-  const reader=res.body.getReader(), dec=new TextDecoder(); let buf="", full="";
-  try{
-    while(true){ const {value,done}=await reader.read(); if(done) break;
-      buf+=dec.decode(value,{stream:true}); let i;
-      while((i=buf.indexOf("\n"))>=0){ const line=buf.slice(0,i).trim(); buf=buf.slice(i+1);
-        if(!line.startsWith("data:")) continue; const payload=line.slice(5).trim(); if(!payload||payload==="[DONE]") continue;
-        let d; try{d=JSON.parse(payload);}catch(e){continue;}
-        const piece=pick(d); if(piece){ full+=piece; onText({text:full,delta:piece}); } } }
-  }catch(e){ if(e&&e.name==="AbortError"){ const ab=new GeminiError("aborted","Dihentikan.",full); throw ab; } if(e instanceof GeminiError){e.text=full; throw e;} throw new GeminiError("network","Koneksi terputus.",full); }
-  if(!full) throw new GeminiError("empty","Jawaban kosong dari Gemini. Coba lagi.");
-  return full;
+  const chain=modelChain(), log={};
+  for(let mi=0; mi<chain.length; mi++){
+    const model=chain[mi];
+    for(let attempt=1; attempt<=3; attempt++){
+      try{
+        if(onStatus) onStatus(attempt===1&&mi===0?"":`⏳ Mencoba ${model}${attempt>1?` (ulang ${attempt-1})`:""}…`);
+        const t=await geminiOnce(model,key,body,signal);
+        lastModelUsed=model;
+        if(mi>0) toast(`${chain[0]} sedang sibuk, dijawab oleh ${model}`);
+        if(onText) onText({text:t,delta:t});
+        return t;
+      }catch(e){
+        if(e.code==="aborted"||e.code==="blocked") throw e;
+        log[model]={msg:e.message,n:((log[model]&&log[model].n)||0)+1};
+        const st=e.status;
+        if(st===400||st===401||st===403) throw e;                       // key/permintaan salah → percuma diulang
+        if(st===404) break;                                              // model tidak ada → model berikutnya
+        if(st===429){ if(e.wait&&e.wait<=8000&&attempt===1){ if(onStatus) onStatus(`⏳ Limit tercapai, tunggu ${Math.ceil(e.wait/1000)} dtk…`); await sleepAbort(e.wait+300,signal); continue; } break; }
+        if(RETRY_STATUS.includes(st)||st===0||st===-1){
+          if(attempt<3){ const ms=Math.round((attempt===1?1500:4000)*(0.8+Math.random()*0.4));
+            if(onStatus) onStatus(`⏳ ${model} sedang sibuk (HTTP ${st||"jaringan"}), mencoba lagi dalam ${Math.ceil(ms/1000)} dtk…`);
+            await sleepAbort(ms,signal); continue; }
+          break;                                                         // sudah 3x → model berikutnya
+        }
+        throw e;
+      }
+    }
+  }
+  throw new GeminiError("all_failed","Semua model sedang sibuk/gagal. Coba lagi beberapa menit lagi.\nDetail:\n- "+Object.entries(log).map(([m,v])=>`${m} (${v.n}x): ${v.msg}`).join("\n- "));
 }
-async function geminiJSON(prompt,signal){
+async function geminiJSON(prompt,signal,onStatus){
   const {system,user}=splitPrompt(prompt);
-  const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],json:true,signal});
+  const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],json:true,signal,onStatus});
   try{ return JSON.parse(t); }catch(e){ const m=t.match(/\{[\s\S]*\}/); if(m) return JSON.parse(m[0]); throw new GeminiError("empty","Format jawaban tidak terbaca. Coba lagi."); }
 }
 function aiErr(e){
@@ -1788,10 +1873,12 @@ async function ask(prompt,{el,onDone}={}){
   if(el){ el.classList.remove("empty"); el.innerHTML=`<p class="muted"><span class="spark">✨</span> Sedang berpikir…</p>`; }
   const {system,user}=splitPrompt(prompt);
   try{
-    const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],signal:aiAbort.signal,onText:({text})=>{ if(el&&text) el.innerHTML=md(text); }});
+    const t=await gemini({system,contents:[{role:"user",parts:[{text:user}]}],signal:aiAbort.signal,
+      onStatus:m=>{ if(el) el.innerHTML=`<p class="muted"><span class="spark">✨</span> ${esc(m||"Sedang berpikir…")}</p>`; },
+      onText:({text})=>{ if(el&&text) el.innerHTML=md(text); }});
     if(el) el.innerHTML=md(t);
     aiAbort=null; if(onDone) onDone(t); return t;
-  }catch(e){ aiAbort=null; const m=aiErr(e); if(el){ const part=e&&e.text?md(e.text):""; el.innerHTML=part+`<p class="muted">⚠️ ${esc(m)}</p>`; } else toast(m); return null; }
+  }catch(e){ aiAbort=null; const m=aiErr(e); if(el){ const part=e&&e.text?md(e.text):""; el.innerHTML=part+`<p class="muted" style="white-space:pre-wrap">⚠️ ${esc(m)}</p>`; } else toast(m); return null; }
 }
 document.addEventListener("click",async e=>{
   const b=e.target.closest("button"); if(!b) return;
@@ -1804,7 +1891,7 @@ document.addEventListener("click",async e=>{
   if(b.id==="gkeydel"){ if(!armed(b)) return; lsSet(GKEY,""); fillKeyBox(); toast("API Key dihapus dari browser"); return; }
   if(b.id==="gkeyshow"){ const k=$("#gkey"); k.type=k.type==="password"?"text":"password"; return; }
   if(b.id==="gkeytest"){ if(needKey()) return; keyStat("⏳ Menguji koneksi ke Gemini…","wait");
-    try{ const t=await gemini({system:"Jawab singkat.",contents:[{role:"user",parts:[{text:"Balas persis: OK"}]}]}); keyStat(`✅ Terhubung ke ${getModel()} · balasan: ${t.trim().slice(0,30)}`,"ok"); }
+    try{ const t=await gemini({system:"Jawab singkat.",contents:[{role:"user",parts:[{text:"Balas persis: OK"}]}],onStatus:m=>{ if(m) keyStat(m,"wait"); }}); keyStat(`✅ Terhubung · dijawab oleh ${lastModelUsed} · balasan: ${t.trim().slice(0,30)}`,"ok"); }
     catch(e){ keyStat("❌ "+((e&&e.message)||"Gagal"),"no"); } return; }
 });
 
@@ -1835,6 +1922,11 @@ const AI_ACTIONS=[
  {id:"assess", e:"🎤", t:"Simulasi assessor", d:"Pertanyaan final assessment + kerangka jawaban",
   form:()=>`<select id="ai-st2">${stageOpts}</select>`,
   run:()=>{const st=$("#ai-st2").value; const dv=DELIVS[st]; return `${COACH}\n\nKONTEKS:\n${ctx({stage:st,notes:6})}\n\nFINAL ASSESSMENT (${dv.title}); assessor: ${dv.assessor}; kriteria: ${dv.items.join("; ")}.\n\nTUGAS: Berperan sebagai assessor yang kritis tapi adil. Beri 7 pertanyaan sulit yang realistis (campur konsep, angka, dan sikap kepemimpinan). Untuk tiap pertanyaan: kenapa ditanyakan, kerangka jawaban ideal (poin), dan jebakan yang harus dihindari. Akhiri dengan 3 tips presentasi.`;}},
+ {id:"quizk", e:"📜", t:"Kuis ketentuan & DUJ", d:"Butuh paket materi + izin kirim ke AI",
+  form:()=>`<select id="ai-qk"><option value="update ketentuan kredit mikro">Update ketentuan kredit mikro</option><option value="struktur dan DUJ RO Mikro">Struktur & DUJ RO Mikro</option><option value="campuran ketentuan dan DUJ">Campuran</option></select>`,
+  run:()=>{ if(!PACK) return `${COACH}\n\nTUGAS: Katakan singkat bahwa paket materi internal belum dimuat di tab 📜 Ketentuan & DUJ, lalu beri 3 pertanyaan umum tentang ketentuan kredit mikro yang sebaiknya ditanyakan ke mentor.`;
+    if(!packAIon()) return `${COACH}\n\nTUGAS: Katakan singkat bahwa opsi "Sertakan ringkasan materi internal ke konteks Gemini" di tab 📜 Ketentuan & DUJ masih mati, jadi kuis berbasis materi internal belum bisa dibuat. Jelaskan cara menyalakannya dalam 2 kalimat.`;
+    return `${COACH}\n\n${PACK.aibrief}\n\nTUGAS: Buat kuis 6 soal pilihan ganda (A–D) tentang ${$("#ai-qk").value}. Hanya gunakan fakta dari materi di atas; jangan mengarang angka. Campur soal hafalan dan soal kasus di BRI Unit. Setelah semua soal, beri bagian "## Kunci jawaban" berisi jawaban, alasan singkat, dan nomor surat bila ada.`; }},
  {id:"idea", e:"💡", t:"Ide inovasi dari temuan", d:"Ubah masalah lapangan jadi usulan inovasi",
   form:()=>`<input id="ai-prob" placeholder="Masalah/temuan, mis. Kaunit sulit validasi kunjungan Mantri">`,
   run:()=>`${COACH}\n\nKONTEKS:\n${ctx({notes:5})}\n\nMASALAH/TEMUAN: ${$("#ai-prob").value||"(pilih dari isu hangat MSS yang paling relevan)"}\n\nTUGAS: Kembangkan menjadi usulan inovasi BFLP.\n## Problem statement (1 kalimat)\n## Akar masalah (5 why singkat)\n## 3 alternatif solusi (quick win, menengah, strategis)\n## Solusi terpilih dalam format Business Model Canvas singkat\n## KPI leading & lagging\n## Rencana pilot 4 minggu di 1 Unit\n## Risiko & mitigasi`}
@@ -1863,7 +1955,7 @@ async function runAI(){
     if(needKey()){ out.innerHTML=`<p class="muted">🔑 Isi Gemini API Key di bagian atas.</p>`; return; }
     if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
     try{
-      const v=await geminiJSON(`${COACH}\n\nKONTEKS:\n${ctx({stage:r.stage})}\n\nROLE: ${r.name} (${r.sub}). Fokus: ${r.focus.replace(/<[^>]+>/g,"")}\nPertanyaan yang SUDAH ada (jangan diulang): ${existing.join(" | ")}\n\nTUGAS: Buat 6 pertanyaan baru yang tajam, spesifik, dan sopan untuk ditanyakan peserta OJT kepada ${r.name}. Campur: proses, angka/indikator, akar masalah, dan pembelajaran kepemimpinan. Hubungkan dengan pelajaran HO/MSS bila relevan.\nBalas HANYA JSON: {"questions":[{"q":"pertanyaan","why":"alasan singkat / tautan pelajaran"}]}`,aiAbort.signal);
+      const v=await geminiJSON(`${COACH}\n\nKONTEKS:\n${ctx({stage:r.stage})}\n\nROLE: ${r.name} (${r.sub}). Fokus: ${r.focus.replace(/<[^>]+>/g,"")}\nPertanyaan yang SUDAH ada (jangan diulang): ${existing.join(" | ")}\n\nTUGAS: Buat 6 pertanyaan baru yang tajam, spesifik, dan sopan untuk ditanyakan peserta OJT kepada ${r.name}. Campur: proses, angka/indikator, akar masalah, dan pembelajaran kepemimpinan. Hubungkan dengan pelajaran HO/MSS bila relevan.\nBalas HANYA JSON: {"questions":[{"q":"pertanyaan","why":"alasan singkat / tautan pelajaran"}]}`,aiAbort.signal,m=>{ out.innerHTML=`<p class="muted"><span class="spark">✨</span> ${esc(m||"Menyusun pertanyaan…")}</p>`; });
       aiAbort=null;
       const qs=(v&&Array.isArray(v.questions)?v.questions:[]).filter(x=>x&&x.q).slice(0,8);
       if(!qs.length) throw {code:"empty"};
@@ -1911,12 +2003,80 @@ async function sendChat(){
   if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
   try{
     const t=await gemini({system:`${COACH}\n\nKONTEKS PESERTA:\n${ctx()}`,contents:toContents(chatHist),signal:aiAbort.signal,
+      onStatus:m=>{ el.innerHTML=`<span class="spark">✨</span> ${esc(m||"")}`; },
       onText:({text})=>{ if(text){ el.innerHTML=md(text); chat.scrollTop=chat.scrollHeight; } }});
     el.innerHTML=md(t); chatHist.push({role:"assistant",content:t}); aiAbort=null;
   }catch(e){ aiAbort=null; el.innerHTML=`<p class="muted">⚠️ ${esc(aiErr(e))}</p>`; chatHist.pop(); }
   chat.scrollTop=chat.scrollHeight;
 }
 document.addEventListener("keydown",e=>{ if(e.target.id==="chatq"&&e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendChat(); } });
+
+/* =====================================================================
+   PAKET MATERI INTERNAL (dimuat dari file JSON lokal, tidak ada di HTML)
+   ===================================================================== */
+const PACKKEY="bflp18_pack", PACKAI="bflp18_pack_ai";
+let PACK=null; try{ const r=localStorage.getItem(PACKKEY); if(r) PACK=JSON.parse(r); }catch(e){}
+let packDuj=null, packTag="Semua";
+function packAIon(){ return lsGet(PACKAI)==="1"; }
+function renderPack(){
+  const box=$("#packbox"); if(!box) return;
+  const loader=`<div class="card" style="margin-top:14px"><h3>📂 ${PACK?"Ganti":"Muat"} paket materi</h3>
+    <p class="muted" style="font-size:13.5px;margin:4px 0 10px">Pilih file <code>materi-internal-BFLP18.json</code> dari perangkatmu. Jangan unggah file itu ke GitHub.</p>
+    <div class="aiact"><label class="btn sm" style="cursor:pointer">📂 Pilih file JSON<input type="file" id="packfile" accept="application/json,.json" hidden></label>
+    ${PACK?`<button class="btn ghost sm" id="packdel" style="color:#C0392B">🗑️ Hapus paket dari browser</button>`:""}</div></div>`;
+  if(!PACK){ box.innerHTML=loader; return; }
+  const P=PACK, ks=P.ketentuan||[], dj=P.duj||[];
+  const tags=["Semua",...new Set(ks.map(k=>k.tag))];
+  const dsel=dj.find(d=>d.id===packDuj)||dj.find(d=>d.id==="rmbh")||dj[0];
+  const box2=(id)=>{const d=dj.find(x=>x.id===id); return d?`<div class="box ${d.level===0?'l0':''} ${dsel&&d.id===dsel.id?'on':''}" data-duj="${esc(d.id)}">${esc(d.jabatan.replace(/^Department Head · /,""))}<small>${d.id==="mbd"||d.id==="me"?"Department Head":esc("atasan: "+d.atasan)}</small></div>`:"";};
+  box.innerHTML=`
+   <div class="note">📌 ${esc(P.note||"")} <span class="muted">· versi ${esc(P.updated||"-")}</span></div>
+   ${P.sorotan?`<h3 style="margin:14px 0 8px">📍 ${esc(P.sorotan.judul)}</h3><div class="sorot">${P.sorotan.items.map(i=>`<div><span>${esc(i[0])}</span><b>${esc(i[1])}</b><span>${esc(i[2])}</span></div>`).join("")}</div>`:""}
+   <h3 style="margin:14px 0 6px">🏛️ Struktur & DUJ RO Mikro <span class="muted" style="font-size:12px;font-weight:500">(SK Direksi 2437/2025 · klik kotak untuk detail)</span></h3>
+   <div class="card">
+     <div class="org"><div class="row">${box2("rceo")}</div><div class="ln"></div>
+       <div class="row">${box2("area")}${box2("rmbh")}</div><div class="ln"></div>
+       <div class="row">${box2("mbd")}${box2("me")}</div></div>
+     ${dsel?`<div class="cols" style="margin-top:12px">
+       <div class="blk"><h4>🎯 Tujuan jabatan · ${esc(dsel.jabatan)}</h4><ul class="chk">${dsel.tujuan.map((t,i)=>checkItem(`pk-${dsel.id}-t${i}`,esc(t),"")).join("")}</ul></div>
+       <div><div class="blk h"><h4>📏 Indikator kinerja kunci</h4><ul class="plain">${dsel.kpi.map(k=>`<li>${esc(k)}</li>`).join("")}</ul></div>
+       ${dsel.tanya&&dsel.tanya.length?`<div class="blk q"><h4>❓ Pertanyaan dari DUJ</h4><ul class="plain">${dsel.tanya.map(q=>`<li>${esc(q[1])} <span class="tag blue">${esc((ROLES.find(r=>r.id===q[0])||{}).name||q[0])}</span></li>`).join("")}</ul>
+         <button class="btn sm" data-packq="duj:${esc(dsel.id)}">➕ Tambahkan ke kartu role</button></div>`:""}</div></div>`:""}
+     <div class="src">Centang tujuan jabatan yang sudah kamu lihat langsung praktiknya selama OJT.</div>
+   </div>
+   <div class="remhead" style="margin:18px 0 8px"><h3 style="margin:0">📑 Update Ketentuan Kredit Mikro</h3>
+     <div class="chipset">${tags.map(t=>`<button class="chip ${t===packTag?'on':''}" data-ptag="${esc(t)}">${esc(t)}</button>`).join("")}</div></div>
+   <div class="kgrid">${ks.filter(k=>packTag==="Semua"||k.tag===packTag).map(k=>`
+     <div class="kcard ${S.chk['pk-'+k.id]?'done':''}"><span class="tag blue" style="margin:0">${esc(k.tag)}</span><h4>${esc(k.judul)}</h4><div class="sr">${esc(k.surat)}</div>
+       <ul>${k.poin.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+       <div class="kfoot"><label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" data-chk="pk-${esc(k.id)}" ${S.chk['pk-'+k.id]?'checked':''}> Sudah paham</label>
+       ${k.tanya&&k.tanya.length?`<button class="btn ghost sm" data-packq="k:${esc(k.id)}">➕ ${k.tanya.length} pertanyaan ke kartu role</button>`:""}</div></div>`).join("")}</div>
+   <div class="card" style="margin-top:14px"><h3>🤖 Materi ini & Asisten AI</h3>
+     <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer"><input type="checkbox" id="packai" ${packAIon()?"checked":""} style="margin-top:4px">
+     <span>Sertakan ringkasan materi internal ini ke konteks Gemini (dipakai juga oleh aksi 📜 Kuis ketentuan). <span class="muted">Default mati. Jika dinyalakan, ringkasan dikirim ke server Google setiap kali AI dipakai, jadi pastikan sesuai kebijakan kerahasiaan kantor.</span></span></label>
+   </div>
+   ${loader}`;
+}
+document.addEventListener("click",e=>{
+  const d=e.target.closest("[data-duj]"); if(d){ packDuj=d.dataset.duj; renderPack(); return; }
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.ptag){ packTag=b.dataset.ptag; renderPack(); return; }
+  if(b.id==="packdel"){ if(!armed(b)) return; PACK=null; try{localStorage.removeItem(PACKKEY);}catch(e){} lsSet(PACKAI,""); renderPack(); toast("Paket materi dihapus dari browser"); return; }
+  if(b.dataset.packq&&PACK){ const [kind,id]=b.dataset.packq.split(":");
+    const src=kind==="duj"?(PACK.duj||[]).find(x=>x.id===id):(PACK.ketentuan||[]).find(x=>x.id===id); if(!src) return;
+    let n=0; (src.tanya||[]).forEach(([rid,q],i)=>{ if(!ROLES.find(r=>r.id===rid)) return; S.extraQ[rid]=S.extraQ[rid]||[];
+      if(S.extraQ[rid].some(x=>x.t===q)) return; S.extraQ[rid].push({k:Date.now()+i,t:String(q)}); n++; if($("#role-"+rid)) rerenderRole(rid); });
+    save(); toast(n?`${n} pertanyaan ditambahkan ke kartu role ✅`:"Pertanyaan sudah ada di kartu"); return; }
+});
+document.addEventListener("change",e=>{
+  if(e.target.id==="packai"){ lsSet(PACKAI,e.target.checked?"1":""); toast(e.target.checked?"Materi internal ikut dikirim ke AI":"Materi internal tidak dikirim ke AI"); return; }
+  if(e.target.dataset&&e.target.dataset.chk&&e.target.dataset.chk.startsWith("pk-k")){ const c=e.target.closest(".kcard"); if(c) c.classList.toggle("done",e.target.checked); }
+  if(e.target.id==="packfile"&&e.target.files[0]){ const inp=e.target, fr=new FileReader();
+    fr.onload=()=>{ try{ const d=JSON.parse(fr.result); if(!d||d.type!=="bflp18-pack"||!Array.isArray(d.ketentuan)) throw 0;
+        PACK=d; try{ localStorage.setItem(PACKKEY,JSON.stringify(d)); }catch(err){ toast("Paket dimuat untuk sesi ini saja (localStorage penuh/diblokir)"); }
+        renderPack(); toast("Paket materi dimuat 📜"); }catch(err){ toast("File bukan paket materi BFLP18 ❌"); } inp.value=""; };
+    fr.readAsText(e.target.files[0]); }
+});
 
 /* INIT */
 renderTabs(); fillMeta(); render(); initCaps();
