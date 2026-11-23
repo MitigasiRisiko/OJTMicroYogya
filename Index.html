@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OJT Quest Log · BFLP Specialist Micro Batch 18</title>
+<style>
+:root{
+  --bri:#307FE2; --bri-d:#0857C3; --bri-dd:#06418F; --bri-l:#E6F0FC; --bri-ll:#F3F8FE; --sky:#71C5E8; --sky-l:#E7F6FC;
+  --or:#71C5E8; --or-l:#E7F6FC; --ink-acc:#0857C3; --ok:#1F9D55; --ok-l:#E6F6EC; --warn:#C27C0E; --warn-l:#FFF6E0;
+  --ink:#14213D; --mut:#5B6B82; --line:#D6E4F5; --card:#FFFFFF; --r:14px;
+  --sh:0 1px 2px rgba(0,40,90,.06),0 6px 20px rgba(0,40,90,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bri-ll);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+a{color:var(--bri)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(125deg,var(--bri-dd) 0%,var(--bri-d) 35%,var(--bri) 80%,#4C98EA 100%);color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(113,197,232,.45),rgba(113,197,232,0) 70%)}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:linear-gradient(90deg,var(--sky),#fff,var(--sky))}
+.hero .wrap{position:relative;padding-top:26px;padding-bottom:30px}
+.brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{display:inline-flex;align-items:center;justify-content:center;font-weight:900;letter-spacing:.5px;background:#fff;color:var(--bri-d);border-radius:10px;padding:6px 12px;font-size:18px;box-shadow:0 2px 0 var(--or)}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25)}
+.hero h1{font-size:clamp(26px,4vw,40px);line-height:1.1;margin:16px 0 6px;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:var(--sky)}
+.hero p.sub{margin:0;max-width:640px;opacity:.88}
+.herogrid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin-top:18px}
+.who{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.who input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 12px;color:#fff;min-width:180px}
+.who input::placeholder{color:rgba(255,255,255,.6)}
+.ring{width:150px;height:150px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ring .lbl b{font-size:32px;line-height:1}
+.ring .lbl span{font-size:11px;opacity:.85;margin-top:4px}
+.lvl{margin-top:8px;text-align:center;font-size:12px;font-weight:800;color:var(--bri-dd);background:var(--sky);border-radius:999px;padding:4px 10px}
+
+/* ===== JOURNEY ===== */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:-22px auto 0;position:relative;z-index:2}
+.jstep{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--sh);border-top:4px solid var(--line);cursor:pointer;transition:transform .15s}
+.jstep:hover{transform:translateY(-2px)}
+.jstep.done{border-top-color:var(--ok)}
+.jstep.now{border-top-color:var(--or);outline:2px solid var(--or)}
+.jstep.next{border-top-color:var(--bri)}
+.jstep small{display:block;color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.jstep b{display:block;font-size:14px;margin:2px 0}
+.jstep .bar{height:5px;background:var(--bri-l);border-radius:9px;overflow:hidden;margin-top:8px}
+.jstep .bar i{display:block;height:100%;background:var(--bri);width:0}
+.jstep.done .bar i{background:var(--ok)}
+
+/* ===== TABS ===== */
+.tabs{position:sticky;top:0;z-index:20;background:rgba(244,248,252,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:18px}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px;scrollbar-width:none}
+.tab{white-space:nowrap;border:0;background:transparent;padding:8px 14px;border-radius:999px;font-weight:600;color:var(--mut);cursor:pointer}
+.tab:hover{background:var(--bri-l);color:var(--bri)}
+.tab.on{background:var(--bri);color:#fff}
+.tab .n{display:inline-block;margin-left:6px;font-size:11px;background:rgba(0,0,0,.08);border-radius:999px;padding:1px 7px}
+.tab.on .n{background:rgba(255,255,255,.22)}
+.tab .n:empty{display:none}
+
+main{padding:22px 0 60px}
+.panel{display:none}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+h2.sec{font-size:24px;margin:4px 0 4px;letter-spacing:-.3px}
+p.lead{color:var(--mut);margin:0 0 18px;max-width:760px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;border:1px solid #EEF3F9}
+.card h3{margin:0 0 6px;font-size:16px}
+.kicker{font-size:11px;font-weight:800;color:var(--bri);text-transform:uppercase;letter-spacing:.8px}
+.muted{color:var(--mut)}
+.note{background:var(--warn-l);border-left:4px solid var(--warn);padding:10px 14px;border-radius:8px;font-size:13.5px;margin:12px 0}
+.tip{background:var(--bri-l);border-left:4px solid var(--bri);padding:10px 14px;border-radius:8px;font-size:13.5px;margin:12px 0}
+
+/* ===== ROLE ACCORDION ===== */
+.role{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;border:1px solid #EEF3F9;overflow:hidden}
+.role>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:48px 1fr 140px 22px;gap:14px;align-items:center;padding:14px 18px}
+.role>summary::-webkit-details-marker{display:none}
+.role .ico{width:48px;height:48px;border-radius:12px;background:var(--bri-l);display:flex;align-items:center;justify-content:center;font-size:24px}
+.role.complete .ico{background:var(--ok-l)}
+.role .t b{display:block;font-size:16px}
+.role .t span{font-size:13px;color:var(--mut)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--sky-l);color:var(--bri-d);margin-left:6px;vertical-align:middle}
+.tag.blue{background:var(--bri-l);color:var(--bri)}
+.mini{font-size:12px;color:var(--mut);text-align:right}
+.mini .bar{height:6px;background:var(--bri-l);border-radius:9px;overflow:hidden;margin-top:4px}
+.mini .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--bri),var(--or));width:0;transition:width .3s}
+.chev{transition:transform .2s;color:var(--mut)}
+.role[open] .chev{transform:rotate(90deg)}
+.rbody{border-top:1px solid var(--line);padding:16px 18px 18px;background:linear-gradient(180deg,#FBFDFF,#fff)}
+.focus{font-size:13.5px;background:var(--bri-ll);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.focus b{color:var(--bri)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.blk h4{margin:0 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--bri);display:flex;align-items:center;gap:6px}
+.blk.q h4{color:#1B8FBF}
+.blk.m h4{color:var(--bri-dd)}
+.blk.h h4{color:var(--ok)}
+ul.chk{list-style:none;margin:0 0 14px;padding:0}
+ul.chk li{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;border-radius:8px;transition:background .15s}
+ul.chk li:hover{background:var(--bri-ll)}
+ul.chk input{appearance:none;flex:0 0 20px;width:20px;height:20px;margin-top:1px;border:2px solid #A9BCD3;border-radius:6px;background:#fff;cursor:pointer;display:grid;place-content:center}
+ul.chk input:checked{background:var(--bri);border-color:var(--bri)}
+ul.chk input:checked:after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px)}
+ul.chk li.done label{color:var(--mut);text-decoration:line-through;text-decoration-color:rgba(0,0,0,.25)}
+.blk.q ul.chk input:checked{background:#1B8FBF;border-color:#1B8FBF}
+ul.chk label{cursor:pointer;font-size:14px}
+ul.chk .why{display:block;font-size:12px;color:var(--mut);margin-top:2px;text-decoration:none}
+ul.plain{margin:0 0 14px;padding-left:18px;font-size:14px}
+ul.plain li{margin:4px 0}
+.answer{width:100%;min-height:62px;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;background:#fff;resize:vertical;font-size:13.5px}
+.answer:focus,.jinput:focus,.who input:focus{outline:2px solid var(--or);outline-offset:1px}
+.deliv{margin-top:6px;border:2px dashed var(--sky);background:var(--sky-l);border-radius:12px;padding:12px 14px}
+.deliv h4{margin:0 0 6px;color:var(--bri-d);font-size:13px;text-transform:uppercase;letter-spacing:.7px}
+.sign{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px;font-size:13px}
+.sign input[type=text]{border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-width:180px}
+.sign input[type=date]{border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+.addq{display:flex;gap:8px;margin:-6px 0 12px}
+.addq input{flex:1;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px}
+.btn{border:0;border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer;background:var(--bri);color:#fff}
+.btn:hover{background:var(--bri-d)}
+.btn.or{background:var(--bri-d)}
+.btn.or:hover{background:var(--bri-dd)}
+.btn.ghost{background:#fff;color:var(--bri);border:1px solid var(--line)}
+.btn.sm{padding:5px 10px;font-size:12.5px;border-radius:8px}
+.del{border:0;background:transparent;color:#B33;cursor:pointer;font-size:12px;margin-left:auto}
+
+/* ===== MAP ===== */
+.timeline{position:relative;padding-left:26px}
+.timeline:before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:3px;background:linear-gradient(var(--ok),var(--or) 22%,var(--bri) 60%,var(--line))}
+.tl{position:relative;margin-bottom:14px}
+.tl:before{content:"";position:absolute;left:-23px;top:16px;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--bri)}
+.tl.done:before{border-color:var(--ok);background:var(--ok)}
+.tl.now:before{border-color:var(--or);box-shadow:0 0 0 5px rgba(113,197,232,.35)}
+.days{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}
+.days div{font-size:11px;text-align:center;background:var(--bri-l);border-radius:6px;padding:6px 2px;color:var(--bri);font-weight:700}
+.days div.o{background:var(--sky-l);color:#1B8FBF}
+.days div.g{background:var(--ok-l);color:var(--ok)}
+.legend{font-size:12px;color:var(--mut);margin-top:6px}
+
+/* ===== REMEDIAL ===== */
+.rem{display:grid;grid-template-columns:1fr 210px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.rem:last-child{border-bottom:0}
+.rem b{font-size:14.5px}
+.rem p{margin:3px 0 0;font-size:13px;color:var(--mut)}
+.stars{display:flex;gap:4px;justify-content:flex-end}
+.stars button{width:34px;height:30px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:700;font-size:12px;color:var(--mut)}
+.stars button.on{background:var(--bri);border-color:var(--bri);color:#fff}
+.stars button.on.lo{background:#C0392B;border-color:#C0392B}
+.stars button.on.mid{background:var(--warn);border-color:var(--warn)}
+.stars button.on.hi{background:var(--ok);border-color:var(--ok)}
+.remhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.chipset{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-size:12.5px;cursor:pointer}
+.chip.on{background:var(--bri);color:#fff;border-color:var(--bri)}
+
+/* ===== HYPOTHESIS ===== */
+.hyp{border-left:5px solid var(--bri)}
+.hyp .st{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.hyp .st button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font-size:12.5px;cursor:pointer}
+.hyp .st button.on[data-v="belum"]{background:#EEF2F7;border-color:#B8C6D8}
+.hyp .st button.on[data-v="proses"]{background:var(--warn-l);border-color:var(--warn);color:var(--warn)}
+.hyp .st button.on[data-v="terbukti"]{background:var(--ok-l);border-color:var(--ok);color:var(--ok)}
+.hyp .st button.on[data-v="dibantah"]{background:#FDECEC;border-color:#C0392B;color:#C0392B}
+.hyp .where{font-size:12px;font-weight:700;color:var(--bri)}
+
+/* ===== JOURNAL ===== */
+.jform{display:grid;grid-template-columns:150px 1fr;gap:10px}
+.jinput{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
+textarea.jinput{min-height:70px;resize:vertical}
+.entry{border-left:4px solid var(--sky);padding:10px 14px;background:#fff;border-radius:0 10px 10px 0;margin-bottom:10px;box-shadow:var(--sh)}
+.entry .h{display:flex;gap:10px;align-items:center;font-size:12.5px;color:var(--mut)}
+.entry .h b{color:var(--ink)}
+.entry p{margin:6px 0 0;font-size:14px;white-space:pre-wrap}
+.entry p.q{color:var(--bri-d)}
+
+/* ===== GLOSSARY ===== */
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.gl div{background:#fff;border-radius:10px;padding:10px 12px;border:1px solid var(--line);font-size:13.5px}
+.gl b{color:var(--bri);display:block}
+.gsearch{width:100%;max-width:360px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px}
+
+/* ===== FOOTER / TOOLBAR ===== */
+.toolbar{position:fixed;right:16px;bottom:16px;z-index:30;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.toolbar .btn{box-shadow:0 6px 18px rgba(0,40,90,.25)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:var(--bri-dd);color:#fff;padding:10px 16px;border-radius:10px;opacity:0;transition:all .25s;z-index:40;font-size:14px}
+.toast.show{opacity:1;transform:translateX(-50%)}
+footer{text-align:center;color:var(--mut);font-size:12.5px;padding:24px 0 80px}
+.badgewall{display:flex;flex-wrap:wrap;gap:10px}
+.badge{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:#fff;font-size:13px;opacity:.4;filter:grayscale(1)}
+.badge.got{opacity:1;filter:none;border-color:var(--sky);background:var(--sky-l)}
+.badge span{font-size:22px}
+
+
+/* ===== MSS TAB ===== */
+.gbhn{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gb{background:#fff;border-radius:12px;border:1px solid var(--line);padding:14px}
+.gb .num{font-size:34px;font-weight:900;color:var(--bri-d);line-height:1}
+.gb .num small{font-size:13px;color:var(--mut);font-weight:600}
+.split{display:flex;height:16px;border-radius:9px;overflow:hidden;margin:10px 0 6px}
+.split i{display:block;height:100%}
+.calc{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.calc label{font-size:12.5px;color:var(--mut);font-weight:600}
+.calc input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;margin-top:3px;background:#fff}
+.out{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.out div{background:linear-gradient(135deg,var(--bri-d),var(--bri));color:#fff;border-radius:12px;padding:12px}
+.out div.sky{background:var(--sky-l);color:var(--bri-dd);border:1px solid var(--sky)}
+.out b{display:block;font-size:20px;line-height:1.2}
+.out span{font-size:11.5px;opacity:.9}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bri-dd);color:#fff;border-radius:10px;padding:10px 14px;font-size:13px;margin:8px 0;overflow-x:auto}
+.formula em{color:var(--sky);font-style:normal}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;background:var(--bri-l);color:var(--bri-dd);padding:8px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+table.t td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.issue{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.iss{background:#fff;border:1px solid var(--line);border-left:4px solid var(--sky);border-radius:10px;padding:10px 12px;font-size:13.5px}
+.iss b{color:var(--bri-dd)}
+.iss .lv{font-size:11px;font-weight:800;color:var(--bri);text-transform:uppercase;letter-spacing:.5px}
+.case{border-top:4px solid var(--bri)}
+.case .big{font-size:26px;font-weight:900;color:var(--bri-d)}
+.src{font-size:11.5px;color:var(--mut);margin-top:6px}
+.funnel{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.funnel div{color:#fff;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;margin:0 auto}
+@media (max-width:860px){.gbhn,.calc,.out,.issue{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.gbhn,.calc,.out,.issue{grid-template-columns:1fr}}
+
+/* ===== SYNC PILL ===== */
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3)}
+.sync i{width:8px;height:8px;border-radius:50%;background:#B8C6D8;display:inline-block}
+.sync.cloud i{background:#7CE3A1}.sync.saving i{background:var(--sky);animation:pulse 1s infinite}.sync.err i{background:#FF8A80}
+@keyframes pulse{50%{opacity:.3}}
+/* ===== AI ===== */
+.ai-off{display:block}.has-ai .ai-off{display:none}
+.ai-on{display:none}.has-ai .ai-on{display:block}
+.mic{display:none}.has-dict .mic{display:inline-flex}
+.ai-inline{display:none}.has-ai .ai-inline{display:contents}
+.aigrid{display:grid;grid-template-columns:340px 1fr;gap:14px;align-items:start}
+.qa{display:flex;flex-direction:column;gap:8px}
+.qbtn{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;transition:all .15s;width:100%}
+.qbtn:hover{border-color:var(--bri);box-shadow:0 4px 14px rgba(8,87,195,.12)}
+.qbtn.on{border-color:var(--bri);background:var(--bri-l)}
+.qbtn .e{font-size:20px;line-height:1}
+.qbtn b{display:block;font-size:13.5px}
+.qbtn span{font-size:12px;color:var(--mut)}
+.aiform{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.aiform select,.aiform input{border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;min-width:200px;flex:1}
+.aiout{min-height:180px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px}
+.aiout h1,.aiout h2,.aiout h3{font-size:15px;margin:12px 0 6px;color:var(--bri-dd)}
+.aiout p{margin:6px 0}.aiout ul,.aiout ol{margin:6px 0;padding-left:20px}.aiout li{margin:3px 0}
+.aiout code{background:var(--bri-l);padding:1px 5px;border-radius:4px}
+.aiout.empty{color:var(--mut);display:flex;align-items:center;justify-content:center;text-align:center}
+.aiact{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.spark{display:inline-block;animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow:auto;padding:4px}
+.msg{max-width:88%;padding:10px 13px;border-radius:14px;font-size:14px}
+.msg.u{align-self:flex-end;background:var(--bri);color:#fff;border-bottom-right-radius:4px;white-space:pre-wrap}
+.msg.a{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.a p{margin:4px 0}.msg.a ul,.msg.a ol{margin:4px 0;padding-left:18px}
+.chatin{display:flex;gap:8px;margin-top:10px}
+.chatin textarea{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;resize:vertical}
+.genq li{display:flex;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.genq li span{display:block;font-size:12px;color:var(--mut)}
+/* ===== NOTES ===== */
+.nbgrid{display:grid;grid-template-columns:300px 1fr;gap:14px;align-items:start}
+.nlist{display:flex;flex-direction:column;gap:6px;max-height:620px;overflow:auto}
+.nitem{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 11px;cursor:pointer}
+.nitem:hover{border-color:var(--bri)}
+.nitem.on{border-color:var(--bri);background:var(--bri-l)}
+.nitem b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nitem small{font-size:11.5px;color:var(--mut)}
+.nitem p{margin:3px 0 0;font-size:12.5px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ned input.tt{width:100%;border:0;border-bottom:2px solid var(--line);font-size:20px;font-weight:800;padding:6px 2px;background:transparent}
+.ned input.tt:focus{outline:none;border-color:var(--bri)}
+.ned textarea{width:100%;min-height:340px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;resize:vertical;font-size:14.5px;line-height:1.6}
+.nbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.nbar select{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff}
+.saved{font-size:12px;color:var(--mut);margin-left:auto}
+.partial{font-size:12.5px;color:var(--bri);font-style:italic;min-height:18px}
+.btn.listen{background:#C0392B;animation:pulse 1.2s infinite}
+.hk{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.hk label{font-size:12.5px;color:var(--mut);font-weight:600}
+.hk input{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin-top:3px}
+@media (max-width:860px){.aigrid,.nbgrid,.hk{grid-template-columns:1fr}}
+
+@media (max-width:860px){
+  .journey{grid-template-columns:repeat(2,1fr);margin-top:14px}
+  .herogrid{grid-template-columns:1fr}
+  .ring{margin:0 auto}
+  .cols,.grid2,.grid3{grid-template-columns:1fr}
+  .role>summary{grid-template-columns:40px 1fr 22px}
+  .role>summary .mini{display:none}
+  .rem{grid-template-columns:1fr}
+  .stars{justify-content:flex-start}
+  .jform{grid-template-columns:1fr}
+  .days{grid-template-columns:repeat(5,1fr)}
+}
+@media print{
+  .tabs,.toolbar,.toast,.addq,.del,.who input{display:none!important}
+  .panel{display:block!important;page-break-before:always}
+  .panel:first-of-type{page-break-before:auto}
+  details.role{break-inside:avoid}
+  details.role:not([open])>.rbody{display:block}
+  body{background:#fff}
+  .card,.role{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brandrow">
+      <span class="mark">BRI</span>
+      <span class="pill">BFLP Specialist Micro Banking · Batch 18</span>
+      <span class="pill">Micro Banking Academy · Corporate University</span>
+      <span class="sync" id="sync"><i></i><span>Tersimpan di perangkat ini</span></span>
+    </div>
+    <div class="herogrid">
+      <div>
+        <h1>OJT Quest Log:<br><em>RO → Cabang → Unit</em></h1>
+        <p class="sub">To-do list, pertanyaan, bahan belajar, catatan, dan asisten AI untuk OJT. Progres tersimpan otomatis di akun Claude kamu (atau di browser saat offline), dan bisa diunduh sebagai laporan.</p>
+        <div class="who">
+          <input id="f-name" placeholder="Nama peserta" data-k="meta.name">
+          <input id="f-ro" placeholder="Regional Office penempatan" data-k="meta.ro">
+          <input id="f-bo" placeholder="Kantor Cabang" data-k="meta.bo">
+          <input id="f-unit" placeholder="BRI Unit" data-k="meta.unit">
+        </div>
+      </div>
+      <div>
+        <div class="ring">
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="12"/>
+            <circle id="ringfg" cx="75" cy="75" r="62" fill="none" stroke="#71C5E8" stroke-width="12" stroke-linecap="round" stroke-dasharray="389.6" stroke-dashoffset="389.6" style="transition:stroke-dashoffset .5s"/>
+          </svg>
+          <div class="lbl"><b id="pct">0%</b><span id="xp">0 XP</span></div>
+        </div>
+        <div class="lvl" id="lvl">Level 1 · Peserta Baru</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="journey" id="journey"></div>
+</div>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<main class="wrap" id="main"></main>
+
+<footer>
+  Disusun dari Handbook BFLP Specialist Micro (Micro Banking Academy), catatan OJT Head Office kamu, dan 15 resume harian OJT MSS.<br>
+  Halaman pribadi untuk belajar, bukan dokumen resmi BRI. Jangan simpan data nasabah (nama, NIK, nomor rekening) di sini.
+</footer>
+
+<div class="toolbar">
+  <button class="btn ghost sm" id="b-quick" title="Catatan baru">📝 Catatan cepat</button>
+  <button class="btn ghost sm" id="b-report" title="Unduh laporan progres (.md)">📄 Laporan</button>
+  <button class="btn ghost sm" id="b-print" title="Cetak / simpan sebagai PDF">🖨️ Cetak/PDF</button>
+  <button class="btn ghost sm" id="b-import" title="Pulihkan dari file cadangan">📂 Import</button>
+  <button class="btn or sm" id="b-export" title="Unduh cadangan progres (.json)">💾 Simpan Cadangan</button>
+  <input type="file" id="importfile" accept="application/json" hidden>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   DATA
+   ===================================================================== */
+const STAGES = [
+  {id:"ho",  name:"Head Office", hk:"30 HK", status:"done"},
+  {id:"ro",  name:"Regional Office", hk:"10 HK", status:"now"},
+  {id:"bo",  name:"Kantor Cabang", hk:"bagian dari 40 HK", status:"next"},
+  {id:"un",  name:"BRI Unit", hk:"bagian dari 40 HK", status:"next"},
+  {id:"eco", name:"Ecosystem Business", hk:"20 HK", status:"next"}
+];
+
+const ROLES = [
+/* ---------------- REGIONAL OFFICE ---------------- */
+{id:"ro-mbd", stage:"ro", ico:"📊", name:"Micro Business Department", sub:"RMBH · Dept Head Bisnis Mikro · Team Member",
+ focus:"<b>Tujuan:</b> paham peran tiap jabatan bisnis mikro di RO, memetakan potensi wilayah (kredit, simpanan, ekosistem), dan mengendalikan kinerja dari perencanaan target sampai rekomendasi perbaikan berbasis data.",
+ todos:[
+  ["Petakan struktur & tugas RMBH, Dept Head Bisnis Mikro, dan team member","Gambar org chart + 1 kalimat tanggung jawab tiap kotak"],
+  ["Gambar workflow bisnis mikro: HO → RO → BO → Unit","Siapa memberi target, siapa memonitor, siapa mengeksekusi"],
+  ["Mapping potensi wilayah mikro: kredit, simpanan, ekosistem","Per Cabang: potensi vs penetrasi, sektor dominan, kompetitor"],
+  ["Pelajari strategi & program pemasaran bisnis mikro regional",""],
+  ["Pelajari target RKA bisnis mikro regional & cara breakdown ke Cabang/Unit","Bandingkan dengan cara MSM 1/2 di HO"],
+  ["Ikuti proses monitoring & evaluasi harian / mingguan / bulanan","Catat: laporan apa, jam berapa, dibahas di forum apa"],
+  ["Ikut minimal 1 forum evaluasi kinerja (rakor/review cabang)","Perhatikan pertanyaan yang diajukan pimpinan"],
+  ["Kumpulkan data untuk Analisis Profil & Analisis Kinerja Bisnis Mikro RO","Lihat daftar bahan di kolom ungu"]
+ ],
+ qs:[
+  ["Bagaimana target RKA dari HO diturunkan ke Cabang dan Unit? Dasarnya historis, potensi wilayah, atau kapasitas Mantri?","Menguji pelajaran breakdown target di MSM"],
+  ["Indikator apa yang dipantau harian, dan mana yang cukup bulanan? Kenapa?","Leading vs lagging indicator"],
+  ["Cabang mana yang paling bagus dan paling tertinggal? Apa akar masalahnya: potensi, SDM, atau kualitas kredit?",""],
+  ["Bagaimana RO menyeimbangkan pertumbuhan pinjaman dengan kualitas (SML/NPL)? Pernah 'rem' cabang tertentu?",""],
+  ["Program pemasaran regional apa yang paling berhasil tahun ini, dan bagaimana keberhasilannya diukur?",""],
+  ["Bagaimana RO memantau simpanan/CASA mikro, bukan hanya pinjaman?","Hubungkan dengan Radar CASA di BRISPOT"],
+  ["Di mana biasanya strategi HO 'macet' saat dieksekusi di lapangan?","Pertanyaan emas untuk laporan akhir"],
+  ["Siapa PIC program pemberdayaan (Desa BRILiaN, klaster usaha) di RO, dan bagaimana dampaknya ke bisnis diukur?","Jembatan ke KPI SEI"]
+ ],
+ mats:["Profil RO: jumlah Cabang, Unit, Teras, Mantri, RM, agen BRILink","Posisi & tren 12 bulan: OS pinjaman, jumlah debitur, simpanan/CASA mikro","RKA vs realisasi per Cabang (YTD & MTD)","Kualitas kredit per Cabang: SML, NPL, LAR (jika dipakai), tren bulanan","Data vintage / MOB bila tersedia di RO","Bahan rakor / review kinerja terbaru (yang boleh dibagikan)","Data potensi wilayah (BPS / Dinas) yang dipakai RO"],
+ links:["MSM 1 & 2 → cara breakdown target ke program & aktivitas Mantri","MSD → MOB / risk-based monitoring: apakah RO sudah melihat vintage?","SEI → KPI pemberdayaan harus terhubung ke DPK, FBI, debitur naik kelas"]
+},
+{id:"ro-umi", stage:"ro", ico:"🤝", name:"Ultra Micro Business Department", sub:"RMBH · Dept Head UMi · Team Member",
+ focus:"<b>Tujuan:</b> paham peran jajaran Ultra Mikro di RO, memetakan potensi & persaingan ekosistem UMi, mengikuti strategi/RKA UMi regional, dan memonitor kinerja untuk pertumbuhan, kualitas, dan keberlanjutan ekosistem UMi.",
+ todos:[
+  ["Petakan tugas RMBH, Dept Head UMi, dan team member","Bedakan peran dengan Micro Business Dept"],
+  ["Pahami workflow bisnis ultra mikro di region (termasuk sinergi Holding)",""],
+  ["Mapping potensi & persaingan ekosistem UMi di wilayah regional","PNM, Pegadaian, BPR, koperasi, fintech, rentenir"],
+  ["Pelajari strategi, program pemasaran, dan target RKA UMi regional",""],
+  ["Pelajari target UMi: volume, debitur, kualitas, income",""],
+  ["Pelajari peran Mantri dan Mitra UMi di lapangan",""],
+  ["Ikuti monitoring & evaluasi kinerja UMi harian / mingguan / bulanan",""],
+  ["Kumpulkan data untuk Analisis Profil & Kinerja Bisnis Ultra Mikro RO",""]
+ ],
+ qs:[
+  ["Bagaimana sinergi BRI–PNM–Pegadaian berjalan di region ini? Apa contoh konkret yang berhasil dan yang macet?",""],
+  ["Bagaimana proses nasabah PNM 'naik kelas' ke produk BRI? Siapa yang memicu, dan kriterianya apa?","Validasi ide PNM Graduation Trigger"],
+  ["Berapa agen BRILink dari ekosistem PNM yang benar-benar bertransaksi? Bagaimana RO mendorong aktivasinya?","Validasi Activation Radar (P1/P2/P3)"],
+  ["Data apa yang sulit dicocokkan antar entitas? Bagaimana RO mengatasinya?","Isu probable match vs unmatched"],
+  ["Siapa kompetitor UMi paling kuat di wilayah ini, dan apa keunggulan mereka di mata nasabah?",""],
+  ["Bagaimana kualitas portofolio UMi dipantau, dan apa sinyal awal yang paling dipercaya?",""],
+  ["Referral antar entitas: bagaimana dicatat, ditindaklanjuti, dan dihitung hasilnya?","Validasi Referral Leakage Tracker"]
+ ],
+ mats:["Profil UMi region: debitur, OS, jumlah Mantri/Mitra UMi","Target RKA UMi & realisasi (volume, debitur, kualitas, income)","Data sinergi Holding yang boleh diakses (co-location, referral, agen PNM)","Peta kompetitor UMi per wilayah","Laporan monitoring UMi mingguan/bulanan"],
+ links:["UMI HO → Activation Radar, Referral Leakage, Monitoring Change Detector","UMI HO → Acquisition → Activation → Productivity → Retention","BBD → agen PNM sebagai jalur FBI & CASA"]
+},
+
+/* ---------------- BRANCH OFFICE ---------------- */
+{id:"bo-mbm", stage:"bo", ico:"🧭", name:"Manajer Bisnis Mikro (MBM)", sub:"Mentor utama · pengendali bisnis mikro Cabang",
+ focus:"<b>Tujuan:</b> mengelola, mengendalikan, dan mengembangkan bisnis & ekosistem mikro Cabang lewat mapping potensi, perencanaan target, monitoring kinerja, dan pembinaan tim. <b>Wajib ikut minimal 1 OTS kredit putusan MBM.</b>",
+ todos:[
+  ["Shadowing daily activity MBM (minimal 2–3 hari penuh)","Catat jadwal MBM per jam"],
+  ["Mapping potensi & persaingan bisnis mikro di wilayah Cabang",""],
+  ["Pelajari strategi, program pemasaran, target RKA mikro & KPI Unit kerja",""],
+  ["Ikuti monitoring & evaluasi kinerja + kualitas kredit (harian, mingguan, bulanan)",""],
+  ["Amati pembinaan tim: coaching, mentoring, evaluasi produktivitas Mantri","Data apa yang dipakai untuk coaching?"],
+  ["Ikut OTS untuk proses kredit putusan MBM (min. 1x) ✱","Wajib menurut handbook"],
+  ["Pilih & kumpulkan bahan Paket Kredit Kupedes Putusan MBM","Untuk deliverable tim di akhir OJT BO & Unit"]
+ ],
+ qs:[
+  ["Bagaimana MBM memutuskan Unit mana yang dikunjungi minggu ini?","Ide 'Where Should Mantri Go?' versi pimpinan"],
+  ["Apa 3 red flag utama saat memutus kredit Kupedes di kewenangan MBM?",""],
+  ["Bagaimana menangani Unit yang target pinjamannya tercapai tapi SML-nya naik?",""],
+  ["Data apa yang paling sering dipakai MBM untuk coaching Mantri yang under-perform?",""],
+  ["Bagaimana KPI Unit disusun agar adil antar Unit dengan potensi berbeda?",""],
+  ["Kapan biasanya kredit mulai menunjukkan gejala memburuk? Apakah pola bulan ke-6 sampai ke-9 terasa di Cabang ini?","Validasi hipotesis MOB 6 → 9"],
+  ["Apa pelajaran kepemimpinan yang paling penting untuk calon pemimpin bisnis mikro?",""]
+ ],
+ mats:["Profil Cabang: Unit, Mantri, OS, debitur, simpanan","Kinerja mikro per Unit vs RKA","Kualitas kredit per Unit & per Mantri","Paket kredit Kupedes putusan MBM (dengan izin, data nasabah dianonimkan)","Ketentuan kewenangan memutus kredit yang berlaku"],
+ links:["MSM → breakdown target ke KPI Unit","MSD → risk-based monitoring berdasarkan MOB","MSS → produktivitas Mantri ≠ jumlah kunjungan"]
+},
+{id:"bo-rm", stage:"bo", ico:"💼", name:"RM Bisnis Mikro", sub:"Pengelola portofolio KUR Kecil",
+ focus:"<b>Tujuan:</b> mengelola portofolio nasabah KUR Kecil end-to-end, dari identifikasi potensi, analisis kebutuhan, akuisisi, pengendalian kualitas kredit, sampai hubungan jangka panjang. <b>Wajib ikut minimal 1 OTS KUR Kecil.</b>",
+ todos:[
+  ["Shadowing daily activity RM Bisnis Mikro",""],
+  ["Identifikasi potensi & persaingan bisnis mikro (KUR Kecil) di wilayah kerja",""],
+  ["Pelajari analisis kebutuhan usaha, pembiayaan, dan layanan ekosistem nasabah",""],
+  ["Ikut OTS untuk proses kredit KUR Kecil (min. 1x) ✱",""],
+  ["Pahami proses KUR Kecil dari prakarsa sampai pelunasan","Gambar flow per tahap + dokumen yang dibutuhkan"]
+ ],
+ qs:[
+  ["Apa beda cara analisis KUR Kecil dibanding KUR Mikro/Kupedes?",""],
+  ["Dari mana leads RM paling banyak datang: referral Unit, ekosistem, atau walk-in?",""],
+  ["Bagaimana RM menawarkan layanan selain kredit (payroll, QRIS, simpanan, transaksi supplier)?","Customer Economic Value"],
+  ["Kapan kebutuhan nasabah lebih cocok KMK biasa, dan kapan cocok skema rantai pasok?","Jembatan ke KMK vs SCF vs talangan"],
+  ["Sinyal apa yang membuat RM waspada terhadap nasabah existing?",""]
+ ],
+ mats:["Flow & checklist dokumen KUR Kecil","Contoh analisis kebutuhan usaha (dianonimkan)","Portofolio RM: jumlah debitur, OS, kualitas"],
+ links:["MBD → KMK vs SCF vs Dana Talangan Distributor","MBD → value chain BULOG–RPK, Quick Traktor"]
+},
+{id:"bo-bsa", stage:"bo", ico:"🗂️", name:"Business Support Assistant (BSA)", sub:"Dapur data & laporan kinerja Cabang",
+ focus:"<b>Tujuan:</b> menyusun, mengelola, dan menyajikan data serta laporan kinerja bisnis & ekosistem mikro secara akurat, sistematis, dan tepat waktu untuk MBM / pimpinan cabang.",
+ todos:[
+  ["Shadowing daily activity BSA",""],
+  ["Pelajari cara mengumpulkan & mengelola data pinjaman, simpanan, ekosistem mikro, dan kinerja Unit",""],
+  ["Pelajari cara menyusun laporan monitoring & evaluasi kinerja mikro",""],
+  ["Pelajari laporan ekosistem: BRILink, Micro Payment, Hyperlocal Ecosystem",""],
+  ["Pelajari monitoring pencapaian target vs realisasi",""],
+  ["Buat 1 latihan laporan sendiri lalu minta BSA mengoreksi","Bukti belajar yang kuat"]
+ ],
+ qs:[
+  ["Dari sistem/dashboard mana saja data diambil, dan jam berapa datanya siap?",""],
+  ["Bagian mana dari laporan yang paling sering salah atau terlambat? Kenapa?",""],
+  ["Laporan mana yang benar-benar dipakai MBM untuk keputusan, dan mana yang hanya formalitas?",""],
+  ["Bagaimana memastikan data Cabang sama dengan data yang dilihat RO dan HO?",""],
+  ["Kalau boleh mengotomatiskan satu laporan, laporan mana yang paling menghemat waktu?","Bahan ide inovasi"]
+ ],
+ mats:["Daftar laporan rutin + jadwalnya","Struktur kolom laporan kinerja mikro (template kosong)","Laporan ekosistem BRILink / Micro Payment"],
+ links:["MBD → Micro Data Analytics","UMI → kebutuhan dashboard yang sederhana & bisa upload Excel"]
+},
+{id:"bo-ppbk", stage:"bo", ico:"🏪", name:"Petugas Penunjang Bisnis Keagenan (PPBK)", sub:"Penggerak Agen BRILink Cabang",
+ focus:"<b>Tujuan:</b> mendukung perencanaan, akuisisi, pembinaan, dan monitoring bisnis keagenan agar agen BRILink produktif, patuh, dan andal.",
+ todos:[
+  ["Shadowing daily activity PPBK",""],
+  ["Pelajari perencanaan & akuisisi: identifikasi calon agen potensial",""],
+  ["Ikut kunjungan pembinaan & pendampingan agen","Kalau bisa: 1 agen produktif & 1 agen pasif"],
+  ["Pelajari monitoring, laporan, dan evaluasi agen (transaksi, volume, produktivitas)",""],
+  ["Pelajari pengendalian kualitas bisnis keagenan (kepatuhan, risiko fraud)",""]
+ ],
+ qs:[
+  ["Kriteria calon agen yang terbukti jadi produktif itu apa?",""],
+  ["Berapa porsi agen pasif di Cabang ini, dan apa penyebab utamanya?","Validasi Reactivation-Retention"],
+  ["Bagaimana agen naik kelas dari Pemula ke Jawara/Juragan? Apa pemicunya di lapangan?","Validasi Productivity/Migration Radar"],
+  ["Apakah agen ikut mereferensikan calon debitur pinjaman? Bagaimana dicatat di BRISPOT?","BRISPOT Referral"],
+  ["Masalah fraud/komplain apa yang paling sering terjadi di agen?",""],
+  ["Transaksi apa yang paling sering berulang di agen? Bisa didorong jadi rutin?","Recurring Transactions"]
+ ],
+ mats:["Daftar agen per Unit + status aktif/pasif","Segmentasi kelas agen di Cabang","Rencana akuisisi agen & realisasi","Laporan kinerja agen (transaksi, volume, FBI)"],
+ links:["BBD → Pemula, Jawara, Juragan; BEP & Jurjaw","BBD → FBI = lagging, transaksi & agen produktif = leading","UMI → agen PNM: P1/P2/P3 aktivasi"]
+},
+
+/* ---------------- BRI UNIT ---------------- */
+{id:"un-ka", stage:"un", ico:"👔", name:"Kepala Unit (Kaunit)", sub:"Pemimpin bisnis mikro di BRI Unit",
+ focus:"<b>Tujuan:</b> memimpin & mengendalikan bisnis mikro Unit: mapping potensi, eksekusi strategi, pembinaan tim, kualitas kredit, dan kinerja operasional. <b>Wajib ikut minimal 1 OTS kredit putusan Kaunit.</b>",
+ todos:[
+  ["Shadowing daily activity Kaunit (pagi briefing sampai tutup hari)",""],
+  ["Pelajari mapping potensi & persaingan bisnis mikro di wilayah Unit","Desa, pasar, sentra usaha, kompetitor"],
+  ["Pelajari cara menurunkan strategi, target RKA & KPI Unit ke tiap Mantri",""],
+  ["Pelajari pengendalian & monitoring kinerja bisnis + kualitas kredit",""],
+  ["Ikut OTS untuk proses kredit putusan Kaunit (min. 1x) ✱",""],
+  ["Kumpulkan bahan Analisis Profil Unit, Kinerja Unit, dan Paket Kredit Kupedes Putusan Kaunit","Deliverable individual"]
+ ],
+ qs:[
+  ["Bagaimana target Unit dibagi ke tiap Mantri? Rata, berdasarkan wilayah, atau berdasarkan kemampuan?",""],
+  ["Apa isi briefing pagi, dan bagaimana Kaunit memastikan rencana kerja Mantri benar-benar dijalankan?",""],
+  ["Apa yang dilihat Kaunit saat OTS sebelum memutus kredit?",""],
+  ["Nasabah lunas: bagaimana dipertahankan agar tidak pindah ke pesaing?","Retensi & repeat order"],
+  ["Desa/pasar mana yang paling potensial tapi belum tergarap? Kenapa?","Bahan OJT Ekosistem"],
+  ["Bagaimana Unit menjaga simpanan, bukan hanya menyalurkan pinjaman?","Post-disbursement wallet leakage"]
+ ],
+ mats:["Profil Unit: wilayah kerja, jumlah desa, Mantri, agen","Kinerja Unit vs RKA (pinjaman, simpanan, debitur, kualitas)","Pembagian wilayah / target per Mantri","Paket kredit Kupedes putusan Kaunit (dianonimkan)"],
+ links:["MSM → target ke aktivitas harian Mantri","SEI → Mantri mapping pasar, petani, kelompok, BUMDes","MBD → Business Model Tematik"]
+},
+{id:"un-mantri", stage:"un", ico:"🛵", name:"Mantri", sub:"Ujung tombak penyaluran Kupedes & KUR Mikro",
+ focus:"<b>Tujuan:</b> menganalisis kebutuhan nasabah & calon nasabah, merekomendasikan solusi kredit yang tepat (produk, plafon, tenor, skema) dengan memperhatikan risiko. <b>Wajib ikut minimal 1 OTS dan 1 kegiatan penagihan.</b>",
+ todos:[
+  ["Shadowing daily activity Mantri (minimal 3 Mantri berbeda jika bisa)","Bandingkan gaya kerjanya"],
+  ["Pelajari pembuatan rencana kerja harian: identifikasi potensi & segmentasi nasabah",""],
+  ["Ikut OTS untuk prakarsa kredit (min. 1x) ✱",""],
+  ["Pelajari analisis kebutuhan & penyusunan rekomendasi kredit",""],
+  ["Ikut monitoring awal kualitas kredit pasca pencairan",""],
+  ["Ikut kegiatan penagihan & recovery (min. 1x) ✱",""],
+  ["Pahami alur Kupedes & KUR Mikro dari prakarsa sampai pelunasan",""],
+  ["Latihan: buat 1 analisis kredit sendiri lalu bandingkan dengan Mantri","Paling efektif untuk memperkuat dasar"]
+ ],
+ qs:[
+  ["Bagaimana Mantri menentukan rute dan siapa yang dikunjungi hari ini?","Where Should Mantri Go?"],
+  ["Bagaimana menghitung kemampuan bayar nasabah yang tidak punya pembukuan?",""],
+  ["Kapan Mantri memilih Kupedes, dan kapan KUR Mikro?",""],
+  ["Setelah kredit cair, dana biasanya mengalir ke mana? Apakah tetap mengendap di rekening BRI?","Post-disbursement wallet leakage"],
+  ["Apa tanda paling awal nasabah akan menunggak?",""],
+  ["Berapa waktu Mantri habis untuk administrasi vs bertemu nasabah?",""],
+  ["Fitur BRISPOT apa yang paling membantu, dan apa yang paling merepotkan?","Bahan ide inovasi"]
+ ],
+ mats:["Contoh rencana kerja harian Mantri","Checklist dokumen Kupedes & KUR Mikro","Contoh analisis usaha (dianonimkan)","Daftar portofolio 1 Mantri: OS, debitur, kualitas"],
+ links:["MSS → aktivitas tinggi belum tentu hasil tinggi","SEI → mapping pasar, petani, kelompok, BUMDes","MSD → MOB: perlu monitoring ekstra di bulan tertentu?"]
+},
+{id:"un-briguna", stage:"un", ico:"🧾", name:"Mantri Briguna", sub:"Kredit berbasis penghasilan tetap / payroll", opt:true,
+ focus:"<b>Tujuan:</b> menganalisis kebutuhan nasabah Briguna & payroll, memahami karakteristik penghasilan tetap, dan menyusun rekomendasi (plafon, tenor, skema, mitigasi risiko) sesuai SOP. <b>Min. 1 OTS & 1 penagihan.</b>",
+ todos:[
+  ["Shadowing daily activity Mantri Briguna",""],
+  ["Pelajari perencanaan lewat mapping potensi nasabah Briguna & payroll",""],
+  ["Ikut OTS untuk prakarsa kredit (min. 1x) ✱",""],
+  ["Pelajari analisis kebutuhan & rekomendasi kredit Briguna",""],
+  ["Ikut monitoring pasca cair & penagihan (min. 1x) ✱",""],
+  ["Pahami alur Briguna dari prakarsa sampai pelunasan",""]
+ ],
+ qs:[
+  ["Instansi mana yang paling potensial untuk payroll di wilayah ini?",""],
+  ["Bagaimana risiko Briguna berbeda dengan Kupedes?",""],
+  ["Bagaimana payroll dimanfaatkan untuk cross selling simpanan & transaksi?",""],
+  ["Apa yang terjadi jika debitur pindah tugas atau pensiun?",""]
+ ],
+ mats:["Daftar instansi payroll","Checklist dokumen Briguna","Kinerja & kualitas Briguna Unit"],
+ links:["BBD → mapping potensi instansi (partnership)"]
+},
+{id:"un-rec", stage:"un", ico:"🛟", name:"Mantri Recovery", sub:"Penanganan SML, NPL & ekstrakomptabel", opt:true,
+ focus:"<b>Tujuan:</b> mengelola kredit bermasalah end-to-end: identifikasi penyebab, pendekatan debitur, strategi recovery (penagihan, restrukturisasi, penyelesaian lain), hingga target recovery tercapai sesuai SOP. <b>Min. 1 penagihan.</b>",
+ todos:[
+  ["Shadowing daily activity Mantri Recovery",""],
+  ["Pelajari identifikasi & klasifikasi kredit bermasalah (SML, NPL, ekstrakomptabel)",""],
+  ["Pelajari analisis akar masalah tunggakan & penyusunan strategi penanganan",""],
+  ["Ikut OTS penagihan / negosiasi komitmen pembayaran (min. 1x) ✱",""],
+  ["Pelajari monitoring realisasi pembayaran & janji bayar","Bandingkan dengan ide fitur Janji Bayar dari MSS"]
+ ],
+ qs:[
+  ["Penyebab tunggakan paling umum di Unit ini apa: usaha turun, musim, karakter, atau penggunaan dana?",""],
+  ["Bagaimana janji bayar dicatat sekarang, dan berapa yang ditepati?","Validasi fitur Janji Bayar BRISPOT"],
+  ["Kapan memilih restrukturisasi dibanding penagihan persuasif?",""],
+  ["Berapa kunjungan per hari yang realistis, dan apakah lebih banyak kunjungan = recovery lebih tinggi?","Validasi temuan 44 ribu aktivitas MSS"],
+  ["Bagaimana memprioritaskan debitur yang dikunjungi?",""]
+ ],
+ mats:["Daftar debitur SML/NPL (dianonimkan) + penyebab","Catatan janji bayar & realisasinya","Target recovery Unit"],
+ links:["MSS → 44 ribu aktivitas, produktivitas Mantri Recovery","MSS → Janji Bayar BRISPOT","MSD → MOB & early warning"]
+},
+{id:"un-fc", stage:"un", ico:"📍", name:"Field Collection", sub:"Monitoring kolektibilitas, penagihan, restrukturisasi, AYDA", opt:true,
+ focus:"<b>Tujuan:</b> menangani kredit bermasalah end-to-end (monitoring, kunjungan lapangan, restrukturisasi, sampai pemasaran AYDA). <b>Min. 1 penagihan.</b>",
+ todos:[
+  ["Shadowing daily activity Field Collection",""],
+  ["Pelajari monitoring kolektibilitas",""],
+  ["Pelajari analisis kredit bermasalah",""],
+  ["Ikut OTS penagihan / negosiasi komitmen pembayaran (min. 1x) ✱",""],
+  ["Pelajari proses restrukturisasi kredit",""],
+  ["Pelajari alur penanganan & pemasaran AYDA",""]
+ ],
+ qs:[
+  ["Apa beda peran Field Collection dengan Mantri Recovery di Unit ini?",""],
+  ["Syarat & proses restrukturisasi seperti apa, dan bagaimana mencegah restrukturisasi berulang?",""],
+  ["Bagaimana AYDA dipasarkan, dan apa kendalanya?",""]
+ ],
+ mats:["Ketentuan restrukturisasi yang berlaku","Data kolektibilitas Unit","Contoh alur AYDA"],
+ links:["MSS → closed-loop collection management"]
+},
+{id:"un-sol", stage:"un", ico:"🛡️", name:"Supervisor Operasional & Layanan (SOL)", sub:"Pengendali operasional, kas, arsip, layanan",
+ focus:"<b>Tujuan:</b> paham pengawasan operasional & layanan Unit end-to-end: CRM nasabah, penjualan produk, operasional kredit, kas, e-channel, arsip & administrasi, serta kepatuhan risiko.",
+ todos:[
+  ["Shadowing daily activity SOL Unit",""],
+  ["Pelajari supervisi CRM nasabah untuk identifikasi potensi bisnis mikro",""],
+  ["Pelajari pengawasan penjualan produk & jasa BRI Group serta edukasi literasi digital",""],
+  ["Pelajari administrasi & dokumentasi kredit serta transaksi finansial/non-finansial",""],
+  ["Pelajari pengelolaan ruang BRIMEN & arsip kredit/operasional",""],
+  ["Ikuti operasional kas: awal hari, akhir hari, e-channel","Gambar timeline 1 hari operasional"]
+ ],
+ qs:[
+  ["Dari transaksi di banking hall, peluang bisnis apa yang paling sering terlewat?",""],
+  ["Bagaimana info potensi dari layanan diteruskan ke Mantri?","Referral loop layanan → bisnis"],
+  ["Risiko operasional apa yang paling sering ditemukan audit?",""],
+  ["SLA layanan apa yang paling sulit dicapai?",""]
+ ],
+ mats:["Checklist awal & akhir hari","Daftar SLA layanan Unit","Alur arsip kredit"],
+ links:["UMI/BBD → referral leakage berlaku juga di layanan"]
+},
+{id:"un-cs", stage:"un", ico:"💬", name:"Customer Service", sub:"Layanan non-finansial & cross selling",
+ focus:"<b>Tujuan:</b> paham layanan non-finansial & pendukung transaksi: administrasi produk, penanganan keluhan, literasi digital, cross selling BRI Group, serta arsip, sesuai SLA.",
+ todos:[
+  ["Shadowing daily activity Customer Service",""],
+  ["Pelajari layanan non-finansial & fasilitas produk simpanan, pinjaman, jasa",""],
+  ["Pelajari penanganan keluhan nasabah",""],
+  ["Pelajari administrasi rekening, produk, kartu, arsip",""],
+  ["Pelajari cross selling & referral produk BRI Group + edukasi literasi digital",""]
+ ],
+ qs:[
+  ["Keluhan apa yang paling sering muncul dari nasabah mikro?",""],
+  ["Produk apa yang paling mudah di-cross sell ke nasabah pinjaman?",""],
+  ["Bagaimana referral dari CS ke Mantri dicatat dan dipantau?",""],
+  ["Kendala nasabah mikro saat beralih ke kanal digital apa?",""]
+ ],
+ mats:["Alur penanganan keluhan","Daftar produk prioritas cross selling"],
+ links:["UMI → Referral Leakage Tracker","SEI → literasi keuangan sebagai bagian pemberdayaan"]
+},
+{id:"un-teller", stage:"un", ico:"💵", name:"Teller", sub:"Transaksi tunai & operasional kas",
+ focus:"<b>Tujuan (handbook):</b> paham proses layanan dari awal sampai akhir hari sesuai SLA, serta cross selling & referral produk. <i>Di handbook, isi halaman Teller sama dengan CS; poin bertanda ➕ adalah saran tambahan khusus Teller.</i>",
+ todos:[
+  ["Shadowing daily activity Teller",""],
+  ["Pahami proses kas awal hari sampai akhir hari sesuai SOP",""],
+  ["Pahami cara Teller ikut cross selling & referral",""],
+  ["➕ Amati pola transaksi tunai: jam ramai, jenis transaksi, siapa nasabahnya","Insight untuk CASA & BRILink"],
+  ["➕ Amati transaksi yang sebenarnya bisa dilayani agen BRILink / kanal digital",""]
+ ],
+ qs:[
+  ["Transaksi apa yang paling banyak, dan apakah bisa dipindah ke agen atau kanal digital?",""],
+  ["Bagaimana pola setoran nasabah mikro setelah pencairan kredit?","Post-disbursement wallet leakage"],
+  ["Apa yang paling sering menyebabkan selisih kas, dan bagaimana mencegahnya?",""]
+ ],
+ mats:["Ringkasan alur kas Teller","Pola transaksi harian (agregat, tanpa data nasabah)"],
+ links:["BBD → pengalihan transaksi ke agen = FBI"]
+},
+
+/* ---------------- ECOSYSTEM ---------------- */
+{id:"eco-w1", stage:"eco", ico:"🗺️", name:"Minggu 1 · Business Area & Ecosystem Mapping", sub:"Profil wilayah & stakeholder",
+ focus:"<b>Output:</b> profil wilayah bisnis tersusun, ekosistem prioritas teridentifikasi, stakeholder mapping selesai.",
+ todos:[
+  ["Pelajari profil Unit & data bisnis",""],
+  ["Kumpulkan data BPS & instansi terkait",""],
+  ["Kunjungan LKN ke Dinas, PD Pasar, Gapoktan, Koperasi, Rumah BUMN, komunitas usaha",""],
+  ["Kunjungi supplier, distributor, pabrik, pelaku usaha utama",""],
+  ["Identifikasi stakeholder utama ekosistem",""]
+ ],
+ qs:[["Siapa 'penggerak' ekonomi lokal yang dipercaya pelaku usaha?",""],["Komoditas/usaha unggulan apa, dan siapa pembeli akhirnya?",""]],
+ mats:["Data BPS kecamatan/desa","Daftar BUMDes, koperasi, kelompok tani","Profil pasar"],
+ links:["SEI → Ekosistem Lamongan (soto, pesantren, perikanan) sebagai contoh kerangka"]
+},
+{id:"eco-w2", stage:"eco", ico:"🔗", name:"Minggu 2 · Business Flow & Pipeline Analysis", sub:"Supply chain, value chain, aliran dana",
+ focus:"<b>Output:</b> flow bisnis ekosistem, business opportunity mapping, pipeline bisnis prioritas.",
+ todos:[
+  ["Analisis supply chain & value chain",""],
+  ["Petakan alur transaksi & aliran dana",""],
+  ["Identifikasi kebutuhan pembiayaan, simpanan, transaksi",""],
+  ["Susun pipeline bisnis potensial",""]
+ ],
+ qs:[["Di titik mana uang paling sering berpindah, dan apakah lewat BRI?","Community Transaction Engine"],["Siapa yang butuh likuiditas, kapan, dan berapa lama?","KMK vs SCF vs talangan"]],
+ mats:["Template value chain","Template pipeline"],
+ links:["MBD → BULOG–RPK, Quick Traktor","Lintas Group → Demand-to-Supply Linkage"]
+},
+{id:"eco-w3", stage:"eco", ico:"🚀", name:"Minggu 3 · Business Development & Marketing Program", sub:"Program akuisisi, cross selling, pemberdayaan",
+ focus:"<b>Output:</b> program pemasaran, usulan produk & jasa BRI, program pemberdayaan komunitas, action plan bisnis.",
+ todos:[
+  ["Susun program akuisisi baru",""],
+  ["Identifikasi peluang cross selling produk BRI",""],
+  ["Susun program pemberdayaan komunitas",""],
+  ["Kembangkan strategi kolaborasi stakeholder",""],
+  ["Tentukan quick win & strategic initiative",""]
+ ],
+ qs:[["Program apa yang bisa langsung jalan dalam 1 bulan tanpa biaya besar?",""]],
+ mats:["Template action plan"],
+ links:["SEI → Empowerment → Business Improvement → Financial Inclusion → Business Contribution","Lintas Group → BUMDesa as Local Financial Hub"]
+},
+{id:"eco-w4", stage:"eco", ico:"🏆", name:"Minggu 4 · Business Improvement & Proposal", sub:"Proposal Penguasaan Ekosistem",
+ focus:"<b>Output:</b> Proposal Penguasaan Ekosistem (PowerPoint), presentasi, rekomendasi jangka pendek, menengah, panjang.",
+ todos:[
+  ["Analisis gap & peluang pengembangan",""],
+  ["Susun usulan perbaikan model & proses bisnis",""],
+  ["Susun rekomendasi strategis lainnya",""],
+  ["Susun proposal akhir",""],
+  ["Presentasi ke mentor & manajemen (MBM + BOH)",""]
+ ],
+ qs:[["Indikator apa yang akan membuktikan proposal ini berhasil dalam 3, 6, dan 12 bulan?","Leading vs lagging"]],
+ mats:["Kerangka proposal"],
+ links:["Semua Group HO bertemu di sini"]
+}
+];
+
+
+/* =====================================================================
+   TAMBAHAN DARI RESUME OJT MSS (Okt–Nov 2026)
+   Item ditambahkan di BELAKANG daftar agar progres lama tetap aman.
+   ===================================================================== */
+const MSS_ADD = {
+ "ro-mbd":{
+  todos:[["Hitung kebutuhan realisasi RO sampai akhir tahun: per Cabang, per Mantri, per Mantri per hari","Pakai kalkulator di tab 📘 Bekal MSS"],
+         ["Petakan BO yang 'memberatkan' YTD: pertumbuhan terkecil, minus, atau kualitas terburuk","Metode kelompok MSS saat memilih RO Jak 1"],
+         ["Cek konsistensi GBHN: apakah guidance RO sama dengan GBHN pusat?","Di Bandung pernah ditemukan target 7 aktivitas, bukan 5"]],
+  qs:[["Bagaimana RO memantau leading indicator harian: pencapaian, kunjungan, dan pipeline? Ada evaluasi jam 09.00 dan pit-stop 14.00?","Praktik yang disebut di briefing MSS"],
+      ["Berapa success rate pipeline → realisasi di RO ini, dan BO mana yang paling rendah?",""],
+      ["Bagaimana RO memperkirakan turun pokok bulan depan? Rata-rata 3 bulan atau cara lain?","Rumus turun pokok dari Kak Deandra"],
+      ["Bagaimana RO menyiapkan diri kalau kuota KUR habis: Kupedes, KPP, cash collateral, atau produk lain?",""],
+      ["Apakah ada pipeline di luar wilayah kerja atau duplikat satu KK? Bagaimana ditangani?","Isu pipeline yang sering dibahas di briefing MSS"],
+      ["Bagaimana RO memakai Geoscope atau data potensi wilayah saat menetapkan target unit?","Geoscope: alat bantu, bukan dasar utama keputusan"]],
+  mats:["Laporan L1133 (OS, SML, NPL per produk) & LW321 (realisasi, kolektibilitas, pipeline)","Histori turun pokok & PH 3 bulan terakhir per Cabang","Data aktivitas pemasaran & produktivitas Mantri (EDM/BRISPOT)","Pipeline per Cabang: jumlah, nominal, sumber, status"],
+  links:["MSS → GBHN, P2P, Mission Possible, dan alur deck Nasional → RO → BO → Unit"]
+ },
+ "ro-umi":{
+  qs:[["Apakah nasabah PNM/Pegadaian ikut menjadi sumber pipeline Kupedes atau KUR di RO ini?","Perluasan sumber pipeline jadi prioritas MSS"]]
+ },
+ "bo-mbm":{
+  todos:[["Amati apakah GBHN di Cabang benar-benar dijelaskan ke Kaunit & Mantri, bukan hanya dicetak","Temuan Pak Anang di briefing 5 Nov"],
+         ["Pelajari evaluasi kualitas per pemutus (Kaunit, MBM, Pinca) berbasis data LW","Arahan Pak Jati 16 Nov"]],
+  qs:[["Bagaimana MBM memastikan arahan GBHN (5 pemasaran, 3 Kupedes, penagihan lancar, P2P) dijalankan sampai Mantri?",""],
+      ["Apakah ada Mantri yang belum pernah realisasi Kupedes? Apa kendalanya?",""],
+      ["Apa penyebab NPL Kupedes di Cabang ini: plafon besar sejak awal, lanjutan kurang hati-hati, sektor melemah, atau fraud?","Pola jawaban MBM Purbalingga, Wates, Wonosari"],
+      ["Bagaimana MBM menjelaskan MOB 6 kepada Mantri secara sederhana?","MBM Wonosari mengaku masih kesulitan"],
+      ["Bagaimana kualitas kredit dipantau per pemutus? Pernah ada kewenangan memutus yang ditahan?","Evaluasi pemutus & PDWK"]],
+  mats:["Peringkat kualitas per pemutus (jika boleh dilihat)","Pipeline Kupedes per Unit: sumber, nominal, progres"],
+  links:["MSS → 3 pemutus terburuk dianjurkan ditahan kewenangannya"]
+ },
+ "bo-rm":{
+  qs:[["Apakah GBHN RM Mikro (5 aktivitas pemasaran + 5 penagihan) sudah berjalan? Bagaimana dicatat?","Sosialisasi aktivitas RM Mikro 18–19 Nov"],
+      ["Saat kuota KUR Kecil terbatas, bagaimana RM mengelola pipeline: tetap prakarsa atau dialihkan ke produk lain?",""],
+      ["Apakah ada hot prospect dari takeover bank lain, nasabah kartu kredit, atau e-commerce?","Sumber pipeline baru yang dibahas MSS"]]
+ },
+ "bo-bsa":{
+  qs:[["BSA pakai L1133, LW321, MIR03, LN Mas, atau Loan Report? Masing-masing untuk apa?","Peta sumber data di tab 📘 Bekal MSS"],
+      ["Pernah menemukan PN Pemrakarsa kosong (PN null) atau nominatif Excel ≠ BRISPOT? Dampaknya ke evaluasi Mantri?",""]]
+ },
+ "un-ka":{
+  todos:[["Catat berapa pipeline yang dibagikan per Mantri per hari, dan berapa yang benar-benar dikunjungi","Target: 3 pipeline Kupedes per Mantri per hari"],
+         ["Amati cara Kaunit memvalidasi kunjungan Mantri",""],
+         ["Petakan pola musiman komoditas di wilayah Unit (masa tanam–panen)","Kunci pipeline non-musiman"]],
+  qs:[["Berapa pipeline yang ternyata di luar wilayah kerja? Apakah diberi status cancel atau dibiarkan?","Kasus Lumajang: 150 dari 200 pipeline di luar wilayah"],
+      ["Bagaimana Kaunit tahu Mantri benar-benar mengunjungi pipeline yang dibagikan?",""],
+      ["Apakah kebijakan approval buka-tutup blokir (maker SOL, approver Kaunit) menyulitkan operasional?","Keluhan Kaunit Yogyakarta"],
+      ["Saat portofolio musiman sedang tinggi, apakah Unit sudah menyiapkan pipeline non-musiman?",""],
+      ["Bagaimana Unit menjaga OS ketika banyak nasabah lancar jatuh tempo?","Nasabah lancar jatuh tempo perlu dipertahankan"]],
+  mats:["Daftar pipeline harian per Mantri + status tindak lanjut","Peta musiman komoditas wilayah Unit"]
+ },
+ "un-mantri":{
+  todos:[["Bandingkan rencana kerja Mantri dengan GBHN (15 aktivitas/hari)","Lihat breakdown di tab 📘 Bekal MSS"],
+         ["Ikut 1 kunjungan penagihan debitur lancar (P2P)","Penagihan proaktif sebelum menunggak"]],
+  qs:[["Dari 15 aktivitas GBHN, mana yang paling sulit dipenuhi? Kenapa?",""],
+      ["Bagaimana NPM yang dikunci di sistem memengaruhi cara mengisi omzet?","Isu kemungkinan omzet di-mark-up agar RPC sesuai"],
+      ["Pernah terkena blocking Business Checking di MAK Tools? Apa yang harus dikoreksi?",""],
+      ["Nasabah lebih minat KUR atau Kupedes? Apa yang membuat Kupedes sulit dijual?","MBM Purbalingga: peminat Kupedes rendah"],
+      ["Bagaimana Mantri mengisi LKN penagihan di BRISPOT?","Wajib menurut GBHN"]]
+ },
+ "un-rec":{
+  qs:[["Apakah urutan prioritas GBHN (SML 3 → NPL Kol 3 → NPL Kol 4 → SML 2) dipakai di Unit ini?",""],
+      ["Untuk debitur musiman yang menunggak: apakah restrukturisasi masih bisa, atau sudah disiapkan PH?","Arahan pendalaman 13 ribu debitur musiman jatuh tempo"],
+      ["Apakah debitur KUR yang direstrukturisasi sudah dilaporkan ke MBD agar asuransinya tetap ter-cover?","Isu asuransi restrukturisasi KUR"]]
+ },
+ "un-fc":{
+  qs:[["Bagaimana Unit tanpa Mantri Recovery/FC membagi tugas penagihan? Pakai acuan 3–4 aktivitas penagihan?",""]]
+ },
+ "un-sol":{
+  qs:[["Bagaimana alur maker–approval buka-tutup blokir berjalan saat Kaunit tidak di kantor?","Risiko password approval dititipkan"],
+      ["Apa peran SOL dalam penawaran asuransi saat realisasi?","Penjualan oleh Mantri, SOL hanya memastikan"]]
+ },
+ "un-cs":{
+  qs:[["Apakah nasabah tabungan/transaksi pernah diteruskan ke Mantri sebagai pipeline?","Pipeline non-partnership dari nasabah simpanan"]]
+ }
+};
+Object.entries(MSS_ADD).forEach(([id,a])=>{const r=ROLES.find(x=>x.id===id); if(!r) return;
+  ["todos","qs","mats","links"].forEach(k=>{if(a[k]) r[k]=r[k].concat(a[k]);});});
+
+const DELIVS = {
+ ro:{title:"Deliverable & Final Assessment · Regional Office",
+   items:["Presentasi: Bisnis Proses Department Bisnis Mikro & Ultra Mikro di RO","Presentasi: Analisis Profil Bisnis Mikro & Ultra Mikro di RO","Presentasi: Analisis Kinerja Bisnis Mikro & Ultra Mikro di RO","Review & tanda tangan mentor (Learning Quest MBD RO)","Review & tanda tangan mentor (Learning Quest UMi RO)","Final Assessment oleh Micro Business Dept Head & Ultra Micro Business Dept Head"],
+   assessor:"Micro Business Department Head & Ultra Micro Business Department Head"},
+ bo:{title:"Deliverable & Final Assessment · Kantor Cabang",
+   items:["Analisis Profil Bisnis Mikro di Branch Office","Analisis Kinerja Bisnis Mikro di Branch Office","Analisis Paket Kredit Kupedes Putusan MBM (secara tim, di akhir OJT BO & Unit)","TTD mentor/MBM: MBM, RM, BSA, PPBK","Final Assessment oleh BOH atau MBM (non-mentor)"],
+   assessor:"Branch Office Head atau Manajer Bisnis Mikro (non-mentor)"},
+ un:{title:"Deliverable & Final Assessment · BRI Unit",
+   items:["Analisis Profil Bisnis Mikro di BRI Unit","Analisis Kinerja Bisnis Mikro di BRI Unit","Analisis Paket Kredit Kupedes Putusan Kaunit (individual, di akhir OJT BO & Unit)","TTD mentor/Kaunit/SOL untuk tiap role","Final Assessment oleh Manajer Bisnis Mikro (mentor)"],
+   assessor:"Manajer Bisnis Mikro (mentor)"},
+ eco:{title:"Deliverable & Final Assessment · Ecosystem Business",
+   items:["Proposal Penguasaan Ekosistem (PowerPoint)","Presentasi Bisnis Ekosistem Unggulan","TTD mentor Minggu 1–4","Final Assessment oleh MBM (mentor) & BOH"],
+   assessor:"Manajer Bisnis Mikro (mentor) dan BOH"}
+};
+
+const REMEDIAL = [
+ {id:"ftp", cat:"Fundamental", t:"FTP (Funds Transfer Pricing)", d:"Harga transfer dana internal: unit penghimpun dana diberi 'imbalan', unit penyalur dibebani biaya dana. Dipakai untuk mengukur kontribusi margin tiap unit/produk."},
+ {id:"alm", cat:"Fundamental", t:"ALM (Asset Liability Management)", d:"Mengelola keseimbangan aset & liabilitas: likuiditas, gap jatuh tempo, dan risiko suku bunga."},
+ {id:"casa", cat:"Fundamental", t:"CASA vs Deposito & Cost of Fund", d:"Giro + tabungan (CASA) adalah dana murah; makin tinggi porsi CASA, makin rendah biaya dana. Kenapa simpanan mikro penting untuk profitabilitas."},
+ {id:"kol", cat:"Kualitas Kredit", t:"Kolektibilitas 1–5, SML, NPL", d:"Kol 1 Lancar, Kol 2 Dalam Perhatian Khusus, Kol 3 Kurang Lancar, Kol 4 Diragukan, Kol 5 Macet. SML umumnya merujuk Kol 2; NPL = Kol 3–5. Cek definisi internal yang dipakai Unit."},
+ {id:"mob", cat:"Kualitas Kredit", t:"MOB & Vintage Analysis", d:"Month on Book = umur kredit sejak cair. Vintage membandingkan kualitas per angkatan pencairan untuk melihat kapan kredit mulai memburuk."},
+ {id:"ekstra", cat:"Kualitas Kredit", t:"Ekstrakomptabel, Restrukturisasi, AYDA", d:"Kredit yang sudah dihapusbukukan tapi tetap ditagih; restrukturisasi sebagai penyelamatan kredit; AYDA = agunan yang diambil alih bank."},
+ {id:"lead", cat:"Cara Berpikir", t:"Leading vs Lagging Indicator", d:"Lagging = hasil (FBI, DPK, NPL). Leading = aktivitas yang mendorong hasil (akuisisi, agen aktif, kunjungan berkualitas). Selalu uji: apakah leading-nya benar-benar menggerakkan lagging?"},
+ {id:"prod", cat:"Produk", t:"Kupedes vs KUR Mikro vs KUR Kecil vs Briguna vs UMi", d:"Bedakan sasaran, plafon, sumber subsidi, syarat, dan kewenangan putus. Buat tabel perbandingan versi kamu sendiri dari SE/Juklak terbaru."},
+ {id:"kup", cat:"Produk", t:"KUP & PPK-BM", d:"Ketentuan pinjaman mikro yang dibahas di kelas. Pelajari ulang poin yang dipakai saat OTS & memutus kredit."},
+ {id:"fbi", cat:"BRILink", t:"FBI BRILink & kelas agen", d:"Pemula, Jawara, Juragan: jumlah agen vs kontribusi FBI tidak sebanding. Pahami definisi agen aktif vs bertransaksi vs produktif."},
+ {id:"sei", cat:"Pemberdayaan", t:"KPI SEI & Desa BRILiaN", d:"DPK program, FBI BRILink non-subsidi, profitabilitas Desa BRILiaN, akuisisi UMKM Rumah BUMN, UMKM/UMi naik kelas, improvement people."},
+ {id:"bansos", cat:"Pemberdayaan", t:"Financial Close-Loop Bansos", d:"Rural merchant, lokasi pencairan, leakage, pengendapan dana. Ini kerangka analisis dari diskusi, bukan ketentuan resmi penyaluran."},
+ {id:"holding", cat:"Ultra Mikro", t:"Holding Ultra Mikro BRI–PNM–Pegadaian", d:"Peran tiap entitas, model bisnis, SenyuM/co-location, dan jalur naik kelas nasabah."},
+ {id:"kmk", cat:"Pembiayaan", t:"KMK vs SCF vs Dana Talangan", d:"KMK untuk modal kerja umum; SCF terikat rantai pasok yang bisa diverifikasi; talangan untuk kebutuhan likuiditas sementara yang spesifik."},
+ {id:"turun", cat:"MSS", t:"Turun pokok, runoff & kebutuhan realisasi", d:"Turun pokok = OS awal + realisasi − PH − OS akhir. Perkiraan bulan depan biasanya rata-rata 3 bulan terakhir. Kebutuhan realisasi = target OS − OS sekarang + perkiraan turun pokok + perkiraan PH."},
+ {id:"gbhn", cat:"MSS", t:"GBHN, P2P & Mission Possible", d:"GBHN = panduan aktivitas harian tenaga pemasar. P2P = penagihan point-to-point, termasuk debitur lancar sebelum menunggak. Mission Possible = program pendorong kualitas & penegasan P2P."},
+ {id:"pipe", cat:"MSS", t:"Pipeline berkualitas & success rate", d:"Kriteria yang dibahas: SLIK hijau, 5 kunjungan, 3 putusan dengan target 1 berhasil. Ukur konversi kunjungan → pengajuan → putusan → realisasi, bukan hanya jumlah pipeline."},
+ {id:"data", cat:"MSS", t:"Sumber data: L1133, LW321, LN Mas, MIR03, EDM", d:"L1133 untuk OS/SML/NPL per produk; LW321 untuk realisasi, kolektibilitas & pipeline; LN Mas untuk realisasi hari sebelumnya; MIR03 simpanan/pinjaman/FBI per unit; EDM untuk produktivitas Mantri."},
+ {id:"kuota", cat:"MSS", t:"Kuota KUR vs Kupedes, KPP, cash collateral", d:"Saat kuota KUR menipis, realisasi & OS dijaga lewat Kupedes, KPP, cash collateral, dan diversifikasi produk, tanpa mengorbankan kualitas analisis."},
+ {id:"bmc", cat:"Inovasi", t:"Business Model Canvas & Design Thinking", d:"Dipakai lagi di Exam 3 dan proposal ekosistem. Latih dengan 1 kasus Unit."}
+];
+
+const HYPS = [
+ {id:"h1", where:"Cabang · Unit", t:"Kredit mikro mulai memburuk sekitar MOB 6 dan NPL naik sekitar MOB 9", d:"Dari diskusi MSD. Minta data vintage/kualitas per bulan pencairan, atau tanya pengalaman MBM/Kaunit."},
+ {id:"h2", where:"Unit · Mantri Recovery", t:"Aktivitas kunjungan yang tinggi tidak otomatis berarti recovery tinggi", d:"Dari analisis 44 ribu aktivitas MSS. Bandingkan 2–3 Mantri Recovery: kunjungan vs hasil."},
+ {id:"h3", where:"Unit · Mantri Recovery", t:"Pencatatan janji bayar yang terstruktur bisa menaikkan tingkat pembayaran", d:"Ide fitur Janji Bayar BRISPOT. Tanya bagaimana janji bayar dicatat sekarang & berapa yang ditepati."},
+ {id:"h4", where:"Cabang · PPBK", t:"Agen baru tumbuh lebih cepat daripada produktivitasnya", d:"Dari angka BBD (pertumbuhan agen aktif jauh di atas pertumbuhan FBI). Lihat apakah pola ini juga terjadi di Cabang."},
+ {id:"h5", where:"RO · Cabang", t:"Agen BRILink dari ekosistem PNM banyak yang belum bertransaksi", d:"Dari Activation Radar UMI. Cek apa hambatan riilnya di lapangan."},
+ {id:"h6", where:"Unit · Mantri · Teller", t:"Dana pencairan kredit cepat keluar dari rekening BRI", d:"Ide Post-Disbursement Wallet Leakage. Amati ke mana nasabah membelanjakan/memindahkan dananya."},
+ {id:"h7", where:"Unit · Kaunit", t:"Mantri yang memetakan pasar, petani, kelompok & BUMDes punya pipeline lebih sehat", d:"Dari catatan Group Head SEI. Bandingkan Mantri yang punya peta wilayah vs yang tidak."},
+ {id:"h9", where:"RO · Cabang · Unit", t:"Aktivitas pemasaran tinggi belum tentu menumbuhkan OS, karena runoff besar atau pipeline tidak efektif", d:"Kasus RO Surabaya dari kelompok MSS: kunjungan tinggi, pertumbuhan OS Oktober paling rendah. Hitung turun pokok dan success rate di Unit kamu."},
+ {id:"h10", where:"Unit · Kaunit", t:"Pipeline di luar wilayah kerja & duplikat satu KK menurunkan success rate", d:"Kasus Lumajang: 150 dari 200 pipeline di luar wilayah. Hitung porsinya di Unit penempatan."},
+ {id:"h11", where:"Unit · Mantri", t:"NPM yang dikunci mendorong omzet dicatat lebih tinggi dari kondisi riil", d:"Keluhan Kaunit Yogyakarta. Bandingkan omzet hasil OTS dengan yang diinput (tanpa membawa data nasabah)."},
+ {id:"h12", where:"Unit · Mantri", t:"Portofolio musiman membuat skor transaksi simpanan rendah di luar masa panen", d:"Temuan piloting CRS Kupedes di Lampung. Cek pola transaksi nasabah musiman di Unit."},
+ {id:"h8", where:"Unit · Ekosistem", t:"Transaksi berulang dalam satu komunitas bisa dibangun lewat agen & merchant lokal", d:"Community Transaction Engine. Cari 1 komunitas di wilayah Unit untuk diuji di OJT Ekosistem."}
+];
+
+const GLOSS = [
+ ["RMBH","Regional Micro Banking Head"],["MBM","Manajer Bisnis Mikro (Cabang)"],["BOH","Branch Office Head"],["BSA","Business Support Assistant"],["PPBK","Petugas Penunjang Bisnis Keagenan"],["SOL","Supervisor Operasional & Layanan"],["OTS","On The Spot: kunjungan langsung ke nasabah/usaha"],["LKN","Kunjungan lapangan ke stakeholder ekosistem (tanyakan kepanjangan resminya ke mentor)"],["RKA","Rencana Kerja & Anggaran"],["PDWK","Istilah materi tata kelola unit kerja; tanyakan kepanjangan resminya ke mentor"],["MTD / YTD","Month to Date / Year to Date"],["YoY","Year on Year: dibanding periode sama tahun lalu"],["OS","Outstanding: saldo pinjaman berjalan"],["SML","Special Mention Loan; umumnya Kol 2"],["NPL","Non Performing Loan; Kol 3–5"],["LAR","Loan at Risk; cek definisi internal"],["DPK (1)","Dana Pihak Ketiga = simpanan nasabah"],["DPK (2)","Dalam Perhatian Khusus = Kol 2. Hati-hati, singkatannya sama!"],["CASA","Current Account + Saving Account"],["FBI","Fee Based Income"],["FTP","Funds Transfer Pricing"],["ALM","Asset Liability Management"],["MOB","Month on Book"],["AYDA","Agunan Yang Diambil Alih"],["KUR","Kredit Usaha Rakyat"],["Kupedes","Kredit Umum Pedesaan"],["UMi","Ultra Mikro"],["KMK","Kredit Modal Kerja"],["SCF","Supply Chain Financing"],["BUMDes","Badan Usaha Milik Desa"],["RPK","Rumah Pangan Kita (BULOG)"],["BRISPOT","Aplikasi kerja tenaga pemasar mikro"],["BRIMEN","Ruang arsip kredit/operasional di Unit (tanyakan kepanjangan resminya ke SOL)"],["SLA","Service Level Agreement"]
+];
+
+const ETIQ = [
+ "Datang lebih awal dari mentor, ikut briefing pagi.",
+ "Bawa buku catatan fisik saat OTS; jangan sibuk dengan ponsel di depan nasabah.",
+ "Minta izin sebelum memotret dokumen/data. Data nasabah tidak dibawa pulang dan tidak dimasukkan ke halaman ini.",
+ "Satu hari, satu insight: tulis di Jurnal sebelum tidur.",
+ "Tanya 'kenapa' 3 kali untuk setiap angka yang aneh.",
+ "Tutup setiap hari dengan: apa yang dipelajari, apa yang belum dimengerti, besok tanya siapa.",
+ "Ucapkan terima kasih ke tiap PIC role. Mereka yang menandatangani Learning Quest kamu."
+];
+
+const BADGES = [
+ {id:"b1", ico:"🌱", t:"Langkah Pertama", test:s=>s.done>=1},
+ {id:"b2", ico:"🏢", t:"Penakluk RO", test:s=>s.stage.ro>=100},
+ {id:"b3", ico:"🏦", t:"Orang Cabang", test:s=>s.stage.bo>=100},
+ {id:"b4", ico:"🛵", t:"Jiwa Mantri", test:s=>s.role["un-mantri"]>=100},
+ {id:"b5", ico:"❓", t:"Si Penanya (25 pertanyaan terjawab)", test:s=>s.qdone>=25},
+ {id:"b6", ico:"📓", t:"Penulis Jurnal (5 catatan)", test:s=>s.journal>=5},
+ {id:"b7", ico:"🧪", t:"Peneliti Lapangan (3 hipotesis diuji)", test:s=>s.hyp>=3},
+ {id:"b8", ico:"🔁", t:"Fondasi Kuat (semua topik ulang ≥4)", test:s=>s.remOk},
+ {id:"b9", ico:"🏆", t:"Calon Pemimpin Mikro (≥90%)", test:s=>s.pct>=90}
+];
+
+/* =====================================================================
+   STATE (localStorage aman + fallback memori)
+   ===================================================================== */
+const KEY="bflp18_ojt_ro_unit_v1";
+function defaultS(){return {chk:{}, txt:{}, meta:{}, rate:{}, hyp:{}, extraQ:{}, journal:[], stageView:{}, calc:{}, notes:[], deletedNotes:[], updatedAt:0};}
+let S=defaultS();
+let memOnly=false;
+function load(){try{const r=localStorage.getItem(KEY); if(r){S=Object.assign(S,JSON.parse(r));}}catch(e){memOnly=true;}}
+let saveT;
+function flush(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){memOnly=true;}}
+function save(){S.updatedAt=Date.now();clearTimeout(saveT);saveT=setTimeout(flush,250); if(typeof queueCloud==='function') queueCloud();}
+window.addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.hidden)flush();});
+load();
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200);}
+
+function checkItem(id,label,why,cls){
+  const on=!!S.chk[id];
+  return `<li class="${on?'done':''}"><input type="checkbox" id="${id}" data-chk="${id}" ${on?'checked':''}><label for="${id}">${label}${why?`<span class="why">${why}</span>`:''}</label></li>`;
+}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+const TABS=[
+ {id:"map", t:"🗺️ Peta & Jadwal"},
+ {id:"ai", t:"✨ Asisten AI"},
+ {id:"notes", t:"🗒️ Catatan"},
+ {id:"ro", t:"🏢 Regional Office"},
+ {id:"bo", t:"🏦 Kantor Cabang"},
+ {id:"un", t:"🏠 BRI Unit"},
+ {id:"eco", t:"🌱 Ekosistem"},
+ {id:"mss", t:"📘 Bekal MSS"},
+ {id:"rem", t:"🔁 Belajar Ulang HO"},
+ {id:"hyp", t:"🧪 Hipotesis HO"},
+ {id:"jour", t:"📓 Jurnal Harian"},
+ {id:"kit", t:"🎒 Kamus & Etika"}
+];
+let current = S.stageView.tab || "map";
+
+function renderTabs(){
+  $("#tabbar").innerHTML=TABS.map(t=>`<button class="tab ${t.id===current?'on':''}" data-tab="${t.id}">${t.t}<span class="n" id="tn-${t.id}"></span></button>`).join("");
+}
+
+function roleHTML(r){
+  const todo=r.todos.map((x,i)=>checkItem(`${r.id}-t${i}`,esc(x[0]).replace("✱","<b style='color:var(--bri-d)'>✱</b>"),esc(x[1]))).join("");
+  const extra=(S.extraQ[r.id]||[]);
+  const qs=r.qs.map((x,i)=>checkItem(`${r.id}-q${i}`,esc(x[0]),x[1]?("🔗 "+esc(x[1])):"")).join("")
+    + extra.map((x,i)=>`<li class="${S.chk[r.id+'-x'+x.k]?'done':''}"><input type="checkbox" id="${r.id}-x${x.k}" data-chk="${r.id}-x${x.k}" ${S.chk[r.id+'-x'+x.k]?'checked':''}><label for="${r.id}-x${x.k}">${esc(x.t)}<span class="why">✍️ pertanyaan tambahanmu</span></label><button class="del" data-delq="${r.id}|${x.k}" title="Hapus">✕</button></li>`).join("");
+  const mats=r.mats.map((m,i)=>checkItem(`${r.id}-m${i}`,esc(m),"")).join("");
+  const links=r.links.map(l=>`<li>${esc(l)}</li>`).join("");
+  return `<details class="role" id="role-${r.id}" data-role="${r.id}">
+   <summary>
+     <div class="ico">${r.ico}</div>
+     <div class="t"><b>${esc(r.name)}${r.opt?'<span class="tag">*apabila ada</span>':''}</b><span>${esc(r.sub)}</span></div>
+     <div class="mini"><span id="rp-${r.id}">0%</span><div class="bar"><i id="rb-${r.id}"></i></div></div>
+     <div class="chev">▶</div>
+   </summary>
+   <div class="rbody">
+     <div class="focus">${r.focus}</div>
+     <div class="cols">
+       <div>
+         <div class="blk"><h4>✅ To-do</h4><ul class="chk">${todo}</ul></div>
+         <div class="blk m"><h4>📚 Bahan / data yang diminta</h4><ul class="chk">${mats}</ul></div>
+       </div>
+       <div>
+         <div class="blk q"><h4>❓ Pertanyaan untuk ditanyakan</h4><ul class="chk">${qs}</ul>
+           <div class="addq"><input placeholder="Tambah pertanyaanmu sendiri…" data-addqin="${r.id}"><button class="btn sm or" data-addq="${r.id}">+</button></div>
+         </div>
+         <div class="blk h"><h4>🔗 Sambungkan dengan OJT HO</h4><ul class="plain">${links}</ul></div>
+       </div>
+     </div>
+     <div class="blk"><h4>📝 Jawaban & insight</h4><textarea class="answer" data-k="txt.${r.id}" placeholder="Tulis jawaban mentor, angka penting (tanpa data nasabah), dan insight kamu…">${esc(S.txt[r.id]||"")}</textarea></div>
+     <div class="sign">
+       <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-chk="${r.id}-sign" ${S.chk[r.id+'-sign']?'checked':''}> <b>Sudah ditandatangani mentor</b></label>
+       <input type="text" placeholder="Nama mentor/PIC" data-k="txt.${r.id}-mentor" value="${esc(S.txt[r.id+'-mentor']||'')}">
+       <input type="date" data-k="txt.${r.id}-date" value="${esc(S.txt[r.id+'-date']||'')}">
+     </div>
+   </div>
+  </details>`;
+}
+
+function delivHTML(st){
+  const d=DELIVS[st];
+  return `<div class="deliv"><h4>🎯 ${esc(d.title)}</h4><ul class="chk">${d.items.map((x,i)=>checkItem(`dv-${st}-${i}`,esc(x),"")).join("")}</ul>
+  <div class="muted" style="font-size:13px">Assessor: <b>${esc(d.assessor)}</b></div>
+  <textarea class="answer" style="margin-top:8px" data-k="txt.fb-${st}" placeholder="Assessor's feedback: Key Strength & Growth Opportunity…">${esc(S.txt['fb-'+st]||'')}</textarea></div>`;
+}
+
+function stagePanel(st,title,lead,extra){
+  const roles=ROLES.filter(r=>r.stage===st);
+  return `<section class="panel" id="p-${st}"><div class="kicker">${STAGES.find(s=>s.id===st).hk}</div><h2 class="sec">${title}</h2><p class="lead">${lead}</p>${extra||''}
+  ${roles.map(roleHTML).join("")}${delivHTML(st)}</section>`;
+}
+
+function render(){
+  const m=$("#main");
+  m.innerHTML = `
+  <section class="panel" id="p-map">
+    <div class="kicker">Gambaran besar</div>
+    <h2 class="sec">Perjalanan 120 hari: kamu sudah di hari ke-50-an</h2>
+    <p class="lead">HO sudah selesai. Tiga fase berikutnya membawa kamu dari kursi strategi ke lapangan. Gunakan halaman ini sebagai buku saku: centang, tulis, export.</p>
+    <div class="grid2">
+      <div class="card">
+        <div class="timeline">
+          <div class="tl done"><b>✅ Meet The Expert · 20 HK</b><div class="muted" style="font-size:13px">Orientation, Business Process, Innovation, Exam 1–3</div></div>
+          <div class="tl done"><b>✅ OJT Head Office · 30 HK</b><div class="muted" style="font-size:13px">MBD, MSM 1 & 2, UMI, BRILink, SEI. Bekal MSS ada di tab 📘, topik yang perlu diulang di tab 🔁</div></div>
+          <div class="tl now"><b>🔷 OJT Regional Office · 10 HK</b><div class="muted" style="font-size:13px">Micro Business Dept & Ultra Micro Business Dept</div></div>
+          <div class="tl"><b>OJT Branch Office & BRI Unit · 40 HK</b><div class="muted" style="font-size:13px">MBM, RM, BSA, PPBK · Kaunit, Mantri, Briguna, Recovery, Field Collection, SOL, CS, Teller</div></div>
+          <div class="tl"><b>OJT Ecosystem Business · 20 HK</b><div class="muted" style="font-size:13px">Proyek Penguasaan Bisnis Ekosistem (desa, pasar, komoditas, lainnya)</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🏅 Badge</h3>
+        <div class="badgewall" id="badges"></div>
+        <div class="tip" style="margin-top:14px"><b>Cara pakai:</b> semua centang & tulisan otomatis tersimpan di browser ini${'<span id="memwarn"></span>'}. Tekan <b>💾 Simpan Cadangan</b> secara berkala, lalu <b>📂 Import</b> untuk melanjutkan di laptop/HP lain.</div>
+      </div>
+    </div>
+
+    <h3 style="margin:22px 0 4px">⏱️ Penghitung hari kerja</h3>
+    <div class="card"><div class="hk">
+      <label>Mulai OJT RO (10 HK)<input type="date" data-k="meta.dRO"></label>
+      <label>Mulai OJT Cabang &amp; Unit (40 HK)<input type="date" data-k="meta.dBU"></label>
+      <label>Mulai OJT Ekosistem (20 HK)<input type="date" data-k="meta.dEC"></label>
+    </div><div class="src">Hari kerja dihitung Senin–Jumat (tanpa libur nasional). Hasilnya muncul di kartu perjalanan di atas.</div></div>
+
+    <h3 style="margin:22px 0 4px">📅 Usulan ritme RO (10 HK)</h3>
+    <div class="card">
+      <div class="days">
+        <div>H1<br>Orientasi</div><div>H2<br>Org &amp; flow</div><div>H3<br>Mikro</div><div>H4<br>Mikro</div><div>H5<br>Mikro</div>
+        <div class="o">H6<br>UMi</div><div class="o">H7<br>UMi</div><div class="o">H8<br>UMi</div><div class="g">H9<br>Susun PPT</div><div class="g">H10<br>Presentasi</div>
+      </div>
+      <div class="legend">Ini usulan, bukan ketentuan handbook. Sesuaikan dengan jadwal mentor. Kirim draf PPT ke mentor paling lambat H8.</div>
+    </div>
+
+    <h3 style="margin:22px 0 4px">📅 Usulan ritme Cabang &amp; Unit (40 HK)</h3>
+    <div class="card">
+      <div class="grid3">
+        <div><div class="kicker">± Minggu 1–2</div><b>Kantor Cabang</b><p class="muted" style="font-size:13px;margin:4px 0 0">MBM (mentor) sebagai poros. Sisipkan 1–2 hari untuk RM, BSA, PPBK. Pilih paket kredit MBM untuk analisis tim sejak awal.</p></div>
+        <div><div class="kicker">± Minggu 3–6</div><b>BRI Unit: bisnis</b><p class="muted" style="font-size:13px;margin:4px 0 0">Kaunit + Mantri paling lama. Ikuti beberapa Mantri. Briguna/Recovery/Field Collection jika ada. Kumpulkan OTS & penagihan.</p></div>
+        <div><div class="kicker">± Minggu 7–8</div><b>BRI Unit: layanan & laporan</b><p class="muted" style="font-size:13px;margin:4px 0 0">SOL, CS, Teller. Finalisasi analisis profil, kinerja, dan paket kredit Kaunit (individual) + paket MBM (tim).</p></div>
+      </div>
+      <div class="note">Handbook tidak merinci pembagian hari BO vs Unit. Konfirmasi ke PIC Corpu (Herdjuno – Micro Banking Academy / Erli – Learning Operation) atau mentor MBM.</div>
+    </div>
+
+    <h3 style="margin:22px 0 4px">✱ Kegiatan wajib minimum (jangan sampai lewat)</h3>
+    <div class="card"><ul class="chk">
+      ${checkItem("w-ots-mbm","OTS kredit putusan MBM (min. 1x)","Cabang · MBM")}
+      ${checkItem("w-ots-rm","OTS KUR Kecil (min. 1x)","Cabang · RM Bisnis Mikro")}
+      ${checkItem("w-ots-ka","OTS kredit putusan Kaunit (min. 1x)","Unit · Kaunit")}
+      ${checkItem("w-ots-mt","OTS prakarsa kredit Mantri (min. 1x)","Unit · Mantri")}
+      ${checkItem("w-tagih","Kegiatan penagihan (min. 1x)","Unit · Mantri / Recovery / Field Collection")}
+      ${checkItem("w-pkt-tim","Analisis Paket Kredit Kupedes Putusan MBM (tim)","Akhir OJT BO & Unit")}
+      ${checkItem("w-pkt-ind","Analisis Paket Kredit Kupedes Putusan Kaunit (individual)","Akhir OJT BO & Unit")}
+    </ul></div>
+  </section>
+
+  ${stagePanel("ro","Regional Office: lihat bisnis mikro dari ketinggian region","Di RO kamu belajar menghubungkan strategi HO dengan realita cabang. Output akhirnya 3 analisis: bisnis proses, profil, dan kinerja, untuk Mikro dan Ultra Mikro.",
+    `<div class="tip"><b>Kerangka presentasi RO yang aman:</b> (1) Struktur & bisnis proses → (2) Profil wilayah: potensi vs penetrasi → (3) Kinerja: RKA vs realisasi, tren, kualitas → (4) 3 insight + 3 rekomendasi berbasis data → (5) Pertanyaan terbuka yang akan diuji di Cabang/Unit.</div>`)}
+
+  ${stagePanel("bo","Kantor Cabang: pusat kendali bisnis mikro","Cabang adalah tempat target bertemu eksekusi. MBM adalah mentor utama. Perhatikan cara MBM membaca data, membina Mantri, dan memutus kredit.",
+    `<div class="tip"><b>Mulai dari hari pertama:</b> minta izin MBM untuk memilih 1 paket kredit Kupedes putusan MBM sebagai bahan analisis tim. Data nasabah dianonimkan.</div>`)}
+
+  ${stagePanel("un","BRI Unit: tempat semua teori diuji","Inilah tempat kamu mempelajari ulang dasar-dasar yang belum kuat dengan cara paling efektif: melihat langsung. Ikuti Mantri, ikut OTS, ikut penagihan, dan perhatikan banking hall.",
+    `<div class="note">Role bertanda <b>*apabila ada</b> (Mantri Briguna, Mantri Recovery, Field Collection) hanya dijalankan jika jabatan itu ada di Unit penempatan.</div>`)}
+
+  ${stagePanel("eco","Ecosystem Business: proyek pamungkas","Setelah Unit, kamu punya 20 HK untuk menyusun Proposal Penguasaan Ekosistem. Mulailah mengamati calon ekosistem sejak di Unit.",
+    `<div class="tip">Pakai pengalaman ekosistem Lamongan (soto, pesantren, perikanan) dari diskusi SEI sebagai kerangka berpikir, lalu terapkan ke wilayah Unit kamu.</div>`)}
+
+
+
+  <section class="panel" id="p-ai">
+    <div class="kicker">Didukung Claude</div>
+    <h2 class="sec">Asisten AI OJT</h2>
+    <p class="lead">AI membaca progres, catatan, jurnal, dan bekal MSS kamu, lalu membantu menyusun rencana harian, pertanyaan tajam, outline presentasi, dan latihan. Semua hasil bisa disimpan ke Catatan.</p>
+    <div class="note ai-off">Fitur AI hanya aktif saat halaman ini dibuka sebagai artifact di Claude. Di file HTML offline, fitur lain tetap berjalan normal.</div>
+    <div class="ai-on">
+    <div class="aigrid">
+      <div class="qa" id="qa"></div>
+      <div>
+        <div class="card">
+          <div class="aiform" id="aiform"></div>
+          <div class="aiout empty" id="aiout">Pilih salah satu aksi di kiri, lalu tekan <b>&nbsp;Generate&nbsp;</b>.</div>
+          <div class="aiact" id="aiact"></div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>💬 Tanya bebas ke coach OJT</h3>
+          <div class="chat" id="chat"><div class="msg a">Halo! Aku coach OJT kamu. Tanyakan apa saja: konsep yang belum paham, cara menjawab assessor, atau ide inovasi dari temuan lapangan.</div></div>
+          <div class="chatin"><textarea id="chatq" placeholder="mis. Jelaskan beda turun pokok dan PH dengan contoh Unit…"></textarea>
+            <div style="display:flex;flex-direction:column;gap:6px"><button class="btn" id="chatsend">Kirim</button><button class="btn ghost sm mic" data-mic="chatq">🎤</button></div></div>
+          <div class="partial" data-partial="chatq"></div>
+          <div class="aiact"><button class="btn ghost sm" id="chatsave">💾 Simpan percakapan ke Catatan</button><button class="btn ghost sm" id="chatclear">🧹 Mulai baru</button></div>
+        </div>
+      </div>
+    </div>
+    <p class="src">AI bisa keliru. Ketentuan, angka, dan kebijakan tetap dicek ke SE/Juklak dan mentor. Jangan masukkan data nasabah.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="p-notes">
+    <div class="kicker">Buku catatan</div>
+    <h2 class="sec">Catatan OJT</h2>
+    <p class="lead">Tulis, dikte suara, rapikan dengan AI. Tersimpan otomatis di perangkat ini, dan juga di akun Claude kamu saat dibuka sebagai artifact.</p>
+    <div class="nbgrid">
+      <div>
+        <div style="display:flex;gap:6px;margin-bottom:8px"><input class="gsearch" id="nsearch" placeholder="Cari catatan…" style="margin:0;flex:1"><button class="btn sm" id="nnew">+ Baru</button></div>
+        <div class="chipset" id="nfilter" style="margin-bottom:8px"></div>
+        <div class="nlist" id="nlist"></div>
+        <div class="aiact"><button class="btn ghost sm" id="nexport">⬇️ Export semua (.md)</button></div>
+      </div>
+      <div class="card ned" id="ned"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-mss">
+    <div class="kicker">Disarikan dari 15 resume harian OJT MSS · 12 Okt – 19 Nov 2026</div>
+    <h2 class="sec">Bekal MSS untuk lapangan</h2>
+    <p class="lead">Semua yang dibahas di briefing Micro Sales Management, diubah jadi alat kerja di RO, Cabang, dan Unit. Angka di sini sesuai catatan resume pada tanggalnya, jadi pakai sebagai konteks, bukan data terbaru.</p>
+
+    <h3 style="margin:6px 0 8px">🧭 GBHN dalam satu layar</h3>
+    <div class="gbhn">
+      <div class="gb"><div class="kicker">Mantri Tumbuh</div><div class="num">15 <small>aktivitas / hari</small></div>
+        <div class="split"><i style="width:33.3%;background:var(--bri-d)"></i><i style="width:60%;background:var(--sky)"></i><i style="width:6.7%;background:var(--bri-dd)"></i></div>
+        <div style="font-size:13px"><b style="color:var(--bri-d)">5 pemasaran</b> (Kupedes dinaikkan dari 2 menjadi 3)<br><b style="color:#1B8FBF">9 penagihan</b>: lancar H-1 saldo kurang, SML 1 baru, debitur restruk<br><b style="color:var(--bri-dd)">1 referral</b> agen BRILink</div></div>
+      <div class="gb"><div class="kicker">Mantri Recovery</div><div class="num">4 <small>urutan prioritas</small></div>
+        <div class="funnel">
+          <div style="background:var(--bri-dd);width:100%">1 · SML 3</div><div style="background:var(--bri-d);width:88%">2 · NPL Kol 3</div><div style="background:var(--bri);width:76%">3 · NPL Kol 4</div><div style="background:var(--sky);width:64%;color:var(--bri-dd)">4 · SML 2</div></div>
+        <div class="src">Unit tanpa Mantri Recovery: acuan 3–4 aktivitas penagihan.</div></div>
+      <div class="gb"><div class="kicker">RM Mikro</div><div class="num">10 <small>aktivitas</small></div>
+        <div class="split"><i style="width:50%;background:var(--bri-d)"></i><i style="width:50%;background:var(--sky)"></i></div>
+        <div style="font-size:13px"><b style="color:var(--bri-d)">5 pemasaran</b> (sudah tercatat di BRISPOT)<br><b style="color:#1B8FBF">5 penagihan</b> (rekap masih manual/link per RO)</div>
+        <div class="src">Pengawalan pimpinan: 3 putusan per Mantri per hari, realisasi sebelum 17.00, LKN penagihan wajib diisi di BRISPOT.</div></div>
+    </div>
+    <div class="note">Catatan MSS sendiri tidak seragam: ada yang menyebut "5 pemasaran + 3 Kupedes", ada yang "5 pemasaran + 3 suplesi", dan pernah ditemukan RO yang memakai 7 aktivitas. <b>Minta versi GBHN terbaru di Unit</b> dan bandingkan.</div>
+
+    <h3 style="margin:22px 0 8px">🧮 Kalkulator kebutuhan realisasi</h3>
+    <div class="card">
+      <div class="formula">Turun pokok = OS awal + realisasi − PH − OS akhir<br>Kebutuhan realisasi = <em>(Target OS − OS sekarang)</em> + perkiraan turun pokok + perkiraan PH</div>
+      <div class="calc">
+        <label>OS sekarang (Rp juta)<input type="number" data-calc="os" placeholder="mis. 25000"></label>
+        <label>Target OS akhir periode (Rp juta)<input type="number" data-calc="tgt" placeholder="mis. 26000"></label>
+        <label>Perkiraan PH (Rp juta)<input type="number" data-calc="ph" placeholder="mis. 150"></label>
+        <label>Turun pokok bulan -1 (Rp juta)<input type="number" data-calc="tp1"></label>
+        <label>Turun pokok bulan -2 (Rp juta)<input type="number" data-calc="tp2"></label>
+        <label>Turun pokok bulan -3 (Rp juta)<input type="number" data-calc="tp3"></label>
+        <label>Jumlah Mantri<input type="number" data-calc="mt" placeholder="mis. 8"></label>
+        <label>Sisa hari kerja<input type="number" data-calc="hk" placeholder="mis. 10"></label>
+        <label>Pipeline tersedia (Rp juta) · success rate %<span style="display:flex;gap:6px"><input type="number" data-calc="pipe" placeholder="nominal"><input type="number" data-calc="sr" placeholder="%"></span></label>
+      </div>
+      <div class="out">
+        <div><span>Perkiraan turun pokok (rata-rata 3 bln)</span><b id="c-tp">–</b></div>
+        <div><span>Kebutuhan realisasi total</span><b id="c-need">–</b></div>
+        <div><span>Per Mantri · per Mantri per hari</span><b id="c-mt">–</b></div>
+        <div class="sky"><span>Pipeline × success rate vs kebutuhan</span><b id="c-cov">–</b></div>
+      </div>
+      <div class="src">Angka hanya tersimpan di browser ini. Pakai data agregat Unit/Cabang, bukan data nasabah.</div>
+    </div>
+
+    <h3 style="margin:22px 0 8px">🗃️ Peta sumber data</h3>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table class="t"><tr><th>Data</th><th>Isi / kegunaan</th><th>Catatan</th></tr>
+      <tr><td><b>L1133</b></td><td>Highlight per unit; OS, SML, NPL per produk</td><td>Untuk melihat kualitas per produk</td></tr>
+      <tr><td><b>LW321</b></td><td>Data pinjaman MBD & realisasi harian, kolektibilitas, pipeline</td><td>Ditarik CSV. Kinerja inti H+2, RO H+1. Rawan PN null</td></tr>
+      <tr><td><b>LN Mas</b></td><td>Realisasi bulan berjalan / hari sebelumnya (dari Hue)</td><td>Cek ada suplesi atau tidak</td></tr>
+      <tr><td><b>Loan Report</b></td><td>Data pinjaman yang lebih rinci</td><td></td></tr>
+      <tr><td><b>MIR03</b></td><td>Simpanan, pinjaman, FBI per unit</td><td>Bagus untuk profil Unit</td></tr>
+      <tr><td><b>EDM</b></td><td>Sumber produktivitas Mantri & pembentukan LW</td><td>Data aktivitas ke BRISIM direncanakan tiap 3 jam</td></tr>
+      <tr><td><b>BRISPOT / BSP</b></td><td>Pipeline, aktivitas, prakarsa, MAK Tools</td><td>Laporan resmi bisa beda dengan rekap grup WA</td></tr>
+      </table>
+    </div>
+
+    <h3 style="margin:22px 0 8px">🧱 Alur analisis yang diminta mentor MSS</h3>
+    <div class="grid2">
+      <div class="card"><div class="kicker">Struktur deck</div>
+        <ol style="margin:6px 0 0;padding-left:18px;font-size:14px">
+          <li><b>Overview:</b> KPI & DUJ, lagging vs leading, RKA vs target Desember, sumber data</li>
+          <li><b>Nasional per RO:</b> OS, SML, NPL; terbaik vs perlu perhatian</li>
+          <li><b>Deep dive RO/BO/Unit:</b> baseline Des–Sep–Okt, YTD/MTD/RKA, kebutuhan realisasi, pipeline cukup atau tidak, success rate</li>
+          <li><b>Kualitas:</b> NPL/SML/PH per BO lalu ke Unit, penyebab, evaluasi pemutus</li>
+          <li><b>Rangkuman & inovasi:</b> prioritas tindak lanjut per level</li>
+        </ol></div>
+      <div class="card"><div class="kicker">Catatan revisi yang sering muncul</div>
+        <ul class="chk" style="margin:4px 0 0">
+          ${checkItem("rv0","Satuan angka konsisten (Rp juta / miliar / triliun), tidak ada angka tanpa satuan","")}
+          ${checkItem("rv1","Tanggal posisi data seragam di semua tabel & grafik","")}
+          ${checkItem("rv2","Narasi kualitas jujur: kalau memburuk, tulis memburuk + penyebabnya","")}
+          ${checkItem("rv3","Tidak mengulang grafik yang sama; bagian berikutnya memberi analisis lanjutan","")}
+          ${checkItem("rv4","Gap per produk: target → realisasi → pipeline → gap → implikasi","")}
+          ${checkItem("rv5","Setiap temuan: penyebab, dampak ke target, rekomendasi konkret","")}
+          ${checkItem("rv6","Langkah diurutkan dan diberi label (Prioritas)","")}
+          ${checkItem("rv7","Bobot KPI tepat 100%","")}
+        </ul></div>
+    </div>
+
+    <h3 style="margin:22px 0 8px">🔎 Isu hangat untuk dicek di lapangan</h3>
+    <div class="issue">
+      <div class="iss"><div class="lv">Unit · Kaunit</div><b>Pipeline tidak tergarap</b>: berhenti di disposisi, di luar wilayah kerja (boleh di-cancel), duplikat satu KK, nominatif Excel beda dengan BRISPOT.</div>
+      <div class="iss"><div class="lv">Cabang · BSA</div><b>PN null</b>: realisasi tidak tercatat atas nama pemrakarsa, sehingga Mantri bisa dinilai belum realisasi (dampak ke ITP, net disbursement, MOB).</div>
+      <div class="iss"><div class="lv">Unit · Mantri</div><b>MAK Tools & NPM terkunci</b>: Business Checking bisa memblokir prakarsa jika omzet tidak wajar; ada indikasi omzet di-mark-up agar RPC sesuai.</div>
+      <div class="iss"><div class="lv">Cabang · Unit</div><b>GBHN hanya dicetak</b>, belum dijelaskan sampai Mantri; pemahaman P2P belum seragam.</div>
+      <div class="iss"><div class="lv">Unit · Recovery</div><b>Debitur musiman</b>: pola tanam–panen per komoditas, limit restrukturisasi, kandidat PH; KUR restruk perlu dilaporkan ke MBD agar asuransinya tetap ter-cover.</div>
+      <div class="iss"><div class="lv">Unit · SOL/CS</div><b>Buka-tutup blokir</b>: maker SOL & approval Kaunit, risiko password dititipkan; usulan maker CS & approval SOL.</div>
+      <div class="iss"><div class="lv">RO · Cabang</div><b>Kuota KUR menipis</b>: OS dijaga lewat Kupedes, KPP, cash collateral, diversifikasi produk; jangan akad lalu gagal cair.</div>
+      <div class="iss"><div class="lv">Unit · Mantri</div><b>Kupedes kurang diminati</b>: nasabah memilih KUR; sebagian Mantri belum pernah realisasi Kupedes; pemasaran masih low effort (surat, WA, telepon).</div>
+    </div>
+
+    <h3 style="margin:22px 0 8px">📂 Studi kasus dari kelompok MSS</h3>
+    <div class="grid3">
+      <div class="card case"><div class="kicker">RO Yogyakarta</div><div class="big">72,79%</div><div class="muted" style="font-size:13px">capaian RKA Kupedes, terendah di MSS. Proporsi Kupedes 22% dari OS, didominasi KUR Mikro; kunjungan pemasaran per Mantri juga terendah.</div><div class="src">Resume 2 Nov · pertanyaan: kenapa Kupedes kalah dari KUR?</div></div>
+      <div class="card case"><div class="kicker">RO Surabaya</div><div class="big">Rp13,49 M</div><div class="muted" style="font-size:13px">pertumbuhan OS Oktober (MTD), paling rendah dari 8 RO, padahal aktivitas pemasarannya paling tinggi. Hipotesis: runoff tinggi + pipeline belum efektif.</div><div class="src">Resume 9–10 Nov · uji dengan turun pokok & success rate</div></div>
+      <div class="card case"><div class="kicker">BO Wates (MBM)</div><div class="big">5 penyebab</div><div class="muted" style="font-size:13px">NPL Kupedes: wisata ditutup (Kokap), menunggu ganti rugi tol (Pripih, Jangkaran), fraud (Glagah), gagal panen bawang (Kenteng).</div><div class="src">Resume 5 Nov · contoh analisis akar masalah per Unit</div></div>
+    </div>
+    <div class="tip" style="margin-top:14px"><b>Pesan pimpinan yang layak diingat:</b> aktivitas tidak cukup hanya tercatat di rencana, tetapi harus benar-benar dilaksanakan dan menjadi realisasi. Ukur hasil penagihan, bukan hanya volume kunjungan. Jangan melambat setelah RKA tercapai.</div>
+  </section>
+
+  <section class="panel" id="p-rem">
+    <div class="remhead"><div><div class="kicker">Belajar ulang</div><h2 class="sec">Topik HO yang perlu dikuatkan</h2></div>
+    <div class="chipset" id="remfilter"></div></div>
+    <p class="lead">Nilai dirimu 1–5. Topik dengan nilai 1–2 jadikan pertanyaan prioritas ke mentor di RO, Cabang, atau Unit. Penjelasan di sini ringkas; tetap cek ke materi resmi & ketentuan terbaru.</p>
+    <div class="card" id="remlist"></div>
+  </section>
+
+  <section class="panel" id="p-hyp">
+    <div class="kicker">Lab lapangan</div>
+    <h2 class="sec">Hipotesis dari HO untuk diuji di lapangan</h2>
+    <p class="lead">Di HO kamu menemukan banyak ide. Di RO sampai Unit, ide-ide itu bisa dibuktikan atau dibantah. Hasilnya bisa jadi bahan kuat untuk presentasi dan proposal ekosistem.</p>
+    <div class="grid2" id="hyplist"></div>
+  </section>
+
+  <section class="panel" id="p-jour">
+    <div class="kicker">Satu hari, satu insight</div>
+    <h2 class="sec">Jurnal Harian OJT</h2>
+    <p class="lead">Tulis singkat setiap hari. Jangan masukkan data nasabah.</p>
+    <div class="card">
+      <div class="jform">
+        <input type="date" class="jinput" id="j-date">
+        <select class="jinput" id="j-loc"><option>Regional Office</option><option>Kantor Cabang</option><option>BRI Unit</option><option>Ekosistem</option></select>
+        <span class="muted" style="font-size:13px;align-self:center">Hari ini aku belajar…</span>
+        <textarea class="jinput" id="j-learn" placeholder="Insight utama, angka penting, momen berkesan"></textarea>
+        <span class="muted" style="font-size:13px;align-self:center">Yang belum aku mengerti…</span>
+        <textarea class="jinput" id="j-q" placeholder="Pertanyaan untuk besok, dan akan tanya siapa"></textarea>
+      </div>
+      <div style="text-align:right;margin-top:10px"><button class="btn" id="j-add">+ Simpan catatan</button></div>
+    </div>
+    <div id="jlist" style="margin-top:16px"></div>
+  </section>
+
+  <section class="panel" id="p-kit">
+    <div class="kicker">Perlengkapan</div>
+    <h2 class="sec">Kamus singkat & etika OJT</h2>
+    <div class="grid2">
+      <div>
+        <input class="gsearch" id="gsearch" placeholder="Cari istilah… (mis. SML, CASA)">
+        <div class="gl" id="glist"></div>
+      </div>
+      <div class="card">
+        <h3>🤝 Etika & kebiasaan baik</h3>
+        <ul class="chk">${ETIQ.map((e,i)=>checkItem("et"+i,esc(e),"")).join("")}</ul>
+        <div class="tip"><b>PIC Corporate University (dari handbook):</b><br>Herdjuno Bagus · Micro Banking Academy<br>Erli Dwi Ratnasari · Learning Operation</div>
+      </div>
+    </div>
+  </section>`;
+
+  renderRemedial(); renderHyp(); renderJournal(); renderGloss(""); if(typeof fillCalc==='function') fillCalc(); fillMeta(); if(typeof renderAI==='function'){renderAI(); renderNotes();}
+  showTab(current,false);
+  stats();
+}
+
+/* ----- remedial ----- */
+let remCat="Semua";
+function renderRemedial(){
+  const cats=["Semua",...new Set(REMEDIAL.map(r=>r.cat)),"Nilai ≤2"];
+  $("#remfilter").innerHTML=cats.map(c=>`<button class="chip ${c===remCat?'on':''}" data-remcat="${c}">${c}</button>`).join("");
+  const list=REMEDIAL.filter(r=>remCat==="Semua"||r.cat===remCat||(remCat==="Nilai ≤2"&&(S.rate[r.id]||0)<=2));
+  $("#remlist").innerHTML=list.map(r=>{
+    const v=S.rate[r.id]||0;
+    const cls=n=>v===n?('on '+(v<=2?'lo':v===3?'mid':'hi')):'';
+    return `<div class="rem"><div><span class="tag blue" style="margin:0 6px 0 0">${esc(r.cat)}</span><b>${esc(r.t)}</b><p>${esc(r.d)}</p></div>
+    <div class="stars">${[1,2,3,4,5].map(n=>`<button class="${cls(n)}" data-rate="${r.id}|${n}" title="Pemahaman ${n}/5">${n}</button>`).join("")}</div></div>`;
+  }).join("")||`<p class="muted">Tidak ada topik di filter ini. 🎉</p>`;
+}
+
+/* ----- hypotheses ----- */
+function renderHyp(){
+  $("#hyplist").innerHTML=HYPS.map(h=>{
+    const v=S.hyp[h.id]||"belum";
+    return `<div class="card hyp"><div class="where">📍 ${esc(h.where)}</div><h3>${esc(h.t)}</h3><p class="muted" style="font-size:13.5px;margin:0 0 8px">${esc(h.d)}</p>
+    <textarea class="answer" data-k="txt.hyp-${h.id}" placeholder="Bukti yang ditemukan, sumber, dan siapa yang dikonfirmasi…">${esc(S.txt['hyp-'+h.id]||'')}</textarea>
+    <div class="st">${["belum","proses","terbukti","dibantah"].map(s=>`<button data-v="${s}" class="${v===s?'on':''}" data-hyp="${h.id}|${s}">${{belum:"⏳ Belum",proses:"🔍 Sedang diuji",terbukti:"✅ Terbukti",dibantah:"❌ Dibantah"}[s]}</button>`).join("")}</div></div>`;
+  }).join("");
+}
+
+/* ----- journal ----- */
+function renderJournal(){
+  const L=[...S.journal].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  $("#jlist").innerHTML=L.length?L.map(e=>`<div class="entry"><div class="h"><b>${esc(e.date||"-")}</b><span>· ${esc(e.loc)}</span><button class="del" data-delj="${e.id}">hapus</button></div>
+   ${e.learn?`<p>💡 ${esc(e.learn)}</p>`:''}${e.q?`<p class="q">❓ ${esc(e.q)}</p>`:''}</div>`).join(""):`<p class="muted">Belum ada catatan. Mulai dari hari pertama di RO!</p>`;
+}
+
+/* ----- glossary ----- */
+function renderGloss(q){
+  q=q.toLowerCase();
+  $("#glist").innerHTML=GLOSS.filter(g=>(g[0]+g[1]).toLowerCase().includes(q)).map(g=>`<div><b>${esc(g[0])}</b>${esc(g[1])}</div>`).join("");
+}
+
+/* =====================================================================
+   STATS / PROGRESS
+   ===================================================================== */
+function roleIds(r){
+  const ids=[];
+  r.todos.forEach((_,i)=>ids.push(`${r.id}-t${i}`));
+  r.qs.forEach((_,i)=>ids.push(`${r.id}-q${i}`));
+  r.mats.forEach((_,i)=>ids.push(`${r.id}-m${i}`));
+  (S.extraQ[r.id]||[]).forEach(x=>ids.push(`${r.id}-x${x.k}`));
+  ids.push(`${r.id}-sign`);
+  return ids;
+}
+function stats(){
+  let all=0,done=0,qdone=0; const role={},stage={};
+  ["ro","bo","un","eco"].forEach(st=>{
+    let sa=0,sd=0;
+    ROLES.filter(r=>r.stage===st).forEach(r=>{
+      const ids=roleIds(r); const d=ids.filter(i=>S.chk[i]).length;
+      role[r.id]=Math.round(d/ids.length*100);
+      sa+=ids.length; sd+=d;
+      qdone+=ids.filter(i=>/-(q|x)\d+$/.test(i)&&S.chk[i]).length;
+      const p=$("#rp-"+r.id); if(p){p.textContent=`${d}/${ids.length} · ${role[r.id]}%`; $("#rb-"+r.id).style.width=role[r.id]+"%";
+        $("#role-"+r.id).classList.toggle("complete",role[r.id]===100);}
+    });
+    DELIVS[st].items.forEach((_,i)=>{sa++; if(S.chk[`dv-${st}-${i}`])sd++;});
+    stage[st]=sa?Math.round(sd/sa*100):0; all+=sa; done+=sd;
+  });
+  ["w-ots-mbm","w-ots-rm","w-ots-ka","w-ots-mt","w-tagih","w-pkt-tim","w-pkt-ind"].forEach(k=>{all++; if(S.chk[k])done++;});
+  const pct=all?Math.round(done/all*100):0;
+  const remRated=REMEDIAL.filter(r=>(S.rate[r.id]||0)>=4).length;
+  const remLow=REMEDIAL.filter(r=>(S.rate[r.id]||0)>0&&(S.rate[r.id]||0)<=2).length;
+  const hyp=Object.values(S.hyp).filter(v=>v==="terbukti"||v==="dibantah").length;
+  const xp=done*10+qdone*5+S.journal.length*15+hyp*25+remRated*10;
+  $("#pct").textContent=pct+"%";
+  $("#xp").textContent=xp+" XP";
+  $("#ringfg").style.strokeDashoffset=389.6*(1-pct/100);
+  const lv=[[0,"Level 1 · Peserta Baru"],[250,"Level 2 · Pengamat Region"],[700,"Level 3 · Analis Cabang"],[1300,"Level 4 · Jiwa Mantri"],[2000,"Level 5 · Kaunit-in-Training"],[2800,"Level 6 · Calon Pemimpin Mikro"]];
+  $("#lvl").textContent=lv.filter(l=>xp>=l[0]).pop()[1];
+
+  // journey cards
+  const jp={ho:100,ro:stage.ro,bo:stage.bo,un:stage.un,eco:stage.eco};
+  $("#journey").innerHTML=STAGES.map(s=>{
+    const cls=s.id==="ho"?"done":(jp[s.id]>=100?"done":(s.id===firstOpen(jp)?"now":"next"));
+    const tab=s.id==="ho"?"rem":s.id;
+    return `<div class="jstep ${cls}" data-tab="${tab}"><small>${s.hk}</small><b>${s.id==="ho"?"✅ ":""}${s.name}</b><span class="muted" style="font-size:12px">${s.id==="ho"?"Selesai · lihat Belajar Ulang":jp[s.id]+"% selesai"+hkText(s.id)}</span><div class="bar"><i style="width:${jp[s.id]}%"></i></div></div>`;
+  }).join("");
+
+  // tab counts
+  const tn=(id,v)=>{const e=$("#tn-"+id); if(e)e.textContent=v;};
+  tn("ro",stage.ro+"%");tn("bo",stage.bo+"%");tn("un",stage.un+"%");tn("eco",stage.eco+"%");
+  tn("rem",remLow?remLow+" lemah":"");tn("hyp",hyp+"/"+HYPS.length);tn("jour",S.journal.length||"");
+
+  // badges
+  const st={done,pct,stage,role,qdone,journal:S.journal.length,hyp,remOk:REMEDIAL.every(r=>(S.rate[r.id]||0)>=4)};
+  const bw=$("#badges"); if(bw) bw.innerHTML=BADGES.map(b=>`<div class="badge ${b.test(st)?'got':''}"><span>${b.ico}</span>${esc(b.t)}</div>`).join("");
+  const mw=$("#memwarn"); if(mw) mw.innerHTML=memOnly?' <b style="color:#C0392B">(penyimpanan browser tidak tersedia di sini, gunakan Simpan Cadangan!)</b>':'';
+}
+function firstOpen(jp){return ["ro","bo","un","eco"].find(k=>jp[k]<100)||"eco";}
+
+function showTab(id,scroll=true){
+  current=id; S.stageView.tab=id; clearTimeout(saveT); saveT=setTimeout(flush,250);
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.tab===id));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+id));
+  if(scroll){const y=$(".tabs").getBoundingClientRect().top+window.scrollY; if(window.scrollY>y) window.scrollTo({top:y,behavior:"smooth"});}
+}
+
+/* =====================================================================
+   EVENTS
+   ===================================================================== */
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.dataset.chk){S.chk[t.dataset.chk]=t.checked; const li=t.closest("li"); if(li)li.classList.toggle("done",t.checked); save(); stats();
+    if(t.checked) burst(t);}
+  if(t.id==="importfile"&&t.files[0]){const fr=new FileReader();fr.onload=()=>{try{const d=JSON.parse(fr.result); if(!d||typeof d!=="object"||!d.chk) throw 0; S=Object.assign(defaultS(),d); S.updatedAt=Date.now(); (S.notes||[]).forEach(n=>{n.updatedAt=Date.now(); if(typeof cloudNote==='function') cloudNote(n);}); save(); fillMeta(); render(); toast("Progres berhasil dipulihkan ✅");}catch(err){toast("File tidak dikenali ❌");} t.value="";}; fr.readAsText(t.files[0]);}
+});
+document.addEventListener("input",e=>{
+  const k=e.target.dataset.k; if(!k) return;
+  const [a,b]=k.split("."); S[a]=S[a]||{}; S[a][b]=e.target.value; save(); if(a==='meta'&&b.startsWith('d')) stats();
+});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button,[data-tab]"); if(!b) return;
+  if(b.dataset.tab){showTab(b.dataset.tab);return;}
+  if(b.dataset.rate){const [id,n]=b.dataset.rate.split("|"); S.rate[id]=(S.rate[id]==+n)?0:+n; save(); renderRemedial(); stats(); return;}
+  if(b.dataset.remcat){remCat=b.dataset.remcat; renderRemedial(); return;}
+  if(b.dataset.hyp){const [id,v]=b.dataset.hyp.split("|"); S.hyp[id]=v; save(); renderHyp(); stats(); return;}
+  if(b.dataset.addq){const id=b.dataset.addq; const inp=document.querySelector(`[data-addqin="${id}"]`); const v=inp.value.trim(); if(!v)return;
+    S.extraQ[id]=S.extraQ[id]||[]; S.extraQ[id].push({k:Date.now(),t:v}); save(); rerenderRole(id); toast("Pertanyaan ditambahkan"); return;}
+  if(b.dataset.delq){const [id,k]=b.dataset.delq.split("|"); S.extraQ[id]=(S.extraQ[id]||[]).filter(x=>String(x.k)!==k); delete S.chk[id+"-x"+k]; save(); rerenderRole(id); return;}
+  if(b.dataset.delj){if(!armed(b))return; S.journal=S.journal.filter(x=>String(x.id)!==b.dataset.delj); save(); renderJournal(); stats(); return;}
+  if(b.id==="j-add"){const learn=$("#j-learn").value.trim(),q=$("#j-q").value.trim(); if(!learn&&!q){toast("Tulis dulu catatannya ✍️");return;}
+    S.journal.push({id:Date.now(),date:$("#j-date").value,loc:$("#j-loc").value,learn,q}); save(); $("#j-learn").value="";$("#j-q").value=""; renderJournal(); stats(); toast("Catatan tersimpan 📓"); return;}
+  if(b.id==="b-export"){exportJSON();return;}
+  if(b.id==="b-report"){exportReport();return;}
+  if(b.id==="b-quick"){showTab("notes"); newNote(); return;}
+  if(b.id==="b-import"){$("#importfile").click();return;}
+  if(b.id==="b-print"){document.querySelectorAll("details.role").forEach(d=>d.open=true); setTimeout(()=>window.print(),100);return;}
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Enter"&&e.target.dataset.addqin){e.preventDefault(); document.querySelector(`[data-addq="${e.target.dataset.addqin}"]`).click();}
+});
+document.addEventListener("input",e=>{if(e.target.id==="gsearch")renderGloss(e.target.value);});
+
+function rerenderRole(id){
+  const r=ROLES.find(x=>x.id===id); const old=$("#role-"+id); const open=old.open;
+  const tmp=document.createElement("div"); tmp.innerHTML=roleHTML(r); const n=tmp.firstElementChild; n.open=open; old.replaceWith(n); stats();
+}
+function exportJSON(){const d=new Date().toISOString().slice(0,10); offerFile(`OJT-BFLP18-progres-${d}.json`,JSON.stringify(S,null,1),"application/json");}
+function fillMeta(){document.querySelectorAll('input[data-k^="meta."]').forEach(i=>{const k=i.dataset.k.split(".")[1]; i.value=(S.meta&&S.meta[k])||"";});}
+function burst(el){
+  const r=el.getBoundingClientRect();
+  for(let i=0;i<8;i++){const s=document.createElement("span");
+    s.style.cssText=`position:fixed;left:${r.left+10}px;top:${r.top+10}px;width:6px;height:6px;border-radius:50%;background:${i%2?'#71C5E8':'#0857C3'};pointer-events:none;z-index:50;transition:all .6s ease-out`;
+    document.body.appendChild(s); const a=Math.PI*2*i/8;
+    requestAnimationFrame(()=>{s.style.transform=`translate(${Math.cos(a)*26}px,${Math.sin(a)*26}px)`;s.style.opacity=0;});
+    setTimeout(()=>s.remove(),650);}
+}
+
+
+/* ----- kalkulator ----- */
+S.calc=S.calc||{};
+function fmt(n){if(!isFinite(n))return "–"; const a=Math.abs(n); return (a>=1e6?(n/1e6).toLocaleString('id-ID',{maximumFractionDigits:2})+" T":a>=1e3?(n/1e3).toLocaleString('id-ID',{maximumFractionDigits:2})+" M":n.toLocaleString('id-ID',{maximumFractionDigits:1})+" jt");}
+function runCalc(){
+  const g=k=>{const v=parseFloat(S.calc[k]);return isNaN(v)?null:v;};
+  const tps=[g("tp1"),g("tp2"),g("tp3")].filter(v=>v!==null);
+  const tp=tps.length?tps.reduce((a,b)=>a+b,0)/tps.length:null;
+  const os=g("os"),tgt=g("tgt"),ph=g("ph")||0,mt=g("mt"),hk=g("hk"),pipe=g("pipe"),sr=g("sr");
+  const set=(id,v)=>{const e=document.getElementById(id); if(e)e.textContent=v;};
+  set("c-tp",tp===null?"–":"Rp "+fmt(tp));
+  if(os===null||tgt===null){set("c-need","–");set("c-mt","–");set("c-cov","–");return;}
+  const need=(tgt-os)+(tp||0)+ph;
+  set("c-need","Rp "+fmt(need));
+  set("c-mt",mt?("Rp "+fmt(need/mt)+(hk?" · "+fmt(need/mt/hk)+"/hari":"")):"isi jumlah Mantri");
+  if(pipe!==null&&sr!==null&&need>0){const c=pipe*sr/100/need*100; set("c-cov",c.toLocaleString('id-ID',{maximumFractionDigits:0})+"% "+(c>=100?"✅ cukup":"⚠️ kurang"));}
+  else set("c-cov","isi pipeline & SR");
+}
+function fillCalc(){document.querySelectorAll("[data-calc]").forEach(i=>{i.value=S.calc[i.dataset.calc]??"";}); runCalc();}
+document.addEventListener("input",e=>{const k=e.target.dataset.calc; if(!k)return; S.calc[k]=e.target.value; save(); runCalc();});
+
+/* =====================================================================
+   FITUR FUNGSIONAL: cloud save, AI, catatan, dikte, unduhan
+   ===================================================================== */
+const CAP={sample:null,db:null,dl:null,dict:null,uid:null};
+const HAS_CLAUDE = typeof window.claude==="object" && window.claude!==null && typeof window.claude.use==="function";
+if(HAS_CLAUDE) document.body.classList.add("in-claude");
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ---------- utilities ---------- */
+function armed(btn){ if(btn.dataset.armed==="1"){delete btn.dataset.armed; return true;}
+  const old=btn.textContent; btn.dataset.armed="1"; btn.textContent="Yakin? klik lagi";
+  setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed; btn.textContent=old;}},3000); return false; }
+async function offerFile(filename,text,mime){
+  if(CAP.dl){ try{ await CAP.dl.save({filename,data:text}); toast("File disimpan ✅"); }
+    catch(e){ toast(e&&e.code==="declined"?"Unduhan dibatalkan":"Unduhan tidak tersedia di sini"); } return; }
+  try{ const blob=new Blob([text],{type:mime||"text/plain"}); const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob); a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href),1500); toast("File diunduh 💾"); }catch(e){ toast("Unduhan tidak didukung di sini"); }
+}
+async function copyText(t){ try{ await navigator.clipboard.writeText(t); toast("Disalin 📋"); }catch(e){ toast("Tidak bisa menyalin di sini"); } }
+function md(t){
+  const lines=esc(t||"").split("\n"); let out="",list=null;
+  const inline=x=>x.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`([^`]+)`/g,"<code>$1</code>").replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<i>$2</i>");
+  const close=()=>{if(list){out+=`</${list}>`;list=null;}};
+  for(const l of lines){
+    let m;
+    if(m=l.match(/^\s*#{1,3}\s+(.*)/)){close(); out+=`<h3>${inline(m[1])}</h3>`;}
+    else if(m=l.match(/^\s*[-*•]\s+(.*)/)){ if(list!=="ul"){close(); out+="<ul>"; list="ul";} out+=`<li>${inline(m[1])}</li>`;}
+    else if(m=l.match(/^\s*\d+[.)]\s+(.*)/)){ if(list!=="ol"){close(); out+="<ol>"; list="ol";} out+=`<li>${inline(m[1])}</li>`;}
+    else if(!l.trim()){close();}
+    else {close(); out+=`<p>${inline(l)}</p>`;}
+  }
+  close(); return out;
+}
+function workdays(from,to){ if(!from) return 0; let d=new Date(from+"T00:00:00"), e=new Date(to); e.setHours(0,0,0,0); let n=0;
+  while(d<=e){const w=d.getDay(); if(w!==0&&w!==6) n++; d.setDate(d.getDate()+1);} return n; }
+function hkText(st){
+  const map={ro:["dRO",10],bo:["dBU",40],un:["dBU",40],eco:["dEC",20]}; const m=map[st]; if(!m||!S.meta||!S.meta[m[0]]) return "";
+  const n=workdays(S.meta[m[0]],new Date()); if(n<=0) return " · belum mulai"; return n>m[1]?" · periode selesai":` · HK ${n}/${m[1]}`;
+}
+
+/* ---------- sync status ---------- */
+function setSync(st){
+  const el=$("#sync"); if(!el) return; el.className="sync "+st;
+  const txt={local:"Tersimpan di perangkat ini",loading:"Memuat dari akun…",cloud:"☁️ Tersimpan di akun",saving:"Menyimpan ke akun…",slow:"Akun belum terjangkau, tersimpan lokal",err:"Gagal sinkron, tersimpan lokal",quota:"Penyimpanan akun penuh"}[st]||st;
+  el.querySelector("span").textContent=txt;
+}
+
+/* ---------- cloud (db) ---------- */
+const W={busy:{},pend:{}};
+function cloudWrite(path,data){
+  if(!CAP.db) return; W.pend[path]=data; if(W.busy[path]) return;
+  (async()=>{ W.busy[path]=true;
+    while(Object.prototype.hasOwnProperty.call(W.pend,path)){
+      const d=W.pend[path]; delete W.pend[path]; setSync("saving");
+      let ok=false;
+      for(let attempt=0;attempt<2&&!ok;attempt++){
+        try{ if(d===null) await CAP.db.doc(path).delete(); else await CAP.db.doc(path).set(d); ok=true; }
+        catch(e){ if(e&&e.code==="unavailable"&&attempt===0){await sleep(1200+Math.random()*1200);continue;}
+          setSync(e&&e.code==="quota_exceeded"?"quota":"err"); break; }
+      }
+      if(ok&&!Object.keys(W.busy).some(k=>k!==path&&W.busy[k])) setSync("cloud");
+    }
+    W.busy[path]=false; })();
+}
+const statePath=()=>`data/users/${CAP.uid}/state`;
+const notesCol=()=>CAP.db.doc(`data/users/${CAP.uid}/nb`).collection("notes");
+function stateBody(){const c=Object.assign({},S); delete c.notes; return {updatedAt:S.updatedAt||Date.now(), state:JSON.stringify(c)};}
+let cloudT;
+let cloudReady=false;
+function queueCloud(){ if(!CAP.db||!cloudReady) return; clearTimeout(cloudT); cloudT=setTimeout(()=>cloudWrite(statePath(),stateBody()),1500); }
+function cloudNote(n){ if(!CAP.db) return; cloudWrite(`data/users/${CAP.uid}/nb/notes/${n.id}`,{id:n.id,title:n.title||"",body:n.body||"",tag:n.tag||"Umum",pinned:!!n.pinned,updatedAt:n.updatedAt||Date.now()}); }
+function cloudNoteDel(id){ if(!CAP.db) return; cloudWrite(`data/users/${CAP.uid}/nb/notes/${id}`,null); }
+
+async function cloudLoad(){
+  setSync("loading"); const t=setTimeout(()=>setSync("slow"),10000);
+  try{
+    const snap=await CAP.db.doc(statePath()).get();
+    let rerender=false;
+    if(snap.exists){
+      const d=snap.data(); const cT=+d.updatedAt||0, lT=+S.updatedAt||0;
+      if(cT>lT && typeof d.state==="string"){ const notes=S.notes; S=Object.assign(defaultS(),JSON.parse(d.state)); S.notes=notes; flush(); rerender=true; }
+      else if(lT>cT) cloudWrite(statePath(),stateBody());
+    } else if(S.updatedAt) cloudWrite(statePath(),stateBody());
+    const ns=await notesCol().get();
+    const local=new Map((S.notes||[]).map(n=>[n.id,n])); const del=new Set(S.deletedNotes||[]);
+    ns.docs.forEach(doc=>{ const c=doc.data(); if(!c) return;
+      if(del.has(c.id)){ cloudNoteDel(c.id); return; }
+      const l=local.get(c.id);
+      if(!l||(+c.updatedAt||0)>(+l.updatedAt||0)){ local.set(c.id,Object.assign({},c)); rerender=true; }
+      else if((+l.updatedAt||0)>(+c.updatedAt||0)) cloudNote(l);
+    });
+    const cloudIds=new Set(ns.docs.map(d=>d.id));
+    local.forEach(n=>{ if(!cloudIds.has(n.id)) cloudNote(n); });
+    S.notes=[...local.values()]; flush();
+    clearTimeout(t); cloudReady=true; setSync("cloud");
+    if(rerender){ renderTabs(); render(); toast("Progres dari akun dimuat ☁️"); }
+  }catch(e){ clearTimeout(t); cloudReady=true; setSync("err"); }
+}
+
+async function initCaps(){
+  if(!HAS_CLAUDE){ setSync("local"); return; }
+  const get=n=>window.claude.use(n).catch(()=>null);
+  const [sm,db,us,dl,dc]=await Promise.all(["sample","db","user","downloads","dictation"].map(get));
+  CAP.sample=sm; CAP.dl=dl; CAP.dict=dc;
+  if(sm) document.body.classList.add("has-ai");
+  if(dc){ document.body.classList.add("has-dict"); setupDictation(); }
+  if(db&&us){ let id=null; try{ id=await us.id(); }catch(e){}
+    if(id){ CAP.db=db; CAP.uid=id; await cloudLoad(); } }
+  if(!CAP.db) setSync("local");
+  const pb=$("#b-print"); if(pb) pb.style.display="none";
+}
+
+/* ---------- dictation ---------- */
+let dictTarget=null, dictOn=false;
+function setupDictation(){
+  const d=CAP.dict;
+  d.onPartial(({text})=>{ const p=document.querySelector(`[data-partial="${dictTarget}"]`); if(p) p.textContent=text?("🎤 "+text):""; });
+  d.onFinal(({text})=>{ const el=document.getElementById(dictTarget); if(!el||!text) return;
+    el.value=(el.value&&!/\s$/.test(el.value)?el.value+" ":el.value)+text; el.dispatchEvent(new Event("input",{bubbles:true}));
+    const p=document.querySelector(`[data-partial="${dictTarget}"]`); if(p) p.textContent=""; });
+  d.onState(({state})=>{ dictOn=state==="listening";
+    document.querySelectorAll("[data-mic]").forEach(b=>{ const on=dictOn&&b.dataset.mic===dictTarget; b.classList.toggle("listen",on); b.textContent=on?"⏹️ Stop":(b.dataset.label||"🎤"); }); });
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-mic]"); if(!b||!CAP.dict) return;
+  if(dictOn){ CAP.dict.stop().catch(()=>{}); return; }
+  dictTarget=b.dataset.mic;
+  CAP.dict.start().catch(err=>{ if(err&&err.code==="not_granted"){ document.body.classList.remove("has-dict"); toast("Izin mikrofon ditolak, lanjut mengetik ya"); } });
+});
+
+/* ---------- report ---------- */
+function exportReport(){
+  const L=[]; const m=S.meta||{}; const d=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+  L.push(`# Laporan Progres OJT BFLP Specialist Micro Batch 18`,`${m.name||"(nama)"} · RO ${m.ro||"-"} · Cabang ${m.bo||"-"} · Unit ${m.unit||"-"}`,`Dibuat ${d}`,"");
+  [["ro","Regional Office"],["bo","Kantor Cabang"],["un","BRI Unit"],["eco","Ecosystem Business"]].forEach(([st,nm])=>{
+    L.push(`## ${nm}`);
+    ROLES.filter(r=>r.stage===st).forEach(r=>{
+      const ids=roleIds(r), dn=ids.filter(i=>S.chk[i]).length;
+      L.push(`### ${r.name} — ${dn}/${ids.length} selesai${S.chk[r.id+"-sign"]?" · ✅ TTD mentor":""}${S.txt[r.id+"-mentor"]?" ("+S.txt[r.id+"-mentor"]+")":""}`);
+      const open=r.todos.map((x,i)=>[x[0],S.chk[`${r.id}-t${i}`]]).filter(x=>!x[1]).map(x=>"- [ ] "+x[0]);
+      if(open.length) L.push("To-do tersisa:",...open);
+      if(S.txt[r.id]) L.push("","Catatan & insight:",S.txt[r.id]);
+      L.push("");
+    });
+    if(S.txt["fb-"+st]) L.push("Feedback assessor:",S.txt["fb-"+st],"");
+  });
+  L.push("## Hipotesis lapangan"); HYPS.forEach(h=>L.push(`- **${h.t}** — ${S.hyp[h.id]||"belum"}${S.txt["hyp-"+h.id]?": "+S.txt["hyp-"+h.id]:""}`)); L.push("");
+  const weak=REMEDIAL.filter(r=>(S.rate[r.id]||0)>0&&(S.rate[r.id]||0)<=2); if(weak.length){L.push("## Topik yang masih lemah",...weak.map(r=>"- "+r.t),"");}
+  if(S.journal.length){ L.push("## Jurnal harian"); [...S.journal].sort((a,b)=>(a.date||"").localeCompare(b.date||"")).forEach(j=>L.push(`- **${j.date||"-"} · ${j.loc}** — ${j.learn||""}${j.q?" (❓ "+j.q+")":""}`)); L.push(""); }
+  if((S.notes||[]).length){ L.push("## Catatan"); S.notes.forEach(n=>L.push(`### ${n.title||"Tanpa judul"} [${n.tag||"Umum"}]`,n.body||"","")); }
+  offerFile(`Laporan-OJT-BFLP18-${new Date().toISOString().slice(0,10)}.md`,L.join("\n"),"text/markdown");
+}
+
+/* ---------- notes ---------- */
+const NTAGS=["Umum","RO","Cabang","Unit","Ekosistem","MSS","Mentor","Ide Inovasi"];
+let nCur=null, nTag="Semua", nSaveT;
+function newNote(prefill){
+  const n={id:"n"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),title:prefill&&prefill.title||"",body:prefill&&prefill.body||"",tag:prefill&&prefill.tag||guessTag(),pinned:false,updatedAt:Date.now()};
+  S.notes=S.notes||[]; S.notes.unshift(n); nCur=n.id; save(); cloudNote(n); renderNotes(); setTimeout(()=>{const t=$("#ntitle"); if(t&&!n.title) t.focus();},50); return n;
+}
+function guessTag(){return {ro:"RO",bo:"Cabang",un:"Unit",eco:"Ekosistem",mss:"MSS"}[current]||"Umum";}
+function renderNotes(){
+  const box=$("#nlist"); if(!box) return;
+  $("#nfilter").innerHTML=["Semua",...NTAGS].map(t=>`<button class="chip ${t===nTag?'on':''}" data-ntag="${t}">${t}</button>`).join("");
+  const q=($("#nsearch").value||"").toLowerCase();
+  const L=(S.notes||[]).filter(n=>(nTag==="Semua"||n.tag===nTag)&&((n.title+" "+n.body).toLowerCase().includes(q)))
+    .sort((a,b)=>(b.pinned-a.pinned)||(b.updatedAt-a.updatedAt));
+  box.innerHTML=L.length?L.map(n=>`<div class="nitem ${n.id===nCur?'on':''}" data-nid="${n.id}"><b>${n.pinned?"📌 ":""}${esc(n.title||"Tanpa judul")}</b><small>${esc(n.tag)} · ${new Date(n.updatedAt).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</small><p>${esc((n.body||"").slice(0,140))}</p></div>`).join("")
+    :`<p class="muted" style="font-size:13px">Belum ada catatan${q?" yang cocok":""}. Tekan <b>+ Baru</b>.</p>`;
+  renderEditor();
+}
+function renderEditor(){
+  const ed=$("#ned"); if(!ed) return; const n=(S.notes||[]).find(x=>x.id===nCur);
+  if(!n){ ed.innerHTML=`<div class="aiout empty">Pilih catatan di kiri atau buat yang baru.<br>Tip: pakai 🎤 untuk mendikte saat di lapangan.</div>`; return; }
+  ed.innerHTML=`<input class="tt" id="ntitle" placeholder="Judul catatan" value="${esc(n.title)}">
+   <div class="nbar">
+     <select id="ntag">${NTAGS.map(t=>`<option ${t===n.tag?'selected':''}>${t}</option>`).join("")}</select>
+     <button class="btn ghost sm" id="npin">${n.pinned?"📌 Lepas pin":"📌 Pin"}</button>
+     <button class="btn ghost sm mic" data-mic="nbody" data-label="🎤 Dikte">🎤 Dikte</button>
+     <span class="saved" id="nsaved">Tersimpan</span>
+   </div>
+   <textarea id="nbody" placeholder="Tulis catatan… (tanpa data nasabah)">${esc(n.body)}</textarea>
+   <div class="partial" data-partial="nbody"></div>
+   <div class="aiact">
+     <span class="ai-inline">
+       <button class="btn sm" data-nai="tidy">✨ Rapikan</button>
+       <button class="btn sm" data-nai="insight">💡 Tarik insight & pertanyaan lanjutan</button>
+       <button class="btn sm" data-nai="todo">✅ Jadikan to-do</button>
+     </span>
+     <button class="btn ghost sm" id="ncopy">📋 Salin</button>
+     <button class="btn ghost sm" id="ndel" style="margin-left:auto;color:#C0392B">🗑️ Hapus</button>
+   </div>
+   <div id="naiout"></div>`;
+}
+function touchNote(n){ n.updatedAt=Date.now(); S.updatedAt=Date.now(); const sv=$("#nsaved"); if(sv) sv.textContent="Menyimpan…";
+  clearTimeout(nSaveT); nSaveT=setTimeout(()=>{ flush(); cloudNote(n); const sv2=$("#nsaved"); if(sv2) sv2.textContent="Tersimpan ✓";
+    const it=document.querySelector(`.nitem[data-nid="${n.id}"]`); if(it){ it.querySelector("b").textContent=(n.pinned?"📌 ":"")+(n.title||"Tanpa judul"); it.querySelector("p").textContent=(n.body||"").slice(0,140);} },700); }
+document.addEventListener("input",e=>{
+  const n=(S.notes||[]).find(x=>x.id===nCur);
+  if(e.target.id==="nsearch"){ renderNotes(); return; }
+  if(!n) return;
+  if(e.target.id==="ntitle"){ n.title=e.target.value; touchNote(n); }
+  if(e.target.id==="nbody"){ n.body=e.target.value; touchNote(n); }
+});
+document.addEventListener("change",e=>{ const n=(S.notes||[]).find(x=>x.id===nCur); if(n&&e.target.id==="ntag"){ n.tag=e.target.value; touchNote(n); renderNotes(); } });
+document.addEventListener("click",e=>{
+  const it=e.target.closest(".nitem"); if(it){ nCur=it.dataset.nid; renderNotes(); return; }
+  const b=e.target.closest("button"); if(!b) return;
+  const n=(S.notes||[]).find(x=>x.id===nCur);
+  if(b.dataset.ntag){ nTag=b.dataset.ntag; renderNotes(); return; }
+  if(b.id==="nnew"){ newNote(); return; }
+  if(b.id==="nexport"){ const L=(S.notes||[]).map(n=>`## ${n.title||"Tanpa judul"}\n_${n.tag} · ${new Date(n.updatedAt).toLocaleString("id-ID")}_\n\n${n.body||""}\n`); offerFile(`Catatan-OJT-${new Date().toISOString().slice(0,10)}.md`,"# Catatan OJT BFLP 18\n\n"+L.join("\n"),"text/markdown"); return; }
+  if(!n) return;
+  if(b.id==="npin"){ n.pinned=!n.pinned; touchNote(n); renderNotes(); return; }
+  if(b.id==="ncopy"){ copyText((n.title?n.title+"\n\n":"")+n.body); return; }
+  if(b.id==="ndel"){ if(!armed(b)) return; S.notes=S.notes.filter(x=>x.id!==n.id); S.deletedNotes=(S.deletedNotes||[]).concat(n.id).slice(-300); cloudNoteDel(n.id); nCur=null; save(); renderNotes(); toast("Catatan dihapus"); return; }
+  if(b.dataset.nai){ noteAI(b.dataset.nai,n,b); return; }
+  if(b.dataset.nuse){ const r=b.dataset.nuse; const res=window.__naiText||""; if(!res) return;
+    n.body = r==="replace"?res:(n.body+"\n\n---\n"+res); renderEditor(); touchNote(n); toast(r==="replace"?"Isi diganti":"Ditambahkan di bawah"); return; }
+});
+
+/* ---------- AI core ---------- */
+const COACH=`Kamu adalah coach OJT untuk peserta BFLP Specialist Micro Banking BRI Batch 18 (alur: Meet The Expert → OJT Head Office (selesai) → Regional Office 10 HK → Kantor Cabang & BRI Unit 40 HK → Ecosystem Business 20 HK).
+Gaya: Bahasa Indonesia, hangat, ringkas, praktis, pakai poin. Prioritaskan langkah yang bisa langsung dilakukan di lapangan.
+Aturan: jangan mengarang angka, ketentuan, kode produk, atau kebijakan internal BRI; bila perlu, katakan "konfirmasi ke mentor / SE-Juklak terbaru". Jangan meminta atau memproses data pribadi nasabah. Angka dari resume MSS adalah konteks per tanggalnya, bukan data terbaru.`;
+const MSS_BRIEF=`Bekal MSS (dari resume OJT MSS Okt–Nov 2026): GBHN Mantri tumbuh 15 aktivitas/hari (5 pemasaran dengan Kupedes dinaikkan 2→3, 9 penagihan termasuk lancar H-1/SML 1 baru/restruk, 1 referral BRILink); Mantri Recovery prioritas SML3→NPL Kol3→NPL Kol4→SML2; RM Mikro 5 pemasaran + 5 penagihan. P2P = penagihan point-to-point termasuk debitur lancar. Turun pokok = OS awal + realisasi − PH − OS akhir (proyeksi pakai rata-rata 3 bulan). Pipeline berkualitas: SLIK hijau, 5 kunjungan, 3 putusan target 1 berhasil. Data: L1133 (OS/SML/NPL per produk), LW321 (realisasi, kolektibilitas, pipeline; rawan PN null), LN Mas (realisasi kemarin), MIR03 (simpanan/pinjaman/FBI per unit), EDM (produktivitas). Isu: pipeline di luar wilayah/duplikat KK, nominatif Excel ≠ BRISPOT, GBHN hanya dicetak, NPM terkunci → omzet di-mark-up, MAK Tools Business Checking blocking, debitur musiman, kuota KUR menipis → jaga OS lewat Kupedes/KPP/cash collateral, asuransi KUR restruk perlu lapor MBD. Kasus: RO Yogyakarta capaian RKA Kupedes 72,79% (terendah), RO Surabaya aktivitas tinggi tapi OS Okt MTD terendah, BO Wates penyebab NPL (wisata tutup, UGR tol, fraud, gagal panen).`;
+function activeStage(){ return ["ro","bo","un","eco"].find(k=>{const r=ROLES.filter(x=>x.stage===k); return r.some(x=>roleIds(x).some(i=>!S.chk[i]));})||"eco"; }
+function ctx(opts={}){
+  const st=opts.stage||activeStage(); const nm={ro:"Regional Office",bo:"Kantor Cabang",un:"BRI Unit",eco:"Ecosystem Business"}[st];
+  const m=S.meta||{}; const out=[];
+  out.push(`Profil peserta: ${m.name||"-"}; RO ${m.ro||"-"}; Cabang ${m.bo||"-"}; Unit ${m.unit||"-"}. Tanggal hari ini: ${new Date().toLocaleDateString("id-ID")}.`);
+  out.push(`Tahap aktif: ${nm}${hkText(st)}.`);
+  const pr=["ro","bo","un","eco"].map(k=>{const ids=ROLES.filter(r=>r.stage===k).flatMap(roleIds); return `${k.toUpperCase()} ${Math.round(ids.filter(i=>S.chk[i]).length/ids.length*100)}%`;}).join(", ");
+  out.push(`Progres: ${pr}.`);
+  const roles=ROLES.filter(r=>r.stage===st);
+  const open=roles.flatMap(r=>r.todos.map((x,i)=>!S.chk[`${r.id}-t${i}`]?`[${r.name}] ${x[0]}`:null).filter(Boolean)).slice(0,14);
+  if(open.length) out.push("To-do belum selesai:\n- "+open.join("\n- "));
+  const ans=roles.map(r=>S.txt[r.id]?`[${r.name}] ${S.txt[r.id].slice(0,500)}`:null).filter(Boolean);
+  if(ans.length) out.push("Catatan jawaban mentor/insight di tahap ini:\n"+ans.join("\n"));
+  const weak=REMEDIAL.filter(r=>(S.rate[r.id]||0)>0&&(S.rate[r.id]||0)<=2).map(r=>r.t); if(weak.length) out.push("Topik yang masih lemah: "+weak.join("; "));
+  const j=[...S.journal].sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,opts.journal||4).map(x=>`${x.date} ${x.loc}: ${x.learn||""}${x.q?" | belum paham: "+x.q:""}`.slice(0,400));
+  if(j.length) out.push("Jurnal terbaru:\n- "+j.join("\n- "));
+  const nt=(S.notes||[]).slice().sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,opts.notes||3).map(n=>`${n.title||"Tanpa judul"} [${n.tag}]: ${(n.body||"").slice(0,500)}`);
+  if(nt.length) out.push("Catatan terbaru:\n- "+nt.join("\n- "));
+  if(opts.mss!==false) out.push(MSS_BRIEF);
+  return out.join("\n\n");
+}
+let aiAbort=null;
+function aiErr(e){
+  if(e&&e.code==="not_granted"){ document.body.classList.remove("has-ai"); return "Akses AI tidak diizinkan untuk halaman ini."; }
+  if(e&&e.code==="rate_limited") return "Terlalu banyak permintaan, coba lagi sebentar lagi.";
+  if(e&&e.name==="AbortError") return "Dihentikan.";
+  return "AI sedang tidak bisa dihubungi. Coba lagi nanti.";
+}
+async function ask(prompt,{el,onDone,tier}={}){
+  if(!CAP.sample){ toast("AI hanya aktif di artifact Claude"); return null; }
+  if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
+  if(el){ el.classList.remove("empty"); el.innerHTML=`<p class="muted"><span class="spark">✨</span> Sedang berpikir…</p>`; }
+  try{
+    const r=await CAP.sample(prompt,{signal:aiAbort.signal,modelTier:tier||"default",onText:({text})=>{ if(el&&text&&text!=="Thinking...") el.innerHTML=md(text); }});
+    if(el) el.innerHTML=md(r.text);
+    aiAbort=null; if(onDone) onDone(r.text); return r.text;
+  }catch(e){ aiAbort=null; const m=aiErr(e); if(el){ const part=e&&e.text?md(e.text):""; el.innerHTML=part+`<p class="muted">⚠️ ${esc(m)}</p>`; } else toast(m); return null; }
+}
+
+/* ---------- AI quick actions ---------- */
+const roleOpts=()=>ROLES.map(r=>`<option value="${r.id}">${({ro:"RO",bo:"Cabang",un:"Unit",eco:"Ekosistem"})[r.stage]} · ${esc(r.name)}</option>`).join("");
+const stageOpts=`<option value="ro">Regional Office</option><option value="bo">Kantor Cabang</option><option value="un">BRI Unit</option><option value="eco">Ecosystem Business</option>`;
+const AI_ACTIONS=[
+ {id:"plan", e:"🗓️", t:"Rencana hari ini", d:"3 prioritas, pertanyaan, data yang diminta, refleksi",
+  form:()=>`<input id="ai-x" placeholder="Agenda/kondisi hari ini (opsional), mis. ikut Mantri ke pasar">`,
+  run:()=>`${COACH}\n\nKONTEKS:\n${ctx()}\n\nTUGAS: Susun rencana OJT HARI INI.\nInfo tambahan: ${$("#ai-x").value||"-"}\nFormat:\n## 🎯 3 Prioritas hari ini\n## ❓ 5 Pertanyaan untuk ditanyakan (sebut ke siapa)\n## 📚 Data/bahan yang diminta\n## ⏰ Jadwal kasar pagi–sore\n## 🌙 3 pertanyaan refleksi untuk jurnal malam`},
+ {id:"qs", e:"❓", t:"Pertanyaan tajam untuk mentor", d:"5 pertanyaan baru yang bisa langsung ditambahkan ke kartu",
+  form:()=>`<select id="ai-role">${roleOpts()}</select>`, json:true},
+ {id:"deck", e:"📊", t:"Outline presentasi", d:"Slide demi slide, sesuai deliverable handbook",
+  form:()=>`<select id="ai-st">${stageOpts}</select>`,
+  run:()=>{const st=$("#ai-st").value; const dv=DELIVS[st]; return `${COACH}\n\nKONTEKS:\n${ctx({stage:st,notes:6,journal:8})}\n\nDELIVERABLE HANDBOOK (${dv.title}): ${dv.items.join("; ")}. Assessor: ${dv.assessor}.\nArahan mentor MSS: alur Nasional→RO→BO→Unit; baseline Des–Sep–Okt; YTD/MTD/RKA; gap per produk (target→realisasi→pipeline→gap→implikasi); narasi kualitas jujur; setiap temuan: penyebab, dampak, rekomendasi; satuan konsisten; label (Prioritas).\n\nTUGAS: Buat outline presentasi slide demi slide (8–12 slide). Untuk tiap slide: judul, isi poin, data/grafik yang dibutuhkan, dan pesan kunci. Tandai [DATA BELUM ADA] untuk data yang perlu diminta. Akhiri dengan 5 pertanyaan yang kemungkinan ditanyakan assessor.`;}},
+ {id:"teach", e:"🧠", t:"Ajari saya + latihan soal", d:"Penjelasan sederhana, contoh di Unit, 3 soal",
+  form:()=>`<select id="ai-top">${REMEDIAL.map(r=>`<option value="${r.id}">${esc(r.t)}</option>`).join("")}</select>`,
+  run:()=>{const r=REMEDIAL.find(x=>x.id===$("#ai-top").value); return `${COACH}\n\n${MSS_BRIEF}\n\nTOPIK: ${r.t}\nRingkasan yang sudah saya punya: ${r.d}\n\nTUGAS: Ajari saya topik ini seperti mentor yang sabar.\n## Inti dalam 3 kalimat\n## Analogi sehari-hari\n## Contoh di BRI Unit (angka ilustrasi, sebut bahwa ilustrasi)\n## Kesalahan umum\n## 3 soal latihan pilihan ganda (A–D)\n## Kunci jawaban + alasan\n## 2 pertanyaan untuk dikonfirmasi ke mentor`;}},
+ {id:"journal", e:"📓", t:"Rangkum jurnal & catatan", d:"Pola belajar, insight, pertanyaan yang masih terbuka",
+  form:()=>`<select id="ai-range"><option value="7">7 catatan terakhir</option><option value="14">14 catatan terakhir</option><option value="60">Semua</option></select>`,
+  run:()=>{const n=+$("#ai-range").value; return `${COACH}\n\nKONTEKS:\n${ctx({journal:n,notes:8,mss:false})}\n\nTUGAS: Rangkum perjalanan belajar saya dari jurnal & catatan di atas.\n## 🔑 5 insight terpenting\n## 🔁 Pola yang muncul\n## ❓ Pertanyaan yang masih terbuka (urut prioritas)\n## 🧩 Hubungan dengan pelajaran HO/MSS\n## ➡️ Fokus minggu depan\nJika jurnal masih kosong, beri contoh cara menulis jurnal yang baik.`;}},
+ {id:"calc", e:"🧮", t:"Baca hasil kalkulator", d:"Interpretasi kebutuhan realisasi & kecukupan pipeline",
+  form:()=>`<span class="muted" style="font-size:13px">Pakai angka di kalkulator tab 📘 Bekal MSS.</span>`,
+  run:()=>{const c=S.calc||{}; const ids=["c-tp","c-need","c-mt","c-cov"].map(i=>{const e=document.getElementById(i);return e?e.textContent:"–";}); return `${COACH}\n\n${MSS_BRIEF}\n\nINPUT KALKULATOR (Rp juta): OS sekarang ${c.os||"-"}, target ${c.tgt||"-"}, PH ${c.ph||"-"}, turun pokok 3 bulan ${[c.tp1,c.tp2,c.tp3].join(" / ")}, Mantri ${c.mt||"-"}, sisa HK ${c.hk||"-"}, pipeline ${c.pipe||"-"}, success rate ${c.sr||"-"}%.\nHASIL: perkiraan turun pokok ${ids[0]}, kebutuhan realisasi ${ids[1]}, per Mantri ${ids[2]}, cakupan pipeline ${ids[3]}.\n\nTUGAS: Interpretasikan untuk unit kerja ini: apakah realistis? Apa risikonya? 5 langkah konkret (urut prioritas) untuk Kaunit/MBM; leading indicator harian yang perlu dipantau; dan apa yang perlu dicek ulang di datanya. Jika input kosong, jelaskan cara mengisinya.`;}},
+ {id:"hyp", e:"🧪", t:"Rencana uji hipotesis", d:"Data, narasumber, cara menyimpulkan",
+  form:()=>`<select id="ai-hyp">${HYPS.map(h=>`<option value="${h.id}">${esc(h.t)}</option>`).join("")}</select>`,
+  run:()=>{const h=HYPS.find(x=>x.id===$("#ai-hyp").value); return `${COACH}\n\n${MSS_BRIEF}\n\nHIPOTESIS: ${h.t}\nKonteks: ${h.d}\nLokasi uji: ${h.where}\nBukti yang sudah saya kumpulkan: ${S.txt["hyp-"+h.id]||"(belum ada)"}\n\nTUGAS: Rancang cara menguji hipotesis ini selama OJT.\n## Definisi operasional & indikator\n## Data yang diminta (agregat, tanpa data nasabah) & dari siapa\n## 5 pertanyaan wawancara\n## Cara membaca hasil: kapan terbukti / dibantah\n## Bias atau jebakan analisis\n## Jika terbukti: ide inovasi yang bisa diusulkan`;}},
+ {id:"assess", e:"🎤", t:"Simulasi assessor", d:"Pertanyaan final assessment + kerangka jawaban",
+  form:()=>`<select id="ai-st2">${stageOpts}</select>`,
+  run:()=>{const st=$("#ai-st2").value; const dv=DELIVS[st]; return `${COACH}\n\nKONTEKS:\n${ctx({stage:st,notes:6})}\n\nFINAL ASSESSMENT (${dv.title}); assessor: ${dv.assessor}; kriteria: ${dv.items.join("; ")}.\n\nTUGAS: Berperan sebagai assessor yang kritis tapi adil. Beri 7 pertanyaan sulit yang realistis (campur konsep, angka, dan sikap kepemimpinan). Untuk tiap pertanyaan: kenapa ditanyakan, kerangka jawaban ideal (poin), dan jebakan yang harus dihindari. Akhiri dengan 3 tips presentasi.`;}},
+ {id:"idea", e:"💡", t:"Ide inovasi dari temuan", d:"Ubah masalah lapangan jadi usulan inovasi",
+  form:()=>`<input id="ai-prob" placeholder="Masalah/temuan, mis. Kaunit sulit validasi kunjungan Mantri">`,
+  run:()=>`${COACH}\n\nKONTEKS:\n${ctx({notes:5})}\n\nMASALAH/TEMUAN: ${$("#ai-prob").value||"(pilih dari isu hangat MSS yang paling relevan)"}\n\nTUGAS: Kembangkan menjadi usulan inovasi BFLP.\n## Problem statement (1 kalimat)\n## Akar masalah (5 why singkat)\n## 3 alternatif solusi (quick win, menengah, strategis)\n## Solusi terpilih dalam format Business Model Canvas singkat\n## KPI leading & lagging\n## Rencana pilot 4 minggu di 1 Unit\n## Risiko & mitigasi`}
+];
+let aiCur="plan", lastAI={text:"",kind:"",role:null,items:null};
+function renderAI(){
+  const qa=$("#qa"); if(!qa) return;
+  qa.innerHTML=AI_ACTIONS.map(a=>`<button class="qbtn ${a.id===aiCur?'on':''}" data-ai="${a.id}"><span class="e">${a.e}</span><span><b>${a.t}</b><span>${a.d}</span></span></button>`).join("");
+  const a=AI_ACTIONS.find(x=>x.id===aiCur);
+  $("#aiform").innerHTML=a.form()+`<button class="btn" id="aigo">✨ Generate</button><button class="btn ghost sm" id="aistop">Stop</button>`;
+  if(a.id==="qs"){ const st=activeStage(); const r=ROLES.find(x=>x.stage===st); if(r) $("#ai-role").value=r.id; }
+  if(a.id==="deck"||a.id==="assess"){ const sel=$("#ai-st")||$("#ai-st2"); if(sel) sel.value=activeStage(); }
+}
+function aiActions(kind){
+  const box=$("#aiact"); if(!box) return;
+  let h=`<button class="btn sm" id="ai-save">💾 Simpan ke Catatan</button><button class="btn ghost sm" id="ai-copy">📋 Salin</button>`;
+  if(kind==="qs") h=`<button class="btn sm" id="ai-addq">➕ Tambahkan yang dicentang ke kartu role</button>`+h;
+  box.innerHTML=h;
+}
+async function runAI(){
+  const a=AI_ACTIONS.find(x=>x.id===aiCur); const out=$("#aiout"); $("#aiact").innerHTML="";
+  if(a.json){
+    const rid=$("#ai-role").value; const r=ROLES.find(x=>x.id===rid);
+    const existing=r.qs.map(x=>x[0]).concat((S.extraQ[rid]||[]).map(x=>x.t));
+    out.classList.remove("empty"); out.innerHTML=`<p class="muted"><span class="spark">✨</span> Menyusun pertanyaan…</p>`;
+    if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
+    try{
+      const v=await CAP.sample.json(`${COACH}\n\nKONTEKS:\n${ctx({stage:r.stage})}\n\nROLE: ${r.name} (${r.sub}). Fokus: ${r.focus.replace(/<[^>]+>/g,"")}\nPertanyaan yang SUDAH ada (jangan diulang): ${existing.join(" | ")}\n\nTUGAS: Buat 6 pertanyaan baru yang tajam, spesifik, dan sopan untuk ditanyakan peserta OJT kepada ${r.name}. Campur: proses, angka/indikator, akar masalah, dan pembelajaran kepemimpinan. Hubungkan dengan pelajaran HO/MSS bila relevan.\nBalas HANYA JSON: {"questions":[{"q":"pertanyaan","why":"alasan singkat / tautan pelajaran"}]}`,{signal:aiAbort.signal,modelTier:"default"});
+      aiAbort=null;
+      const qs=(v&&Array.isArray(v.questions)?v.questions:[]).filter(x=>x&&x.q).slice(0,8);
+      if(!qs.length) throw {code:"empty"};
+      lastAI={kind:"qs",role:rid,items:qs,text:qs.map((x,i)=>`${i+1}. ${x.q}${x.why?" — "+x.why:""}`).join("\n")};
+      out.innerHTML=`<h3>Pertanyaan untuk ${esc(r.name)}</h3><ul class="genq" style="list-style:none;padding:0">${qs.map((x,i)=>`<li><input type="checkbox" checked data-gq="${i}"><div>${esc(x.q)}${x.why?`<span>🔗 ${esc(x.why)}</span>`:""}</div></li>`).join("")}</ul>`;
+      aiActions("qs");
+    }catch(e){ aiAbort=null; out.innerHTML=`<p class="muted">⚠️ ${esc(e&&e.code==="empty"?"Hasil kosong, coba lagi.":aiErr(e))}</p>`; }
+    return;
+  }
+  const t=await ask(a.run(),{el:out});
+  if(t){ lastAI={kind:a.id,text:t,title:`${a.e} ${a.t} · ${new Date().toLocaleDateString("id-ID")}`}; aiActions(a.id); }
+}
+document.addEventListener("click",e=>{
+  const q=e.target.closest("[data-ai]"); if(q){ aiCur=q.dataset.ai; renderAI(); return; }
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.id==="aigo"){ runAI(); return; }
+  if(b.id==="aistop"){ if(aiAbort) aiAbort.abort(); return; }
+  if(b.id==="ai-copy"){ copyText(lastAI.text); return; }
+  if(b.id==="ai-save"){ const a=AI_ACTIONS.find(x=>x.id===lastAI.kind); newNote({title:lastAI.title||(a?a.t:"Hasil AI"),body:lastAI.text,tag:guessTag()==="Umum"?"Mentor":guessTag()}); toast("Disimpan ke Catatan 🗒️"); return; }
+  if(b.id==="ai-addq"){ const rid=lastAI.role; const pick=[...document.querySelectorAll("[data-gq]")].filter(x=>x.checked).map(x=>lastAI.items[+x.dataset.gq]);
+    if(!pick.length){toast("Centang dulu pertanyaannya");return;}
+    S.extraQ[rid]=S.extraQ[rid]||[]; pick.forEach((x,i)=>S.extraQ[rid].push({k:Date.now()+i,t:x.q})); save();
+    const r=ROLES.find(x=>x.id===rid); if($("#role-"+rid)) rerenderRole(rid); toast(`${pick.length} pertanyaan masuk ke kartu ${r.name} ✅`); return; }
+  if(b.id==="chatsend"){ sendChat(); return; }
+  if(b.id==="chatclear"){ chatHist=[]; $("#chat").innerHTML=`<div class="msg a">Percakapan baru dimulai. Mau bahas apa?</div>`; return; }
+  if(b.id==="chatsave"){ if(!chatHist.length){toast("Belum ada percakapan");return;} newNote({title:"Diskusi dengan coach AI · "+new Date().toLocaleDateString("id-ID"),body:chatHist.map(m=>(m.role==="user"?"🙋 ":"🤖 ")+m.content).join("\n\n"),tag:guessTag()}); toast("Percakapan disimpan 🗒️"); return; }
+});
+async function noteAI(kind,n,btn){
+  if(!(n.body||"").trim()){ toast("Catatannya masih kosong"); return; }
+  const box=$("#naiout"); box.innerHTML=`<div class="aiout" id="naires"></div><div class="aiact" id="naiact"></div>`;
+  const task={tidy:"Rapikan catatan mentah ini menjadi catatan terstruktur (judul bagian, poin, angka penting dengan satuan, istilah dijelaskan singkat). Jangan menambah fakta baru; tandai [?] bagian yang ambigu.",
+    insight:"Tarik 3–5 insight utama, hubungkan dengan pelajaran HO/MSS, lalu tulis 5 pertanyaan lanjutan untuk mentor (sebut ke siapa).",
+    todo:"Ubah catatan ini menjadi daftar to-do konkret format '- [ ] tugas (PIC/sumber, tenggat kasar)', dikelompokkan: Hari ini, Minggu ini, Sebelum presentasi."}[kind];
+  const t=await ask(`${COACH}\n\n${MSS_BRIEF}\n\nCATATAN (${n.tag}) "${n.title}":\n${n.body}\n\nTUGAS: ${task}`,{el:$("#naires")});
+  if(t){ window.__naiText=t; $("#naiact").innerHTML=`<button class="btn sm" data-nuse="append">➕ Tambahkan di bawah catatan</button><button class="btn ghost sm" data-nuse="replace">🔁 Ganti isi catatan</button>`; }
+}
+let chatHist=[];
+async function sendChat(){
+  const ta=$("#chatq"); const q=ta.value.trim(); if(!q) return; if(!CAP.sample){toast("AI hanya aktif di artifact Claude");return;}
+  ta.value=""; const chat=$("#chat");
+  chat.insertAdjacentHTML("beforeend",`<div class="msg u"></div>`); chat.lastElementChild.textContent=q;
+  chat.insertAdjacentHTML("beforeend",`<div class="msg a"><span class="spark">✨</span></div>`); const el=chat.lastElementChild; chat.scrollTop=chat.scrollHeight;
+  chatHist.push({role:"user",content:q}); chatHist=chatHist.slice(-12);
+  const msgs=chatHist.map((m,i)=>i===0?{role:"user",content:`${COACH}\n\nKONTEKS PESERTA:\n${ctx()}\n\nPESAN:\n${m.content}`}:m);
+  if(msgs[0].role!=="user") msgs.shift();
+  if(aiAbort) aiAbort.abort(); aiAbort=new AbortController();
+  try{
+    const r=await CAP.sample(msgs,{signal:aiAbort.signal,cache:false,onText:({text})=>{ if(text&&text!=="Thinking..."){ el.innerHTML=md(text); chat.scrollTop=chat.scrollHeight; } }});
+    el.innerHTML=md(r.text); chatHist.push({role:"assistant",content:r.text}); aiAbort=null;
+  }catch(e){ aiAbort=null; el.innerHTML=`<p class="muted">⚠️ ${esc(aiErr(e))}</p>`; chatHist.pop(); }
+  chat.scrollTop=chat.scrollHeight;
+}
+document.addEventListener("keydown",e=>{ if(e.target.id==="chatq"&&e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendChat(); } });
+
+/* INIT */
+renderTabs(); fillMeta(); render(); initCaps();
+const jd=$("#j-date"); if(jd&&!jd.value) jd.value=new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
